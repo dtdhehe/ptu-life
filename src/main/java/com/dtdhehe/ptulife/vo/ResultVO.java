@@ -6,6 +6,7 @@ public class ResultVO {
     private String error_code;
     private String error_msg;
     private String status;
+    private Object object;
 
     public String getError_code() {
         return error_code;
@@ -29,5 +30,13 @@ public class ResultVO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
     }
 }

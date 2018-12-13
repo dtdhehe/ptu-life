@@ -19,7 +19,7 @@ import java.util.List;
  * date:2018-10-31
  */
 @RestController
-@RequestMapping("/ptu/newsController")
+@RequestMapping("/news/newsController")
 public class NewsController {
 
     private final Logger logger = LoggerFactory.getLogger(NewsController.class);
@@ -28,14 +28,14 @@ public class NewsController {
     private NewsServiceImpl newsService;
 
     @RequestMapping("/queryAllNews")
-    public ResultVO queryAllNews(Model model){
+    public ResultVO queryAllNews(){
         logger.info("查询所有新闻");
         ResultVO resultVO = new ResultVO();
         List<PtuNews> newsList;
         try {
             newsList = newsService.queryAllNews();
-            model.addAttribute("newsList",newsList);
             resultVO.setStatus("0");
+            resultVO.setObject(newsList);
         }catch (Exception e){
             logger.error(e.getMessage());
             resultVO.setStatus("1");
