@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">新闻</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <!--导航栏-->
+    <nav class="navbar-inverse visible-lg visible-md" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="http://www.ptu.edu.cn/">莆田学院</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">首页</a></li>
+                    <li><a href="#" action="/life">生活</a></li>
+                </ul>
+            </div>
+            <div>
+                <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="">注册</button>
+                <button type="button" class="btn btn-info pull-right" style="margin-top: 10px" onclick="">登录</button>
+            </div>
+        </div>
+    </nav>
+    <div style="margin: 10px"></div>
+    <!--主体页面   新闻和标签-->
+    <div class="container">
+        <div class="row clearfix">
+            <!--新闻标题-->
+            <div class="col-md-8 column">
+                <div>
+                    <h1 class="text-left">
+                        这是该新闻的标题
+                    </h1>
+                    <p style="margin-top: 15px">
+                        <img alt="140x140" style="width: 30px; height: 30px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+                        <span style="margin-left: 5px;font-size: medium">dtdhehe</span>
+                        <img alt="140x140" style="width: 22px; height: 22px;margin-left: 100px" src="img/data/data.png" class="img-default" />
+                        <span style="margin-left: 5px;font-size: medium">2018-10-26</span>
+                    </p>
+                    <hr/>
+                </div>
+
+            <!--新闻主体-->
+                <div class="media well">
+                <div class="media-body">
+                    <p style="font-size: x-large">
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    </p>
+                    <hr/>
+                    <p style="margin-top: 10px"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />dtdhehe</p>
+                </div>
+            </div>
+            </div>
+            <!--作者信息-->
+            <div class="col-md-4 column">
+                <img alt="140x140" style="width: 120px; height: 120px;margin-left: 100px;margin-top: 20px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+                <p style="margin-top: 20px;margin-left: 135px">dtdhehe</p>
+                <!--手风琴按钮-->
+                <div class="panel-group" id="hand-panel">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="panel-title" data-toggle="collapse" data-parent="#hand-panel" href="#panel-element-1">联系方式</a>
+                        </div>
+                        <div id="panel-element-1" class="panel-collapse in">
+                            <div class="panel-body">
+                                WeChat: xd474786105
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="panel-title collapsed" data-toggle="collapse" data-parent="#hand-panel" href="#panel-element-2">个人信息</a>
+                        </div>
+                        <div id="panel-element-2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>所属机构：信息工程学院</p>
+                                <p>身份：学生</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--热门标签-->
+            <div class="col-md-4 column">
+                <table class="table table-hover table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th colspan="2">热门标签</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr action="#">
+                        <td>食堂阿姨</td>
+                        <td>01/04/2012 </td>
+                    </tr>
+                    <tr class="success">
+                        <td>宿舍</td>
+                        <td>01/04/2012 </td>
+                    </tr>
+                    <tr class="error">
+                        <td>教室</td>
+                        <td>02/04/2012 </td>
+                    </tr>
+                    <tr class="warning">
+                        <td> 标签1 </td>
+                        <td> 03/04/2012 </td>
+                    </tr>
+                    <tr class="info">
+                        <td> 标签2 </td>
+                        <td> 04/04/2012   </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--热门问答-->
+            <div class="col-md-4 column">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            热门问答
+                            <span style="float:right;margin-right: 10px">热度</span>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="#">食堂鱼为什么不刮鱼鳞</a>
+                        <span style="float:right;margin-right: 20px">80</span>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="#"> 金荣楼为什么没有空调</a>
+                        <span style="float:right;margin-right: 20px">160</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--页脚-->
+    <div class="container" >
+        <div class="row clearfix" style="margin-top: 65px">
+            <div class="col-md-4 column">
+                <h3>
+                    您可以这样联系我们<a id="modal-645961" href="#modal-container-645961" role="button" class="btn" data-toggle="modal"><img src="img/wechat/wechat.png"></a>
+                    <!--wechat弹窗-->
+                    <div class="modal fade" id="modal-container-645961" role="dialog" aria-labelledby="myModalLabe2" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div style="background-color: lightblue" class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title" id="myModalLabe2">
+                                        您可以通过扫描二维码联系我们
+                                    </h4>
+                                </div>
+                                <div class="modal-body" style="left: 60px">
+                                    <img src="img/wechat/myWechat.jpg" alt="">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </h3>
+            </div>
+            <div class="col-md-8 column">
+                <p>网站维护微信：<strong>xd474786105</strong> 反馈建议：<em>dtdhehe@sina.com</em></p>
+                <p>Copyright © 2018  <a id="modal-53079" href="#modal-container-53079" role="button" class="btn" data-toggle="modal">dtdhehe</a>保留所有权利</p>
+                <!--联系方式弹窗-->
+                <div class="modal fade" id="modal-container-53079" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div style="background-color: lightblue" class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    联系方式
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>phone : 15892055087（微信同号）</p>
+                                <p>Q  Q : 474786105</p>
+                                <p>address : 福建省厦门市湖里区上湖社</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <!-- bootstrap基础 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/js/bootstrap/css/animate.css}" />
+
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>-->
+    <!--<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+</head>
+<body style="background-color: #efefda">
+    <!--导航栏-->
+    <nav class="navbar-inverse visible-lg visible-md" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.ptu.edu.cn/">莆田学院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a>首页</a></li>
+                <li><a th:href="@{/ptu/homePageController/life}" >生活</a></li>
+            </ul>
+        </div>
+        <div>
+            <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px">注册</button>
+            <button type="button" class="btn btn-info pull-right" style="margin-top: 10px"  onclick="window.location.href = 'http://localhost:8080/index'">登录</button>
+        </div>
+    </div>
+</nav>
+    <!--幻灯片-->
+    <div style="margin: 10px">
+    <div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="carousel slide" id="carouselPic">
+                <ol class="carousel-indicators">
+                    <li class="active" data-slide-to="0" data-target="#carouselPic">
+                    </li>
+                    <li data-slide-to="1" data-target="#carouselPic">
+                    </li>
+                    <li data-slide-to="2" data-target="#carouselPic">
+                    </li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img alt="" src="../img/school/school3.jpg" />
+                        <div class="carousel-caption">
+                            <h4>
+                                First Thumbnail label
+                            </h4>
+                            <p>
+                                Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img alt="" src="../img/school/school2.jpg" />
+                        <div class="carousel-caption">
+                            <h4>
+                                Second Thumbnail label
+                            </h4>
+                            <p>
+                                Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img alt="" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/1600/500/sports/3/default.jpg" />
+                        <div class="carousel-caption">
+                            <h4>
+                                Third Thumbnail label
+                            </h4>
+                            <p>
+                                Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+                            </p>
+                        </div>
+                    </div>
+                </div> <a class="left carousel-control" href="#carousel-591207" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-591207" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    <!--主体页面   新闻和标签-->
+    <div class="container">
+        <div class="row clearfix">
+            <!--新闻列表-->
+            <div class="col-md-8 column">
+                <div class="media well">
+                    <a href="#" class="pull-left"><img src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/64/64/default.jpg" width="100px" height="100px" class="media-object" alt='' /></a>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a href="#"> Nested media heading新闻一</a>
+                        </h4>  新闻一的内容： Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                        <p style="margin-top: 10px"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />dtdhehe</p>
+                    </div>
+                </div>
+                <div class="media well">
+                    <a href="#" class="pull-left"><img src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/64/64/default.jpg" width="100px" height="100px" class="media-object" alt='' /></a>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a href="#"> Nested media heading新闻二</a>
+                        </h4>  新闻二的内容： Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                        <p style="margin-top: 10px"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />dtdhehe</p>
+                    </div>
+                </div>
+                <div class="media well">
+                    <a href="#" class="pull-left"><img src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/64/64/default.jpg" width="100px" height="100px" class="media-object" alt='' /></a>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a href="#"> Nested media heading新闻三</a>
+                        </h4> 新闻三的内容： Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                    </div>
+                </div>
+                <!--默认10条新闻，小于10条，不显示此按钮-->
+                <button type="button" class="btn btn-default" style="height: 40px;width: 100%">加载更多</button>
+            </div>
+
+            <!--热门标签-->
+            <div class="col-md-4 column">
+                <table class="table table-hover table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th colspan="2">热门标签</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr action="#">
+                        <td>食堂阿姨</td>
+                        <td>01/04/2012 </td>
+                    </tr>
+                    <tr class="success">
+                        <td>宿舍</td>
+                        <td>01/04/2012 </td>
+                    </tr>
+                    <tr class="error">
+                        <td>教室</td>
+                        <td>02/04/2012 </td>
+                    </tr>
+                    <tr class="warning">
+                        <td> 标签1 </td>
+                        <td> 03/04/2012 </td>
+                    </tr>
+                    <tr class="info">
+                        <td> 标签2 </td>
+                        <td> 04/04/2012   </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--热门问答-->
+            <div class="col-md-4 column">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            热门问答
+                            <span style="float:right;margin-right: 10px">热度</span>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="#">食堂鱼为什么不刮鱼鳞</a>
+                        <span style="float:right;margin-right: 20px">80</span>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="#"> 金荣楼为什么没有空调</a>
+                        <span style="float:right;margin-right: 20px">160</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--页脚-->
+    <div class="container" >
+        <div class="row clearfix" style="margin-top: 65px">
+            <div class="col-md-4 column">
+                <h3>
+                    您可以这样联系我们<a  href="#modal-container-645961" role="button" class="btn" data-toggle="modal"><img th:src="@{/img/wechat/wechat.png}"></a>
+                    <!--wechat弹窗-->
+                    <div class="modal fade" id="modal-container-645961" role="dialog" aria-labelledby="myModalLabe2" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div style="background-color: lightblue" class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title" id="myModalLabe2">
+                                        您可以通过扫描二维码联系我们
+                                    </h4>
+                                </div>
+                                <div class="modal-body" style="left: 60px">
+                                    <img th:src="@{/img/wechat/myWechat.jpg}" alt="">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </h3>
+            </div>
+            <div class="col-md-8 column">
+                <p>网站维护微信：<strong>xd474786105</strong> 反馈建议：<em>dtdhehe@sina.com</em></p>
+                <p>Copyright © 2018  <a id="modal-53079" href="#modal-container-53079" role="button" class="btn" data-toggle="modal">dtdhehe</a>保留所有权利</p>
+                <!--联系方式弹窗-->
+                <div class="modal fade" id="modal-container-53079" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div style="background-color: lightblue" class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    联系方式
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>phone : 15892055087（微信同号）</p>
+                                <p>Q  Q : 474786105</p>
+                                <p>address : 福建省厦门市湖里区上湖社</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- js 方法 -->
+    <script th:inline="javascript">
+        //<![CDATA[
+        $(function () {
+            //初始化函数
+            queryNews();
+        });
+
+        //查询全部新闻
+        function queryNews() {
+            var urls = [[@{/news/newsController/queryAllNews}]];
+            $.ajax({
+                url:urls,
+                async:true,
+                type:'POST',
+                // data:{
+                //
+                // },
+                success:function (data) {
+                    if (data.status === 0){
+                        alert("成功");
+                    }else {
+                        alert(data.error_msg);
+                    }
+                }
+            });
+        }
+
+        //]]>
+    </script>
+</body>
+</html>
