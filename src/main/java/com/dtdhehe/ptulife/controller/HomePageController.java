@@ -8,14 +8,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 用户访问首页controller
- * crate By:dtdhehe
  * date:2018-10-31
+ * @author dtdhehe
  */
 @Controller
 @RequestMapping("/ptu/homePageController")
 public class HomePageController {
 
-    @RequestMapping("/")
+    @RequestMapping("/home")
     public String index(){
         return "homepage";
     }

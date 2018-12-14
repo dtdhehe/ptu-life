@@ -4,6 +4,8 @@ import com.dtdhehe.ptulife.entity.PtuNews;
 import com.dtdhehe.ptulife.repository.PtuNewsRepository;
 import com.dtdhehe.ptulife.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,11 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List<PtuNews> queryAllNews() {
         return ptuNewsRepository.findAll();
+    }
+
+    @Override
+    public Page<PtuNews> queryAllNews(Pageable pageable) {
+        return ptuNewsRepository.findAll(pageable);
     }
 
     @Override

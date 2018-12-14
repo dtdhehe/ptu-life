@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * 新闻dao
- * author: dtdhehe
  * date:2018-12-12
+ * @author dtdhehe
  */
 public interface PtuNewsRepository extends JpaRepository<PtuNews,String> {
 

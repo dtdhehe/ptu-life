@@ -11,76 +11,24 @@
 <body style="background-color: #efefda">
     <!--导航栏-->
     <nav class="navbar-inverse visible-lg visible-md" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="http://www.ptu.edu.cn/">莆田学院</a>
-        </div>
-        <div>
-            <ul class="nav navbar-nav">
-                <li><a href="http://localhost:8080/home">首页</a></li>
-                <li class="active"><a >生活</a></li>
-            </ul>
-        </div>
-        <div>
-            <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="">注册</button>
-            <button type="button" class="btn btn-info pull-right" style="margin-top: 10px" onclick="">登录</button>
-        </div>
-    </div>
-</nav>
-    <!--幻灯片-->
-    <div style="margin: 10px">
         <div class="container">
-            <div class="row clearfix">
-                <div class="col-md-12 column">
-                    <div class="carousel slide" id="carousel-591207">
-                        <ol class="carousel-indicators">
-                            <li class="active" data-slide-to="0" data-target="#carousel-591207">
-                            </li>
-                            <li data-slide-to="1" data-target="#carousel-591207">
-                            </li>
-                            <li data-slide-to="2" data-target="#carousel-591207">
-                            </li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <img alt="" src="../img/school/school3.jpg" />
-                                <div class="carousel-caption">
-                                    <h4>
-                                        First Thumbnail label
-                                    </h4>
-                                    <p>
-                                        Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <img alt="" src="../img/school/school2.jpg" />
-                                <div class="carousel-caption">
-                                    <h4>
-                                        Second Thumbnail label
-                                    </h4>
-                                    <p>
-                                        Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <img alt="" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/1600/500/sports/3/default.jpg" />
-                                <div class="carousel-caption">
-                                    <h4>
-                                        Third Thumbnail label
-                                    </h4>
-                                    <p>
-                                        Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-                                    </p>
-                                </div>
-                            </div>
-                        </div> <a class="left carousel-control" href="#carousel-591207" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-591207" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
-                    </div>
-                </div>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="http://www.ptu.edu.cn/">莆田学院</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a th:href="@{/ptu/homePageController/home}">首页</a></li>
+                    <li class="active"><a>生活</a></li>
+                </ul>
+            </div>
+            <div>
+                <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px">注册</button>
+                <button type="button" class="btn btn-info pull-right" style="margin-top: 10px"  onclick="window.location.href = 'http://localhost:8080/index'">登录</button>
             </div>
         </div>
-    </div>
+    </nav>
+    <!--引入头文件-->
+    <div th:replace="head.html"></div>
     <!--主体页面   新闻和标签-->
     <div class="container">
         <div class="row clearfix">
@@ -169,63 +117,7 @@
 
         </div>
     </div>
-    <!--页脚-->
-    <div class="container" >
-        <div class="row clearfix" style="margin-top: 65px">
-            <div class="col-md-4 column">
-                <h3>
-                    您可以这样联系我们<a id="modal-645961" href="#modal-container-645961" role="button" class="btn" data-toggle="modal"><img src="img/wechat/wechat.png"></a>
-                    <!--wechat弹窗-->
-                    <div class="modal fade" id="modal-container-645961" role="dialog" aria-labelledby="myModalLabe2" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div style="background-color: lightblue" class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    <h4 class="modal-title" id="myModalLabe2">
-                                        您可以通过扫描二维码联系我们
-                                    </h4>
-                                </div>
-                                <div class="modal-body" style="left: 60px">
-                                    <img src="img/wechat/myWechat.jpg" alt="">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </h3>
-            </div>
-            <div class="col-md-8 column">
-                <p>网站维护微信：<strong>xd474786105</strong> 反馈建议：<em>dtdhehe@sina.com</em></p>
-                <p>Copyright © 2018  <a id="modal-53079" href="#modal-container-53079" role="button" class="btn" data-toggle="modal">dtdhehe</a>保留所有权利</p>
-                <!--联系方式弹窗-->
-                <div class="modal fade" id="modal-container-53079" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div style="background-color: lightblue" class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title" id="myModalLabel">
-                                    联系方式
-                                </h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>phone : 15892055087（微信同号）</p>
-                                <p>Q  Q : 474786105</p>
-                                <p>address : 福建省厦门市湖里区上湖社</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--引入页脚-->
+    <div th:replace="footer.html"></div>
 </body>
 </html>
