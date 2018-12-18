@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻</title>
+    <!-- bootstrap基础 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/js/bootstrap/css/animate.css}" />
+    <!-- bootstrap-table列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap-table.css}" />
+    <!-- layui -->
+    <link rel="stylesheet"
+          th:href="@{/js/layui/css/layui.css}" />
+</head>
+<body>
+<!--导航栏-->
+<nav class="navbar-inverse visible-lg visible-md" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.ptu.edu.cn/">莆田学院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">首页</a></li>
+                <li><a href="#" action="/life">生活</a></li>
+            </ul>
+        </div>
+        <div>
+            <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="">注册</button>
+            <button type="button" class="btn btn-info pull-right" style="margin-top: 10px" onclick="">登录</button>
+        </div>
+    </div>
+</nav>
+<div style="margin: 10px"></div>
+<!--主体页面   新闻和标签-->
+<div class="container">
+    <div class="row clearfix">
+        <!--新闻标题-->
+        <div class="col-md-8 column">
+            <div>
+                <h1 class="text-left">
+                    这是该新闻的标题
+                </h1>
+                <p style="margin-top: 15px">
+                    <img alt="140x140" style="width: 30px; height: 30px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+                    <span style="margin-left: 5px;font-size: medium">dtdhehe</span>
+                    <img alt="140x140" style="width: 22px; height: 22px;margin-left: 100px" th:src="@{/img/data/data.png}" class="img-default" />
+                    <span style="margin-left: 5px;font-size: medium">2018-10-26</span>
+                </p>
+                <hr/>
+            </div>
+
+            <!--新闻主体-->
+            <div class="media well">
+                <div class="media-body">
+                    <textarea id="demo" style="display: none;"></textarea>
+                    <hr/>
+                    <p style="margin-top: 10px"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />dtdhehe</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 column">
+            <!--作者信息-->
+            <div>
+                <img alt="140x140" style="width: 120px; height: 120px;margin-left: 100px;margin-top: 20px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+                <p style="margin-top: 20px;margin-left: 135px">dtdhehe</p>
+                <!--手风琴按钮-->
+                <div class="panel-group" id="hand-panel">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="panel-title" data-toggle="collapse" data-parent="#hand-panel" href="#panel-element-1">联系方式</a>
+                        </div>
+                        <div id="panel-element-1" class="panel-collapse in">
+                            <div class="panel-body">
+                                WeChat: xd474786105
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="panel-title collapsed" data-toggle="collapse" data-parent="#hand-panel" href="#panel-element-2">个人信息</a>
+                        </div>
+                        <div id="panel-element-2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>所属机构：信息工程学院</p>
+                                <p>身份：学生</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--热门标签-->
+            <!--引入标签html代码-->
+            <div th:replace="hotLabel.html"></div>
+
+            <!--热门问答-->
+            <div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            热门问答
+                            <span style="float:right;margin-right: 10px">热度</span>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="#">食堂鱼为什么不刮鱼鳞</a>
+                        <span style="float:right;margin-right: 20px">80</span>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="#"> 金荣楼为什么没有空调</a>
+                        <span style="float:right;margin-right: 20px">160</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--引入页脚-->
+<div th:replace="footer.html"></div>
+<!-- 全局js -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+<!-- bootstrap-table列表-->
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table-zh-CN.js}"></script>
+<!--引入layui的js-->
+<script type="text/javascript"
+        th:src="@{/js/layui/layui.all.js}"></script>
+<!--引入标签js-->
+<script type="text/javascript"
+        th:src="@{/js/hotLabel/hotLabel.js}"></script>
+<!-- js 方法 -->
+<script th:inline="javascript">
+    //<![CDATA[
+    $(function () {
+        layui.use('layedit',function () {
+            var layedit = layui.layedit;
+            layedit.build("demo");
+        })
+        //初始化热门标签
+        initLabel();
+    });
+
+    //初始化热门标签列表
+    function initLabel() {
+        var urls = [[@{/label/labelController/queryHotLabel}]];
+        //1.请求url   2.标签页div的id
+        initHotLabel(urls,"label_ul");
+    }
+
+    //]]>
+</script>
+</body>
+</html>

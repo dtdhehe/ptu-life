@@ -15,6 +15,15 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/ptu/homePageController")
 public class HomePageController {
 
+    /**
+     * 测试页面的controller，后期删除
+     * @return
+     */
+    @RequestMapping("/newspage")
+    public String index2(){
+        return "";
+    }
+
     @RequestMapping("/home")
     public String index(){
         return "homepage";
