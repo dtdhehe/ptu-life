@@ -1,0 +1,18 @@
+<!--导航栏-->
+<nav class="navbar-inverse visible-lg visible-md" role="navigation" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.ptu.edu.cn/">莆田学院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/ptu/homePageController/home}">首页</a></li>
+                <li><a th:href="@{/ptu/homePageController/life}" >生活</a></li>
+            </ul>
+        </div>
+        <div>
+            <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="">注册</button>
+            <button type="button" class="btn btn-info pull-right" style="margin-top: 10px" onclick="">登录</button>
+        </div>
+    </div>
+</nav>
