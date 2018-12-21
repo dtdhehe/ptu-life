@@ -141,13 +141,14 @@
                 success:function (data) {
                     if (data.status === "0"){
                         if (data.error_msg !== ""){
+                            //最后一页时，隐藏下一页按钮
                             $("#newsListButton").css("display","none");
                             $("#newsOver").css("display","");
-                        }
-                        var newsList = data.object;
-                        if (newsList.length >2){
+                        }else{
+                            //不是最后一页，显示下一页按钮
                             $("#newsListButton").css("display","");
                         }
+                        var newsList = data.object;
                         for (var i=0;i<newsList.length;i++){
                             var htmls =
                                 "<div class='media well'>" +

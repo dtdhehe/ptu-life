@@ -6,6 +6,7 @@ import java.util.UUID;
  * 用户主键生成
  * crate By:dtdhehe
  * date:2018-10-30
+ * @author admin
  */
 public class KeyUtils {
     public static synchronized String getUniqueKey() {

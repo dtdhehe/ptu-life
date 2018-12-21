@@ -19,10 +19,10 @@ public class HomePageController {
      * 测试页面的controller，后期删除
      * @return
      */
-    @RequestMapping("/newspage")
-    public String index2(){
-        return "";
-    }
+//    @RequestMapping("/newspage")
+//    public String index2(){
+//        return "editNews";
+//    }
 
     @RequestMapping("/home")
     public String index(){
