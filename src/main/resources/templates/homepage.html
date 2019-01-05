@@ -155,7 +155,7 @@
                                 "   <a href='#' class='pull-left'><img src='http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/64/64/default.jpg' width='100px' height='100px' class='media-object' alt='' /></a>" +
                                 "      <div class='media-body'>" +
                                 "          <h4 class='media-heading'>" +
-                                "              <a href='#'> "+newsList[i].newsTitle+"</a>" +
+                                "              <a href='/news/newsController/newsPage?newsId="+newsList[i].newsId+"'><b> "+newsList[i].newsTitle+"</b></a>" +
                                 "          </h4>  "+newsList[i].newsDesc +
                                 "          <p style='margin-top: 10px'><img alt='140x140' style='width: 30px; height: 30px;margin-right: 10px' src='http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg' class='img-circle' />"+newsList[i].newsAuthor+"</p>" +
                                 "      </div>" +
@@ -166,6 +166,22 @@
                     }else {
                         alert(data.error_msg);
                     }
+                }
+            });
+        }
+
+        //查看单条新闻详情页
+        function getNewsPage(newsId) {
+            var urls = [[@{/news/newsController/newsPage}]]+'?newsId='+newsId;
+            $.ajax({
+                url: urls,
+                async:true,
+                type:'POST',
+                data:{
+
+                },
+                success:function (data) {
+
                 }
             });
         }

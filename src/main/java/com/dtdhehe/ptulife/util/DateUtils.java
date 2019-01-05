@@ -1,5 +1,7 @@
 package com.dtdhehe.ptulife.util;
 
+import org.springframework.util.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -36,6 +38,20 @@ public class DateUtils {
         String time = currentDate.replace("/","");
         String currentTime = time.replace(" ","");
         return currentTime.replace(":","");
+    }
+
+    public static String date2ViewType(String dateTime){
+        String formateDate;
+        if (StringUtils.isEmpty(dateTime)){
+            return dateTime;
+        }
+        formateDate = dateTime.substring(0,4)+"-"
+                    + dateTime.substring(4,6)+"-"
+                    + dateTime.substring(6,8)+" "
+                    + dateTime.substring(8,10)+":"
+                    + dateTime.substring(10,12)+":"
+                    + dateTime.substring(12,14);
+        return formateDate;
     }
 
     public static void main(String[] args) {

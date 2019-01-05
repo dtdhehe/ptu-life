@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +36,32 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
+
+    /**
+     * 新闻编辑页面
+     * @return
+     */
+    @RequestMapping("/editNews")
+    public String editNews(Model model){
+        model.addAttribute("date",DateUtils.getCurrentDate());
+        return "editNews";
+    }
+
+    /**
+     * 新闻详情页面
+     * @return
+     */
+    @RequestMapping("/newsPage")
+    public String newsPage(@RequestParam(value = "newsId",required = false)String newsId,Model model) throws Exception {
+        if (StringUtils.isEmpty(newsId)){
+            throw new Exception("传入的id为空");
+        }
+        logger.info("查询的新闻id为:"+newsId);
+        PtuNews ptuNews = newsService.queryNewsById(newsId);
+        ptuNews.setNewsDate(DateUtils.date2ViewType(ptuNews.getNewsDate()));
+        model.addAttribute("ptuNews",ptuNews);
+        return "newspage";
+    }
 
     /**
      * 首页新闻列表
@@ -69,16 +96,6 @@ public class NewsController {
             resultVO.setError_msg(e.getMessage());
         }
         return resultVO;
-    }
-
-    /**
-     * 新闻编辑页面
-     * @return
-     */
-    @RequestMapping("/editNews")
-    public String editNews(Model model){
-        model.addAttribute("date",DateUtils.getCurrentDate());
-        return "editNews";
     }
 
     /**
