@@ -139,6 +139,12 @@
     $(function () {
         layui.use('layedit',function () {
             var layedit = layui.layedit;
+            layedit.set({
+                uploadImage:{
+                    url:[[@{/upload/uploadController/uploadEditPic}]],//接口url
+                    type:'POST'//请求方式
+                }
+            });
             var editIndex = layedit.build("demo",{
                 height:500
             });

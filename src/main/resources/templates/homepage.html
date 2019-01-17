@@ -16,7 +16,11 @@
     <!-- layui -->
     <link rel="stylesheet"
           th:href="@{/js/layui/css/layui.css}" />
-
+    <style type="text/css">
+        #newsDesc img{
+            display: none;
+        }
+    </style>
     <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">-->
     <!--<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>-->
     <!--<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
@@ -156,7 +160,8 @@
                                 "      <div class='media-body'>" +
                                 "          <h4 class='media-heading'>" +
                                 "              <a href='/news/newsController/newsPage?newsId="+newsList[i].newsId+"'><b> "+newsList[i].newsTitle+"</b></a>" +
-                                "          </h4>  "+newsList[i].newsDesc +
+                                "          </h4>  " +
+                                "           <span id='newsDesc' style='max-height: 100px;overflow: hidden;text-overflow: ellipsis;display: inline-block'>"+newsList[i].newsDesc+"</span>" +
                                 "          <p style='margin-top: 10px'><img alt='140x140' style='width: 30px; height: 30px;margin-right: 10px' src='http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg' class='img-circle' />"+newsList[i].newsAuthor+"</p>" +
                                 "      </div>" +
                                 "</div>";
