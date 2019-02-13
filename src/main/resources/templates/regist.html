@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>登录</title>
@@ -7,16 +8,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/homepage/reset.css">
-    <link rel="stylesheet" href="../css/homepage/supersized.css">
-    <link rel="stylesheet" href="../css/homepage/style.css">
-    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/homepage/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/homepage/supersized.css}">
+    <link rel="stylesheet" th:href="@{/css/homepage/style.css}">
 </head>
+<!--取消右键-->
 <body oncontextmenu="return false">
-
 <div class="page-container">
     <h1>Regist</h1>
-    <form name="registForm" id="registForm" action="/ptu/regist" method="post">
+    <form name="registForm" id="registForm" th:action="@{/ptu/registUserController/regist}" method="post">
         <div>
             <span style="color:red">*</span><input type="text" name="userName" placeholder="用户名" autocomplete="off"/>
         </div>
@@ -51,9 +51,9 @@
 </div>
 
 <!-- Javascript -->
-<script src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-<script src="../js/particle/supersized.3.2.7.min.js"></script>
-<script src="../js/particle/supersized-init.js"></script>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/particle/supersized.3.2.7.min.js}"></script>
+<script th:src="@{/js/particle/supersized-init.js}"></script>
 <script>
     $(".btn").click(function(){
         is_hide();
@@ -62,7 +62,7 @@
     var p = $("input[name=userPwd]");
     var rp = $("input[name=rpassword]");
     var o = $("input[name=orgName]");
-    $("#regist").live('click',function(){
+    $("#regist").on('click',function(){
         if(u.val() == '' || p.val() =='' || rp.val() =='' || o.val() =='')
         {
             $("#ts").html("信息不能为空~");

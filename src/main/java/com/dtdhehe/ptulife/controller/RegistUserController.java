@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * date:2018-10-29
  */
 @RestController
-@RequestMapping("/ptu")
+@RequestMapping("/ptu/registUserController")
 public class RegistUserController {
 
     private final Logger logger = LoggerFactory.getLogger(RegistUserController.class);
