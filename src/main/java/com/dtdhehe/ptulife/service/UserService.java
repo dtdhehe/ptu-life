@@ -31,4 +31,12 @@ public interface UserService {
     //查找所有
     Page<PtuUser> findAll(Pageable pageable);
 
+    /**
+     * 根据用户名和密码查找用户
+     * @param userName
+     * @param userPwd
+     * @return
+     */
+    PtuUser findByUserNameAndUserPwd(String userName,String userPwd);
+
 }

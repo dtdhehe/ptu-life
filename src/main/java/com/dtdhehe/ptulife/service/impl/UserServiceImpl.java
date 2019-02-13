@@ -46,4 +46,9 @@ public class UserServiceImpl implements UserService {
     public Page<PtuUser> findAll(Pageable pageable) {
         return ptuUserRepository.findAll(pageable);
     }
+
+    @Override
+    public PtuUser findByUserNameAndUserPwd(String userName, String userPwd) {
+        return ptuUserRepository.findByUserNameAndUserPwd(userName,userPwd);
+    }
 }
