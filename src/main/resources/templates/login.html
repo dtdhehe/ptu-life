@@ -4,25 +4,23 @@
 <head>
     <meta charset="utf-8">
     <title>登录</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
     <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/css/homepage/reset.css}">
-    <link rel="stylesheet" th:href="@{/css/homepage/supersized.css}">
-    <link rel="stylesheet" th:href="@{/css/homepage/style.css}">
+    <link rel="stylesheet" th:href="@{/css/homepage/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/homepage/supersized.css}"/>
+    <link rel="stylesheet" th:href="@{/css/homepage/style.css}"/>
+
 </head>
 <body oncontextmenu="return false">
         <div class="page-container">
             <h1>Login</h1>
-            <form name="loginForm" th:action="@{/login/loginController/login}" method="post">
+            <form id="loginForm" name="loginForm" method="post">
 				<div>
-					<input type="text" name="username" class="username" placeholder="用户名" autocomplete="off"/>
+					<input type="text" name="username" id="username"  placeholder="用户名" autocomplete="off"/>
 				</div>
                 <div>
-					<input type="password" name="password" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false" />
+					<input type="password" name="password" id="password"  placeholder="密码" oncontextmenu="return false" onpaste="return false" />
                 </div>
-                <button id="sign" type="submit">Sign in</button>
+                <button id="sign" type="button">Sign in</button>
                 <span>还没有账号?</span><a th:href="@{/ptu/homePageController/registPage}">立即注册</a>
             </form>
             <div class="connect">
@@ -39,34 +37,63 @@
 			</div>
 		</div>
 
-        <!-- Javascript -->
-        <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-        <script th:src="@{/js/particle/supersized.3.2.7.min.js}"></script>
-        <script th:src="@{/js/particle/supersized-init.js}"></script>
+<!-- Javascript -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/particle/supersized.3.2.7.min.js}"></script>
+<script th:src="@{/js/particle/supersized-init.js}"></script>
+<!--引入layui的js-->
+<script type="text/javascript" th:src="@{/js/layui/layui.all.js}"></script>
+<!-- js 方法 -->
+<script th:inline="javascript">
+    //<![CDATA[
 
-		<script>
+    $(function () {
+        $("#sign").click(function () {
+            var urls = [[@{/login/loginController/login}]];
+            var myData = {
+                username:$("#username").val(),
+                password:$("#password").val()
+            };
+            $.ajax({
+                url:urls,
+                async:true,
+                data:myData,
+                dataType:'json',
+                success:function (data) {
+                    if (data.status === "0") {
+                        //登录成功，跳转首页
+                        $(location).attr("href",[[@{/ptu/homePageController/home}]]);
+                    }else{
+                        $("#ts").html(data.error_msg);
+                        is_show();
+                    }
+                }
+            });
+        });
+    });
 
-		$(".btn").click(function(){
-			is_hide();
-		})
-		var u = $("input[name=username]");
-		var p = $("input[name=password]");
-		$("#sign").on('click',function(){
-			if(u.val() == '' || p.val() =='')
-			{
-				$("#ts").html("用户名或密码不能为空~");
-				is_show();
-				return false;
-			}
-		});
-		window.onload = function()
-		{
-			$(".connect p").eq(0).animate({"left":"0%"}, 600);
-			$(".connect p").eq(1).animate({"left":"0%"}, 400);
-		}
-		function is_hide(){ $(".alert").animate({"top":"-40%"}, 300) }
-		function is_show(){ $(".alert").show().animate({"top":"45%"}, 300) }
-		</script>
+    $(".btn").click(function(){
+        is_hide();
+    });
+    var u = $("input[name=username]");
+    var p = $("input[name=password]");
+    $("#sign").on('click',function(){
+        if(u.val() == '' || p.val() =='')
+        {
+            $("#ts").html("用户名或密码不能为空~");
+            is_show();
+            return false;
+        }
+    });
+    window.onload = function()
+    {
+        $(".connect p").eq(0).animate({"left":"0%"}, 600);
+        $(".connect p").eq(1).animate({"left":"0%"}, 400);
+    }
+    function is_hide(){ $(".alert").animate({"top":"-40%"}, 300) }
+    function is_show(){ $(".alert").show().animate({"top":"45%"}, 300) }
+    //]]>
+</script>
 </body>
 
 </html>

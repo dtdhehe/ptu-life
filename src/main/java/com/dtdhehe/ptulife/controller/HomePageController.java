@@ -34,13 +34,13 @@ public class HomePageController {
         return "life";
     }
 
-    @GetMapping("/index")
-    public ModelAndView homePage(){
-        return new ModelAndView("login");
+    @RequestMapping("/index")
+    public String homePage(){
+        return "login";
     }
 
-    @GetMapping("/registPage")
-    public ModelAndView registPage() {
-        return new ModelAndView("regist");
+    @RequestMapping("/registPage")
+    public String registPage() {
+        return "regist";
     }
 }
