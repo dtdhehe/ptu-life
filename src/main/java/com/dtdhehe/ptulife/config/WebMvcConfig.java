@@ -36,7 +36,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
                 .excludePathPatterns("/ptu/homePageController/index","/ptu/homePageController/registPage"
                                     ,"/ptu/homePageController/home","/news/newsController/queryAllNews"
-                                    ,"/login/loginController/login","/ptu/registUserController/regist")
+                                    ,"/login/loginController/login","/ptu/registUserController/regist"
+                                    ,"/label/labelController/queryHotLabel")
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/img/**");

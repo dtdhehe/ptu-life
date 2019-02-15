@@ -38,9 +38,12 @@
                     <li><a th:href="@{/ptu/homePageController/life}" >生活</a></li>
                 </ul>
             </div>
-            <div>
-                <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px">注册</button>
-                <button type="button" class="btn btn-info pull-right" style="margin-top: 10px"  onclick="window.location.href = 'http://localhost:8080/index'">登录</button>
+            <div id="loginBtn" style="display: none;">
+                <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" th:onclick="|loginStatus('regist')|">注册</button>
+                <button type="button" class="btn btn-info pull-right" style="margin-top: 10px"  th:onclick="|loginStatus('login')|">登录</button>
+            </div>
+            <div id="logoutBtn" style="display: none;">
+                <button type="button" class="btn btn-success pull-right" style="margin-top: 10px" th:onclick="|loginStatus('logout')|">退出登录</button>
             </div>
         </div>
     </nav>
@@ -121,13 +124,29 @@
             queryNews(page);
             //初始化热门标签
             initLabel();
+            //打印当前登录用户
             console.log([[${session.loginUser}]]);
+            var loginUser = [[${session.loginUser}]];
+            if (loginUser === null) {
+                $("#loginBtn").css("display","");
+            }else {
+                $("#logoutBtn").css("display","")
+            }
         });
 
+        function loginStatus(status) {
+            if (status === "regist"){
+                window.location.href = [[@{/ptu/homePageController/registPage}]];
+            }else {
+                window.location.href = [[@{/login/loginController/logout}]];
+            }
+        }
+        
         //加载新闻按钮
         function loadNewsList() {
             var page = $("#newsPage").val();
-            page = page + 1;
+            //把page转成int后进行加减
+            page = parseInt(page) + 1;
             queryNews(page);
         }
 
@@ -174,8 +193,10 @@
                     }
                 }
             });
+            //每次查询后把当前页数保存
+            $("#newsPage").val(page);
         }
-
+        
         //查看单条新闻详情页
         function getNewsPage(newsId) {
             var urls = [[@{/news/newsController/newsPage}]]+'?newsId='+newsId;

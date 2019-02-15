@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Create By Xie_东
@@ -49,6 +50,16 @@ public class LoginController {
             resultVO.setError_msg("用户名或密码错误");
         }
         return resultVO;
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request){
+        logger.info("清楚session中登录的用户");
+        HttpSession session = request.getSession();
+        if (session != null){
+            session.removeAttribute("loginUser");
+        }
+        return "login";
     }
 
 }
