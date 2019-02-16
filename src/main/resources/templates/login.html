@@ -48,29 +48,43 @@
     //<![CDATA[
 
     $(function () {
-        $("#sign").click(function () {
-            var urls = [[@{/login/loginController/login}]];
-            var myData = {
-                username:$("#username").val(),
-                password:$("#password").val()
-            };
-            $.ajax({
-                url:urls,
-                async:true,
-                data:myData,
-                dataType:'json',
-                success:function (data) {
-                    if (data.status === "0") {
-                        //登录成功，跳转首页
-                        $(location).attr("href",[[@{/ptu/homePageController/home}]]);
-                    }else{
-                        $("#ts").html(data.error_msg);
-                        is_show();
-                    }
-                }
-            });
+        //登录按钮点击
+        $("#sign").on("click",function () {
+            login();
         });
+        //回车按键
+        // $("#sign").on("keydown",function (e) {
+        //     alert("22");
+        //     if(e.which===13){
+        //         alert("ss");
+        //         login();
+        //     }
+        // });
     });
+
+    //登录
+    function login(){
+        var urls = [[@{/login/loginController/login}]];
+        var myData = {
+            username:$("#username").val(),
+            password:$("#password").val()
+        };
+        $.ajax({
+            url:urls,
+            async:true,
+            data:myData,
+            dataType:'json',
+            success:function (data) {
+                if (data.status === "0") {
+                    //登录成功，跳转首页
+                    $(location).attr("href",[[@{/ptu/homePageController/home}]]);
+                }else{
+                    $("#ts").html(data.error_msg);
+                    is_show();
+                }
+            }
+        });
+    }
 
     $(".btn").click(function(){
         is_hide();

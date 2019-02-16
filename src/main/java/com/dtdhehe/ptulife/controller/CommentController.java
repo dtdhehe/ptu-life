@@ -2,7 +2,9 @@ package com.dtdhehe.ptulife.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dtdhehe.ptulife.entity.Comment;
+import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.service.CommentService;
+import com.dtdhehe.ptulife.service.UserService;
 import com.dtdhehe.ptulife.util.DateUtils;
 import com.dtdhehe.ptulife.util.KeyUtils;
 import com.dtdhehe.ptulife.vo.CommentVO;
@@ -17,9 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * Create By Xie_东
@@ -34,6 +35,9 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 添加评论
@@ -77,7 +81,7 @@ public class CommentController {
     }
 
     /**
-     * 添加评论
+     * 查询评论
      * @return
      */
     @RequestMapping("/query")
@@ -93,16 +97,28 @@ public class CommentController {
             Comment comment = (Comment) it.next();
             comment.setCreateTime(DateUtils.date2ViewType(comment.getCreateTime()));
             List<Comment> childCommentList = commentService.queryByPidAndPidIsNotNull(comment.getId(),sort);
+            //子评论map
+            List<Map<String,Object>> childCommentListMap = new ArrayList<>();
             if (childCommentList.size() != 0){
                 Iterator<Comment> itChild = childCommentList.iterator();
                 while (itChild.hasNext()){
+                    Map<String,Object> map = new HashMap<>();
                     Comment commentChild = itChild.next();
                     commentChild.setCreateTime(DateUtils.date2ViewType(commentChild.getCreateTime()));
+                    try {
+                        //将对象转成map
+                        map = org.apache.commons.beanutils.BeanUtils.describe(commentChild);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    map.put("commentUserName",userService.getUserNameByUserId(commentChild.getUserId()));
+                    childCommentListMap.add(map);
                 }
             }
             CommentVO commentVO = new CommentVO();
             BeanUtils.copyProperties(comment,commentVO);
-            commentVO.setCommentList(childCommentList);
+            commentVO.setUserName(userService.getUserNameByUserId(commentVO.getUserId()));
+            commentVO.setCommentList(childCommentListMap);
             resultList.add(commentVO);
         }
         ResultVO resultVO = new ResultVO();

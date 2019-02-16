@@ -3,6 +3,7 @@ package com.dtdhehe.ptulife.vo;
 import com.dtdhehe.ptulife.entity.Comment;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Create By Xie_东
@@ -17,13 +18,23 @@ public class CommentVO {
 
     private String userId;
 
+    private String userName;
+
     private String postId;
 
     private String pid;
 
     private String replyUserId;
 
-    private List<Comment> commentList;
+    private List<Map<String,Object>> commentList;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getId() {
         return id;
@@ -81,11 +92,11 @@ public class CommentVO {
         this.replyUserId = replyUserId;
     }
 
-    public List<Comment> getCommentList() {
+    public List<Map<String,Object>> getCommentList() {
         return commentList;
     }
 
-    public void setCommentList(List<Comment> commentList) {
+    public void setCommentList(List<Map<String,Object>> commentList) {
         this.commentList = commentList;
     }
 }

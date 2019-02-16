@@ -51,4 +51,10 @@ public class UserServiceImpl implements UserService {
     public PtuUser findByUserNameAndUserPwd(String userName, String userPwd) {
         return ptuUserRepository.findByUserNameAndUserPwd(userName,userPwd);
     }
+
+    @Override
+    public String getUserNameByUserId(String userId) {
+        PtuUser ptuUser = ptuUserRepository.findById(userId).get();
+        return ptuUser.getUserName();
+    }
 }

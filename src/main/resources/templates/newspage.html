@@ -213,11 +213,20 @@
     <!-- js 方法 -->
     <script th:inline="javascript">
         //<![CDATA[
+        //当前用户存入全局变量
+        var loginUser = [[${session.loginUser}]];
         $(function () {
             var newsDesc = [[${ptuNews.newsDesc}]];
             $("#newsDesc").append(newsDesc);
             //初始化热门标签
             initLabel();
+            //打印当前登录用户
+            console.log([[${session.loginUser}]]);
+            if (loginUser === null) {
+                $("#loginBtn").css("display","");
+            }else {
+                $("#logoutBtn").css("display","");
+            }
             //评论框初始化
             initComment();
         });
@@ -253,7 +262,7 @@
                                     '         </a>' +
                                     '</div>' +
                                     '<div class="col-md-10 column" style="padding: 5px">' +
-                                    '  <span style="color: #337ab7">dtdhehe</span>' +
+                                    '  <span style="color: #337ab7">'+commentList[index].userName+'</span>' +
                                     '    <div style="min-height: 60px;font-size: large;margin: 5px 0 5px 0">' +
                                     '             '+commentList[index].content+'<br/>' +
                                     '    </div>' +
@@ -274,7 +283,7 @@
                                     '         </a>' +
                                     '</div>' +
                                     '<div class="col-md-10 column" style="padding: 5px">' +
-                                    '  <span style="color: #337ab7">dtdhehe</span>' +
+                                    '  <span style="color: #337ab7">'+commentList[index].userName+'</span>' +
                                     '    <div style="min-height: 60px;font-size: large;margin: 5px 0 5px 0">' +
                                     '             '+commentList[index].content+'<br/>' +
                                     '    </div>' +
@@ -294,7 +303,7 @@
                                             '  </div>' +
                                             '  <div class="col-md-10 column" style="padding: 5px">' +
                                             '    <div style="min-height: 60px;margin: 10px 0 5px 0">' +
-                                            '       <span style="color: #337ab7">dtdhehe</span>:' +
+                                            '       <span style="color: #337ab7">'+childList[i].commentUserName+'</span>:' +
                                             '             '+childList[i].content+'<br/>' +
                                             '    </div>' +
                                             '    <div style="font-size: 5px;font-family: \'微软雅黑 Light\'">' +
@@ -346,12 +355,10 @@
             if (status === 1){
                 // $(obj).parent().parent().find("#comment2").remove();
                 $(obj).parent().next().remove();
-                debugger;
                 $(obj).css("display","none");
             }else if(status === 2){
                 // $(obj).parent().parent().parent().find("#comment2").remove();
                 $(obj).parent().parent().next().remove();
-                debugger;
                 $(obj).css("display","none");
 
             }
@@ -371,8 +378,7 @@
                 replyUserId = $(obj).parent().parent().find("#commentUserId").val();
             }
             //后期改成当前登录用户的userId
-            //TODO
-            var userId = "fdgerass";
+            var userId = loginUser.userId;
             var comment = {
                 content:text,
                 postId:postId,

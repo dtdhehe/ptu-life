@@ -10,9 +10,12 @@
                 <li><a th:href="@{/ptu/homePageController/life}" >生活</a></li>
             </ul>
         </div>
-        <div>
-            <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="">注册</button>
-            <button type="button" class="btn btn-info pull-right" style="margin-top: 10px" onclick="">登录</button>
+        <div id="loginBtn" style="display: none;">
+            <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" th:onclick="|loginStatus('regist')|">注册</button>
+            <button type="button" class="btn btn-info pull-right" style="margin-top: 10px"  th:onclick="|loginStatus('login')|">登录</button>
+        </div>
+        <div id="logoutBtn" style="display: none;">
+            <button type="button" class="btn btn-success pull-right" style="margin-top: 10px" th:onclick="|loginStatus('logout')|">退出登录</button>
         </div>
     </div>
 </nav>

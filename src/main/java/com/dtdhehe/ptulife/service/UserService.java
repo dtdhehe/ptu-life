@@ -39,4 +39,11 @@ public interface UserService {
      */
     PtuUser findByUserNameAndUserPwd(String userName,String userPwd);
 
+    /**
+     * 根据userId查出userName
+     * @param userId
+     * @return
+     */
+    String getUserNameByUserId(String userId);
+
 }
