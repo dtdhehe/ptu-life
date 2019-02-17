@@ -306,6 +306,8 @@
                                             '       <span style="color: #337ab7">'+childList[i].commentUserName+'</span>:' +
                                             '             '+childList[i].content+'<br/>' +
                                             '    </div>' +
+                                            '    <input id="commentId" type="hidden" value="'+childList[i].id+'" />' +
+                                            '    <input id="commentUserId" type="hidden" value="'+childList[i].userId+'" />' +
                                             '    <div style="font-size: 5px;font-family: \'微软雅黑 Light\'">' +
                                             '       <label style="margin-right: 40px">'+childList[i].createTime+'</label>' +
                                             '       <a id="reply" href="javascript:void(0);" onclick="reply(this,2)">回复</a>' +
@@ -374,8 +376,10 @@
             var pid = null;
             var replyUserId = null;
             if(status === 2){
+                debugger;
                 pid = $(obj).parent().parent().find("#commentId").val();
-                replyUserId = $(obj).parent().parent().find("#commentUserId").val();
+                // replyUserId = $(obj).parent().parent().find("#commentUserId").val();
+                replyUserId = $(obj).parent().prev().find("#commentUserId").val();
             }
             //后期改成当前登录用户的userId
             var userId = loginUser.userId;
