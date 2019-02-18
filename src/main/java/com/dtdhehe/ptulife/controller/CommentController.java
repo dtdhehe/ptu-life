@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -112,6 +113,10 @@ public class CommentController {
                         e.printStackTrace();
                     }
                     map.put("commentUserName",userService.getUserNameByUserId(commentChild.getUserId()));
+                    map.put("replyUserName","");
+                    if (!StringUtils.isEmpty(commentChild.getReplyUserId())){
+                        map.put("replyUserName",userService.getUserNameByUserId(commentChild.getReplyUserId()));
+                    }
                     childCommentListMap.add(map);
                 }
             }

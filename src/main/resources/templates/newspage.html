@@ -57,7 +57,7 @@
                             <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
                         </a>
                         <textarea id="contentParent" placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 75%;font-size: large"></textarea>
-                        <button onclick="comment(this,1)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>
+                        <button onclick="comment(this,0)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>
                     </div>
                     <div class="layui-tab layui-tab-card">
                         <ul class="layui-tab-title">
@@ -302,8 +302,17 @@
                                             '    </a>' +
                                             '  </div>' +
                                             '  <div class="col-md-10 column" style="padding: 5px">' +
-                                            '    <div style="min-height: 60px;margin: 10px 0 5px 0">' +
-                                            '       <span style="color: #337ab7">'+childList[i].commentUserName+'</span>:' +
+                                            '    <div style="min-height: 60px;margin: 10px 0 5px 0">';
+                                        if(childList[i].replyUserName === ""){
+                                            htmls = htmls+
+                                                '<span style="color: #337ab7">'+childList[i].commentUserName+'</span>:';
+                                        }else {
+                                            htmls = htmls+
+                                                '<span style="color: #337ab7">'+childList[i].commentUserName+'</span>' +
+                                                '<span style="font-size: 5px;font-weight: bold">&nbsp;&nbsp;回复&nbsp;&nbsp;</span>' +
+                                                '<span style="color: #337ab7">'+childList[i].replyUserName+'</span>:';
+                                        }
+                                        htmls = htmls+
                                             '             '+childList[i].content+'<br/>' +
                                             '    </div>' +
                                             '    <input id="commentId" type="hidden" value="'+childList[i].id+'" />' +
@@ -333,18 +342,26 @@
         //obj:当前元素   status:1(一级回复) 2(二级回复)
         function reply(obj,status) {
             $(obj).parent().find("#cancel").css("display","");
-            var htmls = '' +
-                '<div id="comment2" style="padding: 10px">' +
-                '   <a href="#" class="pull-left" style="margin-top: 15px">' +
-                '     <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
-                '   </a>' +
-                '   <textarea placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 72%;font-size: large"></textarea>' +
-                '   <button onclick="comment(this,2)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>' +
-                '</div>';
             if (status === 1){
+                var htmls = '' +
+                    '<div id="comment2" style="padding: 10px">' +
+                    '   <a href="#" class="pull-left" style="margin-top: 15px">' +
+                    '     <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
+                    '   </a>' +
+                    '   <textarea placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 72%;font-size: large"></textarea>' +
+                    '   <button onclick="comment(this,1)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>' +
+                    '</div>';
                 $(obj).parent().after(htmls);
                 $(obj).removeAttr("onclick");
             }else if(status === 2){
+                var htmls = '' +
+                    '<div id="comment2" style="padding: 10px">' +
+                    '   <a href="#" class="pull-left" style="margin-top: 15px">' +
+                    '     <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
+                    '   </a>' +
+                    '   <textarea placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 72%;font-size: large"></textarea>' +
+                    '   <button onclick="comment(this,2)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>' +
+                    '</div>';
                 $(obj).parent().parent().after(htmls);
                 $(obj).removeAttr("onclick");
             }
@@ -367,7 +384,10 @@
         }
 
         //评论
-        //obj:当前元素      status:1(一级回复) 2(二级回复)
+        //obj:当前元素      status:0(评论)  1(一级回复) 2(二级回复)
+        //评论:pid:null   replyUserId:null
+        //一级回复:pid:当前评论的id    replyUserId:null
+        //二级回复:pid:当前评论的id    replyUserId:一级回复的id
         function comment(obj,status) {
             //获得评论内容
             var text = $(obj).parent().find("textarea").val();
@@ -376,10 +396,11 @@
             var pid = null;
             var replyUserId = null;
             if(status === 2){
-                debugger;
                 pid = $(obj).parent().parent().find("#commentId").val();
                 // replyUserId = $(obj).parent().parent().find("#commentUserId").val();
                 replyUserId = $(obj).parent().prev().find("#commentUserId").val();
+            }else if (status === 1){
+                pid = $(obj).parent().parent().find("#commentId").val();
             }
             //后期改成当前登录用户的userId
             var userId = loginUser.userId;
