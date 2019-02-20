@@ -33,6 +33,10 @@ public class PtuUser {
     //用户微信号     非必须
     private String wechatNum;
 
+    private String nickName;
+
+    private String motto;
+
     @Override
     public String toString() {
         return "PtuUser{" +
@@ -47,6 +51,22 @@ public class PtuUser {
                 ", qqNum='" + qqNum + '\'' +
                 ", wechatNum='" + wechatNum + '\'' +
                 '}';
+    }
+
+    public String getMotto() {
+        return motto;
+    }
+
+    public void setMotto(String motto) {
+        this.motto = motto;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getUserId() {

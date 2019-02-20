@@ -15,6 +15,8 @@ public class UserRegistVO {
 
     private String orgName;
 
+    private String nickName;
+
     @Override
     public String toString() {
         return "UserRegistVO{" +
@@ -24,6 +26,14 @@ public class UserRegistVO {
                 ", userStatus='" + userStatus + '\'' +
                 ", orgName='" + orgName + '\'' +
                 '}';
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getUserName() {
