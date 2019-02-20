@@ -11,5 +11,6 @@ spring:
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
+#    jackson实体转json时 为NULL不参加序列化
   jackson:
     default-property-inclusion: non_null
