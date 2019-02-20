@@ -50,6 +50,8 @@ public class PtuUser {
                 ", mobileNum='" + mobileNum + '\'' +
                 ", qqNum='" + qqNum + '\'' +
                 ", wechatNum='" + wechatNum + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", motto='" + motto + '\'' +
                 '}';
     }
 

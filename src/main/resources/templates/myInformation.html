@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的资料</title>
+    <!-- bootstrap基础 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/js/bootstrap/css/animate.css}" />
+    <!-- bootstrap-table列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap-table.css}" />
+    <!-- layui -->
+    <link rel="stylesheet"
+          th:href="@{/js/layui/css/layui.css}" />
+</head>
+<body>
+<!--引入导航栏-->
+<div th:replace="navbar.html"></div>
+<!--引入页脚-->
+<div th:replace="footer.html"></div>
+<!-- 全局js -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+<!-- bootstrap-table列表-->
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table-zh-CN.js}"></script>
+<!--引入layui的js-->
+<script type="text/javascript"
+        th:src="@{/js/layui/layui.all.js}"></script>
+<!--引入标签js-->
+<script type="text/javascript"
+        th:src="@{/js/hotLabel/hotLabel.js}"></script>
+<!-- js 方法 -->
+<script th:inline="javascript">
+    //<![CDATA[
+    $(function () {
+        //初始化函数
+        //打印当前登录用户
+        console.log([[${session.loginUser}]]);
+        var loginUser = [[${session.loginUser}]];
+        if (loginUser === null) {
+            $("#loginBtn").css("display","");
+        }else {
+            $("#logoutBtn").css("display","");
+        }
+    });
+
+    function loginStatus(status) {
+        if (status === "regist"){
+            window.location.href = [[@{/ptu/homePageController/registPage}]];
+        }else {
+            window.location.href = [[@{/login/loginController/logout}]];
+        }
+    }
+
+
+    //]]>
+</script>
+</body>
+</html>
