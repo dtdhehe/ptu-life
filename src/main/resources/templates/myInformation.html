@@ -16,10 +16,141 @@
     <!-- layui -->
     <link rel="stylesheet"
           th:href="@{/js/layui/css/layui.css}" />
+    <style type="text/css" >
+        .background{
+            width: 100%;
+            height: 350px;
+            position: relative;
+        }
+        .background img{
+            width: 100%;
+            height: 100%;
+        }
+        .head_portrait{
+            position: absolute;
+            width: 300px;
+            height: 180px;
+            top: 120px;
+            left: 540px;
+            text-align: center;
+        }
+        .head_portrait img{
+            width: 120px;
+            height: 120px;
+        }
+        .nickName{
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: x-large;
+        }
+        .motto{
+            margin-top: 5px;
+            text-align: center;
+        }
+        .my_nav{
+            background-color: #F5F5F5;width: 300px;padding: 0;border-radius: 2px
+        }
+        .level{
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .level li{
+            float: left;
+        }
+        .level li a{
+            height:60px;line-height:60px;
+        }
+        .my_nav *{
+            font-size: medium;
+        }
+        .my_nav li{
+            cursor: pointer;
+            padding: 0 20px;
+        }
+        /*选择行样式*/
+        .my_nav .itemed{
+            /*background-color: #e7e7e7;*/
+            font-weight: bold;
+        }
+        .my_nav a{
+            position: relative;height:80px;line-height:80px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;
+            display: block;
+        }
+        .my_nav a:hover,li:hover{
+            background-color: #e7e7e7;
+        }
+        .info_title{
+            margin: 10px 0;
+            border-bottom: 1px #eee solid;
+            padding-bottom: 12px;
+        }
+    </style>
 </head>
 <body>
 <!--引入导航栏-->
 <div th:replace="navbar.html"></div>
+<!--个人简介-->
+<div>
+    <!--个人背景图-->
+    <div class="background">
+        <img th:src="@{/img/background.jpg}" />
+    </div>
+    <!--用户头像-->
+    <div id="head_portrait" class="head_portrait">
+        <img alt="140x140" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+        <p class="nickName" th:text="${currentUser.nickName}">昵称</p>
+        <p class="motto" th:text="${currentUser.motto}">这家伙真懒，什么都没有留下...</p>
+    </div>
+</div>
+<div class="col-md-12 column" style="margin-top: 20px;margin-bottom: 20px">
+    <div class="col-md-3 column">
+        <ul class="my_nav">
+            <li class="itemed"><a href="">我的资料</a></li>
+            <li class=""><a href="">我的文章</a></li>
+            <li class=""><a href="">我的问答</a></li>
+            <li class=""><a href="">我的评论</a></li>
+            <li class=""><a href="">退出</a></li>
+        </ul>
+    </div>
+    <div class="col-md-9 column">
+        <ul class="my_nav level">
+            <li class="itemed"><a href="">基本信息</a></li>
+            <li class=""><a href="">其他信息</a></li>
+            <li class=""><a href="">修改密码</a></li>
+        </ul>
+        <div id="baseInfo" style="padding: 10px 50px">
+            <h3 class="info_title">基本信息</h3>
+            <form>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">昵称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户身份标识</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户所属机构</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户性别</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!--引入页脚-->
 <div th:replace="footer.html"></div>
 <!-- 全局js -->
