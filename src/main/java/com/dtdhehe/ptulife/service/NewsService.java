@@ -3,6 +3,7 @@ package com.dtdhehe.ptulife.service;
 import com.dtdhehe.ptulife.entity.PtuNews;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -39,4 +40,12 @@ public interface NewsService {
      * @return
      */
     PtuNews save(PtuNews ptuNews);
+
+    /**
+     * 根据用户id查询该用户全部新闻
+     * @param userId
+     * @return
+     */
+    Page<PtuNews> queryNewsByUserId(String userId,String newsTitle,Pageable pageable);
+
 }

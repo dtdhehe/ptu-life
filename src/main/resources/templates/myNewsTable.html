@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的文章</title>
+    <!-- bootstrap基础 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/js/bootstrap/css/animate.css}" />
+    <!-- bootstrap-table列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap-table.css}" />
+    <!-- layui -->
+    <link rel="stylesheet"
+          th:href="@{/js/layui/css/layui.css}" />
+    <style type="text/css">
+        .info_title{
+            margin: 10px 0;
+            border-bottom: 1px #eee solid;
+            padding-bottom: 12px;
+        }
+        .row_div{
+            width: 60%;
+        }
+        .row_label{
+            width: 100px;
+            text-align: center;
+        }
+        .my_info{
+            padding: 0 50px;
+        }
+    </style>
+</head>
+<body style="min-height: 400px">
+
+<div id="otherInfo" class="my_info">
+    <h3 class="info_title">我的文章</h3>
+    <form id="otherFormInfo" class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label row_label">新闻标题</label>
+            <div class="layui-input-block row_div">
+                <input type="text" id="newsTitle" name="newsTitle"  style="width: 80%;display: inline" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                <button id="query" type="button" style="margin-left: 30px" onclick="queryNewsTitle()" class="btn btn-info">查询</button>
+            </div>
+        </div>
+    </form>
+    <div class="table-responsive" >
+        <table id="TableList" class="table"
+               width="100%" style="table-layout:fixed;">
+            <thead>
+            <tr>
+                <th data-width="50" data-field="xl"
+                    data-formatter="xlFormatter" data-show-tip="false">序号</th>
+                <th data-align="center" data-field="newsTitle" data-show-tip="false">新闻标题</th>
+                <th data-align="center" data-field="newsAuthor">新闻作者</th>
+                <th data-align="center" data-field="newsDate">新闻日期</th>
+                <th data-align="center" data-width="100" data-field="operation"
+                    data-formatter="operation_formatter" data-show-tip="false">删除</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!-- 全局js -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+<!-- bootstrap-table列表-->
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table-zh-CN.js}"></script>
+<!--引入layui的js-->
+<script type="text/javascript"
+        th:src="@{/js/layui/layui.all.js}"></script>
+<!--引入标签js-->
+<script type="text/javascript"
+        th:src="@{/js/hotLabel/hotLabel.js}"></script>
+<!-- js 方法 -->
+<script th:inline="javascript">
+    //<![CDATA[
+    $(function () {
+        //初始化函数
+        initTable("TableList");
+    });
+
+    //序号显示格式
+    function xlFormatter(value, row, index) {
+        index = index + 1;
+        return index;
+    }
+
+    //初始化table
+    function initTable(tableId) {
+        var urls = "/myInformationController/getNewsTable";
+        $("#"+tableId).bootstrapTable({
+            url: urls,//请求后台的URL
+            method: 'post',//请求方式（*）
+            idField:'id',//主键列
+            search: false,//是否显示表格搜索，此搜索是客户端搜索，不会进服务端
+            cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            sidePagination: "server",//分页方式：client客户端分页，server服务端分页（*）
+            singleSelect: true,//单选
+            pagination: true,//是否显示分页（*）
+            showRefresh: false,//是否显示刷新按钮
+            showToggle: false,//是否显示详细视图和列表视图的切换按钮
+            showColumns: false,//是否显示所有的列
+            pageNumber: 1,//初始化加载第一页，默认第一页
+            pageSize: 5,//每页的记录行数（*）
+            pageList: [5],//可供选择的每页的行数（*）[5,10]
+            pageStore: false,//分页时保存所选（*）
+            iconSize: 'outline',
+            striped: true,//是否显示行间隔色
+            clickToSelect: true,//是否启用点击选中行
+            minimumCountColumns: 0,
+            // height: getHeight() - 55,
+            contentType: "application/x-www-form-urlencoded",//为了让后台获取页码和行数的参数（切记不可少）
+            queryParams: function (params) {
+                //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+                var temp = {
+                    rows: params.limit,                         //页面大小
+                    page: (params.offset / params.limit),   //页码
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
+                };
+                return temp;
+            }
+        });
+    }
+
+    function queryNewsTitle() {
+        var newsTitle = $("#newsTitle").val();
+        //刷新table的数据
+        var urls = $("#TableList").bootstrapTable("getOptions").url;
+        $("#TableList").bootstrapTable("refresh",{
+            url:urls,
+            query:{
+                newsTitle:newsTitle
+            }
+        });
+    }
+    
+    //删除
+    function onDeleteRow(newsId) {
+        alert(newsId);
+    }
+    
+    //列表操作列处理
+    function operation_formatter(value, row, index) {
+        var operation =  "<div class='ibox-tools' style='padding:0; float:none'>";
+        operation = operation + "<a class='hred' href='javascript:void(0);' onclick='onDeleteRow(\"" + row.newsId + "\")' style='padding-top:0;padding-bottom:0;margin-right:3px;padding-left:2px;'><i class='fa fa-trash-o'></i></a>";
+        operation = operation  + "</div>";
+        return operation;
+    }
+
+    //]]>
+</script>
+</body>
+</html>

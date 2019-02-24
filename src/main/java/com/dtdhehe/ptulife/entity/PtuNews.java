@@ -21,6 +21,16 @@ public class PtuNews {
 
     private String newsComment;
 
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getNewsId() {
         return newsId;
     }

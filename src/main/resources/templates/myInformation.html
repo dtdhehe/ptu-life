@@ -81,10 +81,13 @@
         .my_nav a:hover,li:hover{
             background-color: #e7e7e7;
         }
-        .info_title{
-            margin: 10px 0;
-            border-bottom: 1px #eee solid;
-            padding-bottom: 12px;
+        .my_info{
+            padding: 0 50px;
+        }
+        .my_info button{
+            margin-left: 100px;
+            width: 150px;
+            height: 40px;
         }
     </style>
 </head>
@@ -104,55 +107,34 @@
         <p class="motto" th:text="${currentUser.motto}">这家伙真懒，什么都没有留下...</p>
     </div>
 </div>
-<div class="col-md-12 column" style="margin-top: 20px;margin-bottom: 20px">
+<div class="col-md-12 column" style="margin-top: 20px;margin-bottom: 40px">
     <div class="col-md-3 column">
-        <ul class="my_nav">
-            <li class="itemed"><a href="">我的资料</a></li>
-            <li class=""><a href="">我的文章</a></li>
-            <li class=""><a href="">我的问答</a></li>
-            <li class=""><a href="">我的评论</a></li>
-            <li class=""><a href="">退出</a></li>
+        <ul id="navMenu" class="my_nav">
+            <li class="itemed"><a href="javascript:void(0);" onclick="changeMenu(this,'myInformation')">我的资料</a></li>
+            <li class=""><a href="javascript:void(0);" onclick="changeMenu(this,'myNews')">我的文章</a></li>
+            <li class=""><a href="javascript:void(0);" onclick="changeMenu(this,'myAnswer')">我的问答</a></li>
+            <li class=""><a href="javascript:void(0);" onclick="changeMenu(this,'myComment')">我的评论</a></li>
+            <li class=""><a href="javascript:void(0);" onclick="changeMenu(this,'logout')">退出</a></li>
         </ul>
     </div>
     <div class="col-md-9 column">
-        <ul class="my_nav level">
-            <li class="itemed"><a href="">基本信息</a></li>
-            <li class=""><a href="">其他信息</a></li>
-            <li class=""><a href="">修改密码</a></li>
+        <ul id="infoTitle" class="my_nav level">
+            <li class="itemed"><a href="javascript:void(0);" onclick="changeInfos(this,'baseInfo')">基本信息</a></li>
+            <li class=""><a href="javascript:void(0);" onclick="changeInfos(this,'otherInfo')">其他信息</a></li>
+            <li class=""><a href="javascript:void(0);" onclick="changeInfos(this,'pwdInfo')">修改密码</a></li>
         </ul>
-        <div id="baseInfo" style="padding: 10px 50px">
-            <h3 class="info_title">基本信息</h3>
-            <form>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">昵称</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">用户身份标识</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">用户所属机构</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">用户性别</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </form>
+        <ul id="menuInfoTitle" style="display: none" class="my_nav level">
+            <li class="itemed"><a></a></li>
+        </ul>
+        <!--具体信息页面-->
+        <iframe id="iframeInfo" style="width: 100%;min-height: 280px" scrolling="no" frameborder="0"></iframe>
+        <div class="my_info">
+            <button id="saveInfo" class="btn btn-info">保存</button>
         </div>
     </div>
 </div>
 <!--引入页脚-->
-<div th:replace="footer.html"></div>
+<div th:replace="footer"></div>
 <!-- 全局js -->
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <script type="text/javascript"
@@ -173,6 +155,9 @@
     //<![CDATA[
     $(function () {
         //初始化函数
+        iFrameHeight();
+        //首次加载基础页面
+        $("#iframeInfo").attr("src",[[@{/myInformationController/getFormInfo}]]+"?infoName="+"baseInfo");
         //打印当前登录用户
         console.log([[${session.loginUser}]]);
         var loginUser = [[${session.loginUser}]];
@@ -183,12 +168,51 @@
         }
     });
 
+    //让iframe自适应子页面大小
+    function iFrameHeight() {
+        $("#iframeInfo").load(function () {
+            var height = $("#iframeInfo").contents().find("body").height()+10;
+            $("#iframeInfo").attr("height",height);
+        });
+    }
+
     function loginStatus(status) {
         if (status === "regist"){
             window.location.href = [[@{/ptu/homePageController/registPage}]];
         }else {
             window.location.href = [[@{/login/loginController/logout}]];
         }
+    }
+
+    //切换信息页面
+    //obj:当前节点  infoName:信息页面名称
+    function changeInfos(obj,infoName) {
+        //清除所有的选中样式
+        $("#infoTitle li").removeClass("itemed");
+        //给当前选中栏添加样式
+        $(obj).parent().addClass("itemed");
+        //跳转iframe
+        $("#iframeInfo").attr("src",[[@{/myInformationController/getFormInfo}]]+"?infoName="+infoName);
+    }
+
+    //切换菜单
+    function changeMenu(obj, menuName) {
+        //清除所有的选中样式
+        $("#navMenu li").removeClass("itemed");
+        //给当前选中栏添加样式
+        $(obj).parent().addClass("itemed");
+        //判断是否显示我的资料
+        var menu = $(obj).text();
+        if (menu !== "我的资料"){
+            $("#infoTitle").css("display","none");
+            $("#menuInfoTitle").css("display","");
+            $("#menuInfoTitle li a").text(menu);
+        }else {
+            $("#infoTitle").css("display","");
+            $("#menuInfoTitle").css("display","none");
+        }
+        //菜单页跳转
+        $("#iframeInfo").attr("src",[[@{/myInformationController/getFormInfo}]]+"?infoName="+menuName);
     }
 
 

@@ -6,6 +6,7 @@ import com.dtdhehe.ptulife.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,5 +38,10 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public PtuNews save(PtuNews ptuNews) {
         return ptuNewsRepository.save(ptuNews);
+    }
+
+    @Override
+    public Page<PtuNews> queryNewsByUserId(String userId,String newsTitle,Pageable pageable) {
+        return ptuNewsRepository.findByUserId(userId,newsTitle,pageable);
     }
 }

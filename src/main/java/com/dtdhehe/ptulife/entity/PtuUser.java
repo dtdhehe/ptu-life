@@ -22,6 +22,11 @@ public class PtuUser {
     private Integer userStatus;
     //用户所属机构    必须      text
     private String orgName;
+    /**
+     * 所属机构代码
+     */
+    private String orgStatus;
+
     //用户性别      必须      int     0：男     1：女
     private Integer userSex;
     //用户真实姓名    非必须
@@ -45,6 +50,7 @@ public class PtuUser {
                 ", userPwd='" + userPwd + '\'' +
                 ", userStatus=" + userStatus +
                 ", orgName='" + orgName + '\'' +
+                ", orgStatus='" + orgStatus + '\'' +
                 ", userSex=" + userSex +
                 ", trueName='" + trueName + '\'' +
                 ", mobileNum='" + mobileNum + '\'' +
@@ -53,6 +59,14 @@ public class PtuUser {
                 ", nickName='" + nickName + '\'' +
                 ", motto='" + motto + '\'' +
                 '}';
+    }
+
+    public String getOrgStatus() {
+        return orgStatus;
+    }
+
+    public void setOrgStatus(String orgStatus) {
+        this.orgStatus = orgStatus;
     }
 
     public String getMotto() {

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的资料</title>
+    <!-- bootstrap基础 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/js/bootstrap/css/animate.css}" />
+    <!-- bootstrap-table列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap-table.css}" />
+    <!-- layui -->
+    <link rel="stylesheet"
+          th:href="@{/js/layui/css/layui.css}" />
+    <style type="text/css">
+        .info_title{
+            margin: 10px 0;
+            border-bottom: 1px #eee solid;
+            padding-bottom: 12px;
+        }
+        .row_div{
+            width: 60%;
+        }
+        .row_label{
+            width: 100px;
+            text-align: center;
+        }
+        .my_info{
+            padding: 0 50px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="otherInfo" class="my_info">
+    <h3 class="info_title">修改密码</h3>
+    <form id="otherFormInfo" class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label row_label">原密码</label>
+            <div class="layui-input-block row_div">
+                <input type="password" name="oldPwd" required  lay-verify="required" placeholder="请输入原密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label row_label">新密码</label>
+            <div class="layui-input-block row_div">
+                <input type="password" name="newPwd" required  lay-verify="required" placeholder="请输入新密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label row_label">确认密码</label>
+            <div class="layui-input-block row_div">
+                <input type="password" name="surePwd" required  lay-verify="required" placeholder="请再次输入" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 全局js -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+<!-- bootstrap-table列表-->
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table-zh-CN.js}"></script>
+<!--引入layui的js-->
+<script type="text/javascript"
+        th:src="@{/js/layui/layui.all.js}"></script>
+<!--引入标签js-->
+<script type="text/javascript"
+        th:src="@{/js/hotLabel/hotLabel.js}"></script>
+<!-- js 方法 -->
+<script th:inline="javascript">
+    //<![CDATA[
+    $(function () {
+        //初始化函数
+        initForm();
+    });
+
+    function initForm() {
+        layui.use('form', function(){
+            var form = layui.form;
+            //刷新form
+            form.render();
+        });
+    }
+
+    //]]>
+</script>
+</body>
+</html>

@@ -4,7 +4,6 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 123456
-
   mvc:
     view:
       suffix: .html
@@ -14,3 +13,5 @@ spring:
 #    jackson实体转json时 为NULL不参加序列化
   jackson:
     default-property-inclusion: non_null
+server:
+  port: 9999
