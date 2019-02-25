@@ -4,9 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <title>生活</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- bootstrap基础 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/js/bootstrap/css/animate.css}" />
+    <!-- bootstrap-table列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap-table.css}" />
+    <!-- layui -->
+    <link rel="stylesheet"
+          th:href="@{/js/layui/css/layui.css}" />
+    <style type="text/css">
+        #newsDesc img{
+            display: none;
+        }
+    </style>
 </head>
 <body style="background-color: #efefda">
     <!--导航栏-->
@@ -21,9 +35,12 @@
                     <li class="active"><a>生活</a></li>
                 </ul>
             </div>
-            <div>
-                <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px">注册</button>
-                <button type="button" class="btn btn-info pull-right" style="margin-top: 10px"  onclick="window.location.href = 'http://localhost:8080/index'">登录</button>
+            <div id="loginBtn" style="display: none;">
+                <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" th:onclick="|loginStatus('regist')|">注册</button>
+                <button type="button" class="btn btn-info pull-right" style="margin-top: 10px"  th:onclick="|loginStatus('login')|">登录</button>
+            </div>
+            <div id="logoutBtn" style="display: none;">
+                <button type="button" class="btn btn-success pull-right" style="margin-top: 10px" th:onclick="|loginStatus('logout')|">退出登录</button>
             </div>
         </div>
     </nav>
@@ -64,60 +81,72 @@
 
             <!--热门标签-->
             <div class="col-md-4 column">
-                <table class="table table-hover table-striped table-condensed">
-                    <thead>
-                    <tr>
-                        <th colspan="2">热门标签</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr action="#">
-                        <td>食堂阿姨</td>
-                        <td>01/04/2012 </td>
-                    </tr>
-                    <tr class="success">
-                        <td>宿舍</td>
-                        <td>01/04/2012 </td>
-                    </tr>
-                    <tr class="error">
-                        <td>教室</td>
-                        <td>02/04/2012 </td>
-                    </tr>
-                    <tr class="warning">
-                        <td> 标签1 </td>
-                        <td> 03/04/2012 </td>
-                    </tr>
-                    <tr class="info">
-                        <td> 标签2 </td>
-                        <td> 04/04/2012   </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!--热门问答-->
-            <div class="col-md-4 column">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            热门问答
-                            <span style="float:right;margin-right: 10px">热度</span>
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <a href="#">食堂鱼为什么不刮鱼鳞</a>
-                        <span style="float:right;margin-right: 20px">80</span>
-                    </div>
-                    <div class="panel-footer">
-                        <a href="#"> 金荣楼为什么没有空调</a>
-                        <span style="float:right;margin-right: 20px">160</span>
+                <!--热门标签-->
+                <!--引入标签html代码-->
+                <div th:replace="hotLabel.html"></div>
+                <!--热门问答-->
+                <div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                热门问答
+                                <span style="float:right;margin-right: 10px">热度</span>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <a href="#">食堂鱼为什么不刮鱼鳞</a>
+                            <span style="float:right;margin-right: 20px">80</span>
+                        </div>
+                        <div class="panel-footer">
+                            <a href="#"> 金荣楼为什么没有空调</a>
+                            <span style="float:right;margin-right: 20px">160</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!--引入页脚-->
     <div th:replace="footer.html"></div>
+    <!-- 全局js -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- bootstrap-table列表-->
+    <script type="text/javascript"
+            th:src="@{/js/bootstrap/js/bootstrap-table.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/js/bootstrap/js/bootstrap-table-zh-CN.js}"></script>
+    <!--引入layui的js-->
+    <script type="text/javascript"
+            th:src="@{/js/layui/layui.all.js}"></script>
+    <!--引入标签js-->
+    <script type="text/javascript"
+            th:src="@{/js/hotLabel/hotLabel.js}"></script>
+    <!-- js 方法 -->
+    <script th:inline="javascript">
+        //<![CDATA[
+        $(function () {
+            //初始化热门标签
+            initLabel();
+            //打印当前登录用户
+            console.log([[${session.loginUser}]]);
+            var loginUser = [[${session.loginUser}]];
+            if (loginUser === null) {
+                $("#loginBtn").css("display","");
+            }else {
+                $("#logoutBtn").css("display","");
+            }
+        });
+
+        //初始化热门标签列表
+        function initLabel() {
+            var urls = [[@{/label/labelController/queryHotLabel}]];
+            //1.请求url   2.标签页div的id
+            initHotLabel(urls,"label_ul");
+        }
+
+        //]]>
+    </script>
 </body>
 </html>
