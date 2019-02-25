@@ -5,6 +5,7 @@ import com.dtdhehe.ptulife.entity.PtuNews;
 import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.service.NewsService;
 import com.dtdhehe.ptulife.service.UserService;
+import com.dtdhehe.ptulife.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,31 @@ public class MyInformationController {
             logger.error(e.getMessage());
         }
         return null;
+    }
+
+    @RequestMapping("/delMyNews")
+    @ResponseBody
+    public ResultVO delMyNews(String newsId){
+        ResultVO resultVO = new ResultVO();
+        logger.info("要删除的新闻id为:"+newsId);
+        if (StringUtils.isEmpty(newsId)){
+            logger.error("传入的新闻id为空");
+            resultVO.setError_msg("新闻id为null");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        try {
+            newsService.delNewsById(newsId);
+            resultVO.setStatus("0");
+            resultVO.setError_msg("删除成功");
+        }catch (Exception e){
+            logger.error("删除新闻失败,newsId="+newsId);
+            logger.error(e.getMessage());
+            resultVO.setError_msg("删除新闻失败");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        return resultVO;
     }
 
 }

@@ -48,4 +48,10 @@ public interface NewsService {
      */
     Page<PtuNews> queryNewsByUserId(String userId,String newsTitle,Pageable pageable);
 
+    /**
+     * 根据新闻id删除该新闻
+     * @param newsId
+     */
+    void delNewsById(String newsId);
+
 }

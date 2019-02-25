@@ -44,4 +44,9 @@ public class NewsServiceImpl implements NewsService {
     public Page<PtuNews> queryNewsByUserId(String userId,String newsTitle,Pageable pageable) {
         return ptuNewsRepository.findByUserId(userId,newsTitle,pageable);
     }
+
+    @Override
+    public void delNewsById(String newsId) {
+        ptuNewsRepository.deleteById(newsId);
+    }
 }
