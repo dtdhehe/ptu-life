@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>新闻</title>
+    <title>问答</title>
     <!-- bootstrap基础 -->
     <link rel="stylesheet"
           th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
@@ -30,31 +30,31 @@
 <!--引入导航栏-->
 <div th:replace="navbar.html"></div>
 <div style="margin: 10px"></div>
-<!--主体页面   新闻和标签-->
+<!--主体页面   问答和标签-->
 <div class="container">
     <div class="row clearfix">
-        <!--新闻标题-->
+        <!--问答标题-->
         <div class="col-md-8 column">
             <div>
                 <h1 class="text-left">
-                    新闻标题：<input id="newsTitle" class="editTitle" type="text" placeholder="请在此处输入标题"/>
+                    问答标题：<input id="answerTitle" class="editTitle" type="text" placeholder="请在此处输入标题"/>
                 </h1>
                 <p style="margin-top: 15px">
                     <img alt="140x140" style="width: 30px; height: 30px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
-                    <span id="newsAuthor" style="margin-left: 5px;font-size: medium">dtdhehe</span>
+                    <span id="answerAuthor" style="margin-left: 5px;font-size: medium" th:text="${currentUser.nickName}"></span>
                     <img alt="140x140" style="width: 22px; height: 22px;margin-left: 100px" th:src="@{/img/data/data.png}" class="img-default" />
                     <span id="newsDate" style="margin-left: 5px;font-size: medium" th:text="${date}"></span>
-                    <span style="position: absolute;right: 20px"><button id="publishNews" class="btn btn-info">发布</button></span>
+                    <span style="position: absolute;right: 20px"><button id="publishAnswer" class="btn btn-info">发布</button></span>
                 </p>
                 <hr/>
             </div>
 
-            <!--新闻主体-->
+            <!--问答主体-->
             <div class="media well">
                 <div>
                     <textarea id="demo" style="display: none;height: 700px"></textarea>
                     <hr/>
-                    <p style="margin-top: 10px"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />dtdhehe</p>
+                    <p style="margin-top: 10px" th:text="${currentUser.nickName}"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" /></p>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
                         </div>
                         <div id="panel-element-1" class="panel-collapse in">
                             <div class="panel-body">
-                                WeChat: xd474786105
+                                WeChat: <span th:text="${currentUser.wechatNum}"></span>
                             </div>
                         </div>
                     </div>
@@ -81,8 +81,8 @@
                         </div>
                         <div id="panel-element-2" class="panel-collapse collapse">
                             <div class="panel-body">
-                                <p>所属机构：信息工程学院</p>
-                                <p>身份：学生</p>
+                                所属机构：<span>信息工程学院</span><br/>
+                                身份：<span>学生</span>
                             </div>
                         </div>
                     </div>
@@ -146,11 +146,11 @@
                 }
             });
             var editIndex = layedit.build("demo",{
-                height:500
+                height:400
             });
             //发布按钮点击响应
-            $("#publishNews").on('click',function () {
-                publishNews(editIndex);
+            $("#publishAnswer").on('click',function () {
+                publishAnswer(editIndex);
             });
         });
         //打印当前登录用户
@@ -173,27 +173,29 @@
     }
 
     //发布新闻按钮事件
-    function publishNews(index) {
-        var author = $("#newsAuthor").text();
-        var title = $("#newsTitle").val();
+    function publishAnswer(index) {
+        var author = $("#answerAuthor").text();
+        var title = $("#answerTitle").val();
         var content = layui.layedit.getContent(index);
-        var news = {
+        var userId = [[${currentUser.userId}]];
+        var answer = {
             author:author,
             title:title,
-            content:content
+            content:content,
+            userId:userId
         };
-        var urls = [[@{/news/newsController/saveNews}]];
+        var urls = [[@{/answer/answerController/saveAnswer}]];
         $.ajax({
             url:urls,
             async:true,
             type:'POST',
             data:{
-                news: JSON.stringify(news)
+                answer: JSON.stringify(answer)
             },
             success:function (data) {
                 if (data.status === "0"){
                     layer.alert("保存成功!",function (index) {
-                        window.location.href= [[@{/ptu/homePageController/home}]];
+                        window.location.href= [[@{/ptu/homePageController/life}]];
                     });
                 }
             }
