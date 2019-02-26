@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>问答</title>
+    <!-- bootstrap基础 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/js/bootstrap/css/animate.css}" />
+    <!-- bootstrap-table列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap-table.css}" />
+    <!-- layui -->
+    <link rel="stylesheet"
+          th:href="@{/js/layui/css/layui.css}" />
+</head>
+<body>
+    <!--引入导航栏-->
+    <div th:replace="navbar.html"></div>
+    <div style="margin: 10px"></div>
+    <!--主体页面   问答和标签-->
+    <div class="container">
+        <div class="row clearfix">
+            <!--问答标题-->
+            <div class="col-md-8 column">
+                <div>
+                    <h1 class="text-left" th:text="${ptuAnswer.answerTitle}">
+                        <!--这是该问答的标题-->
+                    </h1>
+                    <input id="answerId" type="hidden" th:value="${ptuAnswer.answerId}" />
+                    <p style="margin-top: 15px">
+                        <img alt="140x140" style="width: 30px; height: 30px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+                        <span style="margin-left: 5px;font-size: medium" th:text="${ptuAnswer.answerAuthor}"></span>
+                        <img alt="140x140" style="width: 22px; height: 22px;margin-left: 100px" th:src="@{/img/data/data.png}" class="img-default" />
+                        <span style="margin-left: 5px;font-size: medium" th:text="${ptuAnswer.answerDate}"></span>
+                    </p>
+                    <hr/>
+                </div>
+
+            <!--问答主体-->
+                <div class="media well">
+                    <div class="media-body">
+                        <p id="answerDesc" style="font-size: x-large;min-height: 250px;">
+                        </p>
+                        <hr/>
+                        <p style="margin-top: 10px" th:text="${ptuAnswer.answerAuthor}"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" /></p>
+                    </div>
+                </div>
+                <hr/>
+                <div class="media well">
+                    <!--评论框-->
+                    <div id="comment" style="padding: 10px">
+                        <a href="#" class="pull-left" style="margin-top: 15px">
+                            <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+                        </a>
+                        <textarea id="contentParent" placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 75%;font-size: large"></textarea>
+                        <button onclick="comment(this,0)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>
+                    </div>
+                    <div class="layui-tab layui-tab-card">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">全部评论</li>
+                        </ul>
+                        <div class="layui-tab-content" style="min-height: 120px;">
+                            <!--用户的评论内容-->
+                            <div id="commentList" style="height: auto">
+                                <!--填充评论内容-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--作者信息-->
+            <div class="col-md-4 column">
+                <!--作者信息-->
+                <div>
+                    <img alt="140x140" style="width: 120px; height: 120px;margin-left: 100px;margin-top: 20px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+                    <p style="margin-top: 20px;margin-left: 135px">dtdhehe</p>
+                    <!--手风琴按钮-->
+                    <div class="panel-group" id="hand-panel">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a class="panel-title" style="color: #337ab7" data-toggle="collapse" data-parent="#hand-panel" href="#panel-element-1">联系方式</a>
+                            </div>
+                            <div id="panel-element-1" class="panel-collapse in">
+                                <div class="panel-body">
+                                    WeChat: xd474786105
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a class="panel-title collapsed" style="color: #337ab7" data-toggle="collapse" data-parent="#hand-panel" href="#panel-element-2">个人信息</a>
+                            </div>
+                            <div id="panel-element-2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>所属机构：信息工程学院</p>
+                                    <p>身份：学生</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--热门标签-->
+                <!--引入标签html代码-->
+                <div th:replace="hotLabel.html"></div>
+
+                <!--热门问答-->
+                <div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                热门问答
+                                <span style="float:right;margin-right: 10px">热度</span>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <a href="#">食堂鱼为什么不刮鱼鳞</a>
+                            <span style="float:right;margin-right: 20px">80</span>
+                        </div>
+                        <div class="panel-footer">
+                            <a href="#"> 金荣楼为什么没有空调</a>
+                            <span style="float:right;margin-right: 20px">160</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--引入页脚-->
+    <div th:replace="footer.html"></div>
+    <!-- 全局js -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- bootstrap-table列表-->
+    <script type="text/javascript"
+            th:src="@{/js/bootstrap/js/bootstrap-table.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/js/bootstrap/js/bootstrap-table-zh-CN.js}"></script>
+    <!--引入layui的js-->
+    <script type="text/javascript"
+            th:src="@{/js/layui/layui.all.js}"></script>
+    <!--引入标签js-->
+    <script type="text/javascript"
+            th:src="@{/js/init/init.js}"></script>
+    <!-- js 方法 -->
+    <script th:inline="javascript">
+        //<![CDATA[
+        //当前用户存入全局变量;
+        var loginUser = [[${session.loginUser}]];
+        $(function () {
+            var answerDesc = [[${ptuAnswer.answerDesc}]];
+            $("#answerDesc").append(answerDesc);
+            //初始化热门标签
+            initHotLabel("/label/labelController/queryHotLabel","label_ul");
+            //打印当前登录用户
+            console.log([[${session.loginUser}]]);
+            if (loginUser === null) {
+                $("#loginBtn").css("display","");
+            }else {
+                $("#logoutBtn").css("display","");
+            }
+            //评论框初始化
+            initComment("commentList","answerId");
+        });
+
+        //评论
+        //obj:当前元素      status:0(评论)  1(一级回复) 2(二级回复)
+        //评论:pid:null   replyUserId:null
+        //一级回复:pid:当前评论的id    replyUserId:null
+        //二级回复:pid:当前评论的id    replyUserId:一级回复的id
+        function comment(obj,status) {
+            //获得评论内容
+            var text = $(obj).parent().find("textarea").val();
+            //获得业务id
+            var postId = $("#answerId").val();
+            var pid = null;
+            var replyUserId = null;
+            if(status === 2){
+                pid = $(obj).parent().parent().find("#commentId").val();
+                // replyUserId = $(obj).parent().parent().find("#commentUserId").val();
+                replyUserId = $(obj).parent().prev().find("#commentUserId").val();
+            }else if (status === 1){
+                pid = $(obj).parent().parent().find("#commentId").val();
+            }
+            var userId = loginUser.userId;
+            var comment = {
+                content:text,
+                postId:postId,
+                pid:pid,
+                replyUserId:replyUserId,
+                userId:userId
+            };
+            //参数:1.评论内容 2.评论框div 3.业务主键div
+            doComment(comment,"commentList","answerId");
+        }
+
+        //]]>
+    </script>
+</body>
+</html>

@@ -49,34 +49,14 @@
     <!--主体页面   新闻和标签-->
     <div class="container">
         <div class="row clearfix">
+            <!--页数-->
+            <input type="hidden" name="answerPage" id="answerPage"
+                   value="0" />
             <!--新闻列表-->
-            <div class="col-md-8 column">
-                <div class="media well">
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            <a href="#"> 食堂鱼为什么不刮鱼鳞?</a><span style="margin-left: 200px"><strong>第四餐厅</strong></span>
-                        </h4>  新闻一的内容： Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-                        <p style="margin-top: 10px"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />dtdhehe</p>
-                    </div>
-                </div>
-                <div class="media well">
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            <a href="#"> 金荣楼为什么没有空调?</a><span style="margin-left: 200px"><strong>教学楼</strong></span>
-                        </h4>  新闻二的内容： Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-                        <p style="margin-top: 10px"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />dtdhehe</p>
-                    </div>
-                </div>
-                <div class="media well">
-                    <a href="#" class="pull-left"><img src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/64/64/default.jpg" width="100px" height="100px" class="media-object" alt='' /></a>
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            <a href="#"> Nested media heading问答三</a><span style="margin-left: 200px"><strong>第四餐厅</strong></span>
-                        </h4> 新闻三的内容： Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-                    </div>
-                </div>
-                <!--默认10条新闻，小于10条，不显示此按钮-->
-                <button type="button" class="btn btn-default" style="height: 40px;width: 100%">加载更多</button>
+            <div id="answerListDiv" class="col-md-8 column">
+                <!--填充新闻列表代码-->
+                <button id="answerListButton" type="button" onclick="loadAnswerList()" class="btn btn-default" style="display: none;height: 40px;width: 100%">加载更多</button>
+                <button id="answerOver" type="button" class="btn btn-default" disabled="disabled" style="display: none;height: 40px;width: 100%">到底啦</button>
             </div>
 
             <!--热门标签-->
@@ -122,11 +102,14 @@
             th:src="@{/js/layui/layui.all.js}"></script>
     <!--引入标签js-->
     <script type="text/javascript"
-            th:src="@{/js/hotLabel/hotLabel.js}"></script>
+            th:src="@{/js/init/init.js}"></script>
     <!-- js 方法 -->
     <script th:inline="javascript">
         //<![CDATA[
         $(function () {
+            //初始查询新闻第一页数据
+            var page = $("#answerPage").val();
+            queryAnswer(page);
             //初始化热门标签
             initLabel();
             //打印当前登录用户
@@ -144,6 +127,61 @@
             var urls = [[@{/label/labelController/queryHotLabel}]];
             //1.请求url   2.标签页div的id
             initHotLabel(urls,"label_ul");
+        }
+
+        //加载新闻按钮
+        function loadAnswerList() {
+            var page = $("#answerPage").val();
+            //把page转成int后进行加减
+            page = parseInt(page) + 1;
+            queryAnswer(page);
+        }
+
+        //查询全部问答
+        function queryAnswer(page) {
+            var urls = [[@{/answer/answerController/queryAllAnswer}]];
+            $.ajax({
+                url:urls,
+                async:true,
+                type:'POST',
+                data:{
+                    page:page,
+                    //每页3条数据
+                    size:3
+                },
+                success:function (data) {
+                    if (data.status === "0"){
+                        if (data.error_msg !== ""){
+                            //最后一页时，隐藏下一页按钮
+                            $("#answerListButton").css("display","none");
+                            $("#answerOver").css("display","");
+                        }else{
+                            //不是最后一页，显示下一页按钮
+                            $("#answerListButton").css("display","");
+                        }
+                        var answerList = data.object;
+                        for (var i=0;i<answerList.length;i++){
+                            var htmls =
+                                "<div class='media well'>" +
+                                "   <a href='#' class='pull-left'><img src='http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/64/64/default.jpg' width='100px' height='100px' class='media-object' alt='' /></a>" +
+                                "      <div class='media-body'>" +
+                                "          <h4 class='media-heading'>" +
+                                "              <a href='/answer/answerController/getAnswerPage?answerId="+answerList[i].answerId+"'><b> "+answerList[i].answerTitle+"</b></a>" +
+                                "          </h4>  " +
+                                "           <span id='answerDesc' style='max-height: 100px;overflow: hidden;text-overflow: ellipsis;display: inline-block'>"+answerList[i].answerDesc+"</span>" +
+                                "          <p style='margin-top: 10px'><img alt='140x140' style='width: 30px; height: 30px;margin-right: 10px' src='http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg' class='img-circle' />"+answerList[i].answerAuthor+"</p>" +
+                                "      </div>" +
+                                "</div>";
+                            //在新闻列表标签下追加
+                            $("#answerListButton").before(htmls);
+                        }
+                    }else {
+                        layer.alert(data.error_msg);
+                    }
+                }
+            });
+            //每次查询后把当前页数保存
+            $("#answerPage").val(page);
         }
 
         //]]>

@@ -11,13 +11,19 @@ import com.dtdhehe.ptulife.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Create By Xie_东
@@ -47,6 +53,22 @@ public class AnswerController {
     }
 
     /**
+     * 新闻详情页面
+     * @return
+     */
+    @RequestMapping("/getAnswerPage")
+    public String getAnswerPage(@RequestParam(value = "answerId",required = false)String answerId,Model model) throws Exception {
+        if (StringUtils.isEmpty(answerId)){
+            throw new Exception("传入的id为空");
+        }
+        logger.info("查询的问答id为:"+answerId);
+        PtuAnswer ptuAnswer = answerService.queryAnswerById(answerId);
+        ptuAnswer.setAnswerDate(DateUtils.date2ViewType(ptuAnswer.getAnswerDate()));
+        model.addAttribute("ptuAnswer",ptuAnswer);
+        return "/answer/answerInfo";
+    }
+
+    /**
      * 保存新闻
      * @return
      */
@@ -73,6 +95,39 @@ public class AnswerController {
                 resultVO.setStatus("1");
                 resultVO.setError_msg("answerNew对象为空");
             }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            resultVO.setStatus("1");
+            resultVO.setError_msg(e.getMessage());
+        }
+        return resultVO;
+    }
+
+    /**
+     * 生活页问答列表
+     * @param page
+     * @param size
+     * @return
+     */
+    @RequestMapping("/queryAllAnswer")
+    @ResponseBody
+    public ResultVO queryAllAnswer(@RequestParam("page")Integer page,@RequestParam("size")Integer size){
+        logger.info("查询所有问答");
+        ResultVO resultVO = new ResultVO();
+        List<PtuAnswer> answerList;
+        try {
+            Pageable pageable = PageRequest.of(page,size,Sort.Direction.DESC,"answerDate");
+            //分页查询问答列表
+            Page<PtuAnswer> ptuAnswers = answerService.queryAllAnswer(pageable);
+            if (ptuAnswers.isLast()){
+                resultVO.setError_msg("最后一页啦");
+            }else {
+                resultVO.setError_msg("");
+            }
+            //获得新闻List
+            answerList = ptuAnswers.getContent();
+            resultVO.setStatus("0");
+            resultVO.setObject(answerList);
         }catch (Exception e){
             logger.error(e.getMessage());
             resultVO.setStatus("1");
