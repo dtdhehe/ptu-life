@@ -1,5 +1,6 @@
 package com.dtdhehe.ptulife.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dtdhehe.ptulife.entity.PtuAnswer;
 import com.dtdhehe.ptulife.entity.PtuNews;
@@ -7,6 +8,7 @@ import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.service.AnswerService;
 import com.dtdhehe.ptulife.service.NewsService;
 import com.dtdhehe.ptulife.service.UserService;
+import com.dtdhehe.ptulife.util.PasswordUtils;
 import com.dtdhehe.ptulife.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +21,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Create By Xie_东
@@ -77,6 +77,8 @@ public class MyInformationController {
             return "form/pwdFormInfo";
         }else if ("myNews".equals(infoName)){
             return "table/myNewsTable";
+        }else if ("myAnswer".equals(infoName)){
+            return "table/myAnswerTable";
         }
         return "";
     }
@@ -177,6 +179,67 @@ public class MyInformationController {
             logger.error("删除问答失败,answerId="+answerId);
             logger.error(e.getMessage());
             resultVO.setError_msg("删除问答失败");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        return resultVO;
+    }
+
+    /**
+     * 修改密码
+     * @param object
+     * @return
+     */
+    @RequestMapping("/revisePassword")
+    @ResponseBody
+    public ResultVO revisePassword(HttpServletRequest request,@RequestParam(name = "object",required = false)String object){
+        //查出当前登录用户
+        PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
+        ResultVO resultVO = new ResultVO();
+        JSONArray jsonArray = JSONArray.parseArray(object);
+        Iterator<Object> it = jsonArray.iterator();
+        Map<String,Object> mapObject = new HashMap<>();
+        while (it.hasNext()){
+            JSONObject obj = (JSONObject) it.next();
+            mapObject.put((String) obj.get("name"),obj.get("value"));
+        }
+        String oldPwd = PasswordUtils.getPWD((String) mapObject.get("oldPwd"));
+        String newPwd = PasswordUtils.getPWD((String) mapObject.get("newPwd"));
+        String surePwd = PasswordUtils.getPWD((String) mapObject.get("surePwd"));
+        //判断原密码是否正确
+        if (!oldPwd.equals(ptuUser.getUserPwd())){
+            logger.info("原密码错误");
+            resultVO.setError_msg("原密码错误");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        //判断新密码两次输入是否一致
+        if (!newPwd.equals(surePwd)){
+            logger.info("密码不一致");
+            resultVO.setError_msg("新密码两次输入不一致");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        try {
+            //修改密码
+            ptuUser = userService.findOne(ptuUser.getUserId());
+            ptuUser.setUserPwd(newPwd);
+            PtuUser ptuUserNew = userService.update(ptuUser);
+            if (ptuUserNew != null){
+                //修改成功
+                logger.info("密码修改成功");
+                resultVO.setError_msg("密码修改成功");
+                resultVO.setStatus("0");
+                resultVO.setObject(ptuUserNew);
+            }else {
+                //修改失败
+                logger.info("密码修改失败");
+                resultVO.setError_msg("密码修改失败");
+                resultVO.setStatus("1");
+            }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            resultVO.setError_msg("密码修改失败");
             resultVO.setStatus("1");
             return resultVO;
         }

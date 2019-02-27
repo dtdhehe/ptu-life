@@ -57,4 +57,10 @@ public class UserServiceImpl implements UserService {
         PtuUser ptuUser = ptuUserRepository.findById(userId).get();
         return ptuUser.getNickName();
     }
+
+    @Override
+    public PtuUser update(PtuUser ptuUser) {
+        //springdatajpa使用save来更新，若不存在id，则是新增
+        return ptuUserRepository.save(ptuUser);
+    }
 }

@@ -39,11 +39,11 @@
 <!--基本信息页面-->
 <div id="baseInfo" class="my_info">
     <h3 class="info_title">基本信息</h3>
-    <form id="baseFormInfo" class="layui-form">
+    <form id="formInfo" class="layui-form">
         <div class="layui-form-item">
             <label class="layui-form-label row_label">昵称</label>
             <div class="layui-input-block row_div">
-                <input type="text" name="nickName" th:value="${currentUser.nickName}" required  lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input">
+                <input type="text" id="nickName" name="nickName" th:value="${currentUser.nickName}" required  lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">

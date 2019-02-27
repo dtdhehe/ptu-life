@@ -46,4 +46,11 @@ public interface UserService {
      */
     String getUserNameByUserId(String userId);
 
+    /**
+     * 更新用户
+     * @param ptuUser
+     * @return
+     */
+    PtuUser update(PtuUser ptuUser);
+
 }
