@@ -44,7 +44,7 @@ public class NewsController {
     @RequestMapping("/editNews")
     public String editNews(Model model){
         model.addAttribute("date",DateUtils.getCurrentDate());
-        return "editNews";
+        return "news/editNews";
     }
 
     /**
@@ -60,7 +60,7 @@ public class NewsController {
         PtuNews ptuNews = newsService.queryNewsById(newsId);
         ptuNews.setNewsDate(DateUtils.date2ViewType(ptuNews.getNewsDate()));
         model.addAttribute("ptuNews",ptuNews);
-        return "newspage";
+        return "news/newspage";
     }
 
     /**

@@ -26,21 +26,21 @@ public class HomePageController {
 
     @RequestMapping("/home")
     public String index(){
-        return "homepage";
+        return "index/homepage";
     }
 
     @RequestMapping("/life")
     public String life(){
-        return "life";
+        return "index/life";
     }
 
     @RequestMapping("/index")
     public String homePage(){
-        return "login";
+        return "index/login";
     }
 
     @RequestMapping("/registPage")
     public String registPage() {
-        return "regist";
+        return "index/regist";
     }
 }

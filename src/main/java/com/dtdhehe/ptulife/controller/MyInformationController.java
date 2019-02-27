@@ -52,7 +52,7 @@ public class MyInformationController {
         ptuUser = userService.findOne(ptuUser.getUserId());
         logger.info("当前用户是:"+ptuUser);
         model.addAttribute("currentUser",ptuUser);
-        return "myInformation";
+        return "information/myInformation";
     }
 
     @RequestMapping("/getFormInfo")
@@ -64,13 +64,13 @@ public class MyInformationController {
         model.addAttribute("currentUser",ptuUser);
         String infoName = request.getParameter("infoName");
         if ("baseInfo".equals(infoName) || "myInformation".equals(infoName)){
-            return "baseFormInfo";
+            return "form/baseFormInfo";
         }else if ("otherInfo".equals(infoName)){
-            return "otherFormInfo";
+            return "form/otherFormInfo";
         }else if ("pwdInfo".equals(infoName)){
-            return "pwdFormInfo";
+            return "form/pwdFormInfo";
         }else if ("myNews".equals(infoName)){
-            return "myNewsTable";
+            return "table/myNewsTable";
         }
         return "";
     }
