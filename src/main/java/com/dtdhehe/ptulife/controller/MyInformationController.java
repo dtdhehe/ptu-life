@@ -1,8 +1,10 @@
 package com.dtdhehe.ptulife.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dtdhehe.ptulife.entity.PtuAnswer;
 import com.dtdhehe.ptulife.entity.PtuNews;
 import com.dtdhehe.ptulife.entity.PtuUser;
+import com.dtdhehe.ptulife.service.AnswerService;
 import com.dtdhehe.ptulife.service.NewsService;
 import com.dtdhehe.ptulife.service.UserService;
 import com.dtdhehe.ptulife.vo.ResultVO;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +43,9 @@ public class MyInformationController {
 
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private AnswerService answerService;
 
     /**
      * 返回我的资料页面
@@ -120,6 +126,57 @@ public class MyInformationController {
             logger.error("删除新闻失败,newsId="+newsId);
             logger.error(e.getMessage());
             resultVO.setError_msg("删除新闻失败");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/getAnswerTable")
+    @ResponseBody
+    public JSONObject getAnswerTable(HttpServletRequest request,Integer rows,Integer page,String answerTitle){
+        //查出当前登录用户
+        PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
+        logger.info("当前用户是:"+ptuUser);
+        //对查询条件判断是否为空
+        if (StringUtils.isEmpty(answerTitle)){
+            answerTitle = "";
+        }
+        try {
+            Pageable pageable = PageRequest.of(page,rows,Sort.Direction.DESC,"answerDate");
+            Page<PtuAnswer> answerPage = answerService.queryAnswerByUserId(ptuUser.getUserId(), answerTitle, pageable);
+            List<PtuAnswer> answerList = answerPage.getContent();
+            long total = answerPage.getTotalElements();
+            Map map = new HashMap();
+            map.put("total",total);
+            map.put("rows",answerList);
+            JSONObject json = new JSONObject(map);
+            return json;
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @RequestMapping("/delMyAnswer")
+    @ResponseBody
+    public ResultVO delMyAnswer(String answerId){
+        ResultVO resultVO = new ResultVO();
+        logger.info("要删除的问答id为:"+answerId);
+        if (StringUtils.isEmpty(answerId)){
+            logger.info("传入的问答id为空");
+            resultVO.setError_msg("新闻id为null");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        try {
+            answerService.delAnswerById(answerId);
+            resultVO.setStatus("0");
+            resultVO.setError_msg("删除成功");
+        }catch (Exception e){
+            logger.error("删除问答失败,answerId="+answerId);
+            logger.error(e.getMessage());
+            resultVO.setError_msg("删除问答失败");
             resultVO.setStatus("1");
             return resultVO;
         }

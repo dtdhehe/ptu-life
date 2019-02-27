@@ -31,4 +31,19 @@ public interface AnswerService {
      */
     PtuAnswer queryAnswerById(String answerId);
 
+    /**
+     * 根据用户id查询全部问答
+     * @param userId
+     * @param answerTitle
+     * @param pageable
+     * @return
+     */
+    Page<PtuAnswer> queryAnswerByUserId(String userId,String answerTitle,Pageable pageable);
+
+    /**
+     * 根据问答id删除问答
+     * @param answerId
+     */
+    void delAnswerById(String answerId);
+
 }

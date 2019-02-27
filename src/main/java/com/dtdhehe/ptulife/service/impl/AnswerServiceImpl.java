@@ -32,4 +32,14 @@ public class AnswerServiceImpl implements AnswerService {
     public PtuAnswer queryAnswerById(String answerId) {
         return ptuAnswerRepository.findById(answerId).get();
     }
+
+    @Override
+    public Page<PtuAnswer> queryAnswerByUserId(String userId, String answerTitle, Pageable pageable) {
+        return ptuAnswerRepository.findByUserId(userId,answerTitle,pageable);
+    }
+
+    @Override
+    public void delAnswerById(String answerId) {
+        ptuAnswerRepository.deleteById(answerId);
+    }
 }
