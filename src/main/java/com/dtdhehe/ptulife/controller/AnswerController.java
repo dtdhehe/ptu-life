@@ -45,8 +45,7 @@ public class AnswerController {
     @RequestMapping("/getEditAnswer")
     public String getEditAnswer(HttpServletRequest request, Model model){
         //查出当前登录用户
-        PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
-        ptuUser = userService.findOne(ptuUser.getUserId());
+        PtuUser ptuUser = userService.findOne(request);
         model.addAttribute("date",DateUtils.getCurrentDate());
         model.addAttribute("currentUser",ptuUser);
         return "/answer/editAnswer";

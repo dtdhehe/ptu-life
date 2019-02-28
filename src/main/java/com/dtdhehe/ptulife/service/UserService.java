@@ -1,9 +1,11 @@
 package com.dtdhehe.ptulife.service;
 
 import com.dtdhehe.ptulife.entity.PtuUser;
+import com.dtdhehe.ptulife.vo.UserRegistVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -13,11 +15,13 @@ import java.util.List;
  */
 public interface UserService {
 
-    // /添加用户
-    PtuUser save(PtuUser ptuUser);
+    /**
+     *添加用户
+      */
+    PtuUser save(UserRegistVO userRegistVO);
 
     //查找某个用户
-    PtuUser findOne(String userId);
+    PtuUser findOne(HttpServletRequest request);
 
     //查找学生用户
     List<PtuUser> findStuAll();

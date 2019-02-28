@@ -7,11 +7,14 @@ import com.dtdhehe.ptulife.entity.PtuNews;
 import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.service.AnswerService;
 import com.dtdhehe.ptulife.service.NewsService;
+import com.dtdhehe.ptulife.service.OrgCodeService;
 import com.dtdhehe.ptulife.service.UserService;
+import com.dtdhehe.ptulife.util.MyBeanUtils;
 import com.dtdhehe.ptulife.util.PasswordUtils;
 import com.dtdhehe.ptulife.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,6 +50,9 @@ public class MyInformationController {
     @Autowired
     private AnswerService answerService;
 
+    @Autowired
+    private OrgCodeService orgCodeService;
+
     /**
      * 返回我的资料页面
      * @return
@@ -54,8 +60,7 @@ public class MyInformationController {
     @RequestMapping("/getMyInformation")
     public String getMyInformation(HttpServletRequest request,Model model){
         //查出当前登录用户
-        PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
-        ptuUser = userService.findOne(ptuUser.getUserId());
+        PtuUser ptuUser = userService.findOne(request);
         logger.info("当前用户是:"+ptuUser);
         model.addAttribute("currentUser",ptuUser);
         return "information/myInformation";
@@ -64,8 +69,7 @@ public class MyInformationController {
     @RequestMapping("/getFormInfo")
     public String getFormInfo(HttpServletRequest request,Model model){
         //查出当前登录用户
-        PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
-        ptuUser = userService.findOne(ptuUser.getUserId());
+        PtuUser ptuUser = userService.findOne(request);
         logger.info("当前用户是:"+ptuUser);
         model.addAttribute("currentUser",ptuUser);
         String infoName = request.getParameter("infoName");
@@ -194,7 +198,7 @@ public class MyInformationController {
     @ResponseBody
     public ResultVO revisePassword(HttpServletRequest request,@RequestParam(name = "object",required = false)String object){
         //查出当前登录用户
-        PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
+        PtuUser ptuUser = userService.findOne(request);
         ResultVO resultVO = new ResultVO();
         JSONArray jsonArray = JSONArray.parseArray(object);
         Iterator<Object> it = jsonArray.iterator();
@@ -202,6 +206,13 @@ public class MyInformationController {
         while (it.hasNext()){
             JSONObject obj = (JSONObject) it.next();
             mapObject.put((String) obj.get("name"),obj.get("value"));
+        }
+        //判断新密码不能为空
+        if (StringUtils.isEmpty(mapObject.get("newPwd"))){
+            logger.info("新密码不能为空");
+            resultVO.setError_msg("新密码不能为空");
+            resultVO.setStatus("1");
+            return resultVO;
         }
         String oldPwd = PasswordUtils.getPWD((String) mapObject.get("oldPwd"));
         String newPwd = PasswordUtils.getPWD((String) mapObject.get("newPwd"));
@@ -222,7 +233,8 @@ public class MyInformationController {
         }
         try {
             //修改密码
-            ptuUser = userService.findOne(ptuUser.getUserId());
+            logger.info("旧密码:"+ptuUser.getUserPwd());
+            logger.info("新密码:"+newPwd);
             ptuUser.setUserPwd(newPwd);
             PtuUser ptuUserNew = userService.update(ptuUser);
             if (ptuUserNew != null){
@@ -240,6 +252,114 @@ public class MyInformationController {
         }catch (Exception e){
             logger.error(e.getMessage());
             resultVO.setError_msg("密码修改失败");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        return resultVO;
+    }
+
+    /**
+     * 修改基础信息
+     * @param object
+     * @return
+     */
+    @RequestMapping("/reviseBaseInfo")
+    @ResponseBody
+    public ResultVO reviseBaseInfo(HttpServletRequest request,@RequestParam(name = "object",required = false)String object){
+        //查出当前登录用户
+        PtuUser ptuUser = userService.findOne(request);
+        ResultVO resultVO = new ResultVO();
+        JSONArray jsonArray = JSONArray.parseArray(object);
+        Iterator<Object> it = jsonArray.iterator();
+        Map<String,Object> mapObject = new HashMap<>();
+        while (it.hasNext()){
+            JSONObject obj = (JSONObject) it.next();
+            mapObject.put((String) obj.get("name"),obj.get("value"));
+        }
+        //判断用户身份标识不能为空
+        if (StringUtils.isEmpty(mapObject.get("userStatus"))){
+            logger.info("用户身份标识不能为空");
+            resultVO.setError_msg("用户身份标识不能为空");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        //判断用户昵称不能为空
+        if (StringUtils.isEmpty(mapObject.get("nickName"))){
+            logger.info("用户昵称不能为空");
+            resultVO.setError_msg("用户昵称不能为空");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        try {
+            logger.info("当前用户对象:"+ptuUser);
+            PtuUser userMap = JSONObject.parseObject(JSONObject.toJSONString(mapObject), PtuUser.class);
+            //不拷贝null属性
+            MyBeanUtils.copyProperties(userMap,ptuUser);
+            //查出当前机构名称
+            String orgName = orgCodeService.getOrgNameByOrgStatus((String) mapObject.get("orgStatus"));
+            ptuUser.setOrgName(orgName);
+            PtuUser ptuUserNew = userService.update(ptuUser);
+            if (ptuUserNew != null){
+                //修改成功
+                logger.info("基础信息修改成功");
+                resultVO.setError_msg("基础信息修改成功");
+                resultVO.setStatus("0");
+                resultVO.setObject(ptuUserNew);
+            }else {
+                //修改失败
+                logger.info("基础信息修改失败");
+                resultVO.setError_msg("基础信息修改失败");
+                resultVO.setStatus("0");
+                resultVO.setObject(ptuUserNew);
+            }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            resultVO.setError_msg("基础信息修改失败");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        return resultVO;
+    }
+
+    /**
+     * 修改其他信息
+     * @param object
+     * @return
+     */
+    @RequestMapping("/reviseOtherInfo")
+    @ResponseBody
+    public ResultVO reviseOtherInfo(HttpServletRequest request,@RequestParam(name = "object",required = false)String object){
+        //查出当前登录用户
+        PtuUser ptuUser = userService.findOne(request);
+        ResultVO resultVO = new ResultVO();
+        JSONArray jsonArray = JSONArray.parseArray(object);
+        Iterator<Object> it = jsonArray.iterator();
+        Map<String,Object> mapObject = new HashMap<>();
+        while (it.hasNext()){
+            JSONObject obj = (JSONObject) it.next();
+            mapObject.put((String) obj.get("name"),obj.get("value"));
+        }
+        try {
+            PtuUser userMap = JSONObject.parseObject(JSONObject.toJSONString(mapObject), PtuUser.class);
+            //不拷贝null属性
+            MyBeanUtils.copyProperties(userMap,ptuUser);
+            PtuUser ptuUserNew = userService.update(ptuUser);
+            if (ptuUserNew != null){
+                //修改成功
+                logger.info("其他信息修改成功");
+                resultVO.setError_msg("其他信息修改成功");
+                resultVO.setStatus("0");
+                resultVO.setObject(ptuUserNew);
+            }else {
+                //修改失败
+                logger.info("其他信息修改失败");
+                resultVO.setError_msg("其他信息修改失败");
+                resultVO.setStatus("0");
+                resultVO.setObject(ptuUserNew);
+            }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            resultVO.setError_msg("其他信息修改失败");
             resultVO.setStatus("1");
             return resultVO;
         }

@@ -118,7 +118,7 @@
     </div>
     <div class="col-md-9 column">
         <ul id="infoTitle" class="my_nav level">
-            <li class="itemed"><a href="javascript:void(0);" onclick="changeInfos(this,'baseInfo')">基本信息</a></li>
+            <li id="first" class="itemed"><a href="javascript:void(0);" onclick="changeInfos(this,'baseInfo')">基本信息</a></li>
             <li class=""><a href="javascript:void(0);" onclick="changeInfos(this,'otherInfo')">其他信息</a></li>
             <li class=""><a href="javascript:void(0);" onclick="changeInfos(this,'pwdInfo')">修改密码</a></li>
         </ul>
@@ -211,6 +211,9 @@
             $("#infoTitle").css("display","");
             $("#save").css("display","");
             $("#menuInfoTitle").css("display","none");
+            //重新切回我的资料时，给基础信息栏赋上样式
+            $("#infoTitle li").removeClass("itemed");
+            $("#infoTitle li[id='first']").addClass("itemed");
         }
         //菜单页跳转
         $("#iframeInfo").attr("src",[[@{/myInformationController/getFormInfo}]]+"?infoName="+menuName);
@@ -219,32 +222,39 @@
     //保存事件
     function save() {
         // debugger;
-        var form = $(window.frames["iframeInfo"].document).find("#formInfo").serializeArray();
-        var urls = '';
-        if (form.length === 3){
-            //修改密码
-            urls = '/myInformationController/revisePassword';
-        }else if (form.length === 4){
-            //修改基本信息
-        }else {
-            //修改其他信息
-        }
-        $.ajax({
-            url:urls,
-            async:true,
-            type:'POST',
-            data:{
-                object: JSON.stringify(form)
-            },
-            success:function (data) {
-                if (data.status === "0"){
-                    layer.alert(data.error_msg,function (index) {
-                        window.location.href= '/myInformationController/getFormInfo?infoName=baseInfo';
-                    });
-                }else {
-                    layer.alert(data.error_msg);
-                }
+        layer.confirm("确定要保存修改吗?",{
+            btn:['确定','取消'],
+            title:"提示"
+        },function () {
+            var form = $(window.frames["iframeInfo"].document).find("#formInfo").serializeArray();
+            var urls = '';
+            if (form.length === 3){
+                //修改密码
+                urls = '/myInformationController/revisePassword';
+            }else if (form.length === 4){
+                //修改基本信息
+                urls = '/myInformationController/reviseBaseInfo';
+            }else {
+                //修改其他信息
+                urls = '/myInformationController/reviseOtherInfo';
             }
+            $.ajax({
+                url:urls,
+                async:true,
+                type:'POST',
+                data:{
+                    object: JSON.stringify(form)
+                },
+                success:function (data) {
+                    if (data.status === "0"){
+                        layer.alert(data.error_msg,function (index) {
+                            window.location.href= '/myInformationController/getMyInformation';
+                        });
+                    }else {
+                        layer.alert(data.error_msg);
+                    }
+                }
+            });
         });
     }
 

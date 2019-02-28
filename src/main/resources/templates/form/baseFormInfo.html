@@ -60,7 +60,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label row_label">所属机构</label>
             <div class="layui-input-block row_div">
-                <select id="orgName" name="orgName" lay-verify="required">
+                <select id="orgStatus" name="orgStatus" lay-verify="required">
                     <option value="">请选择所属机构</option>
                     <option value="010">信息工程学院</option>
                     <option value="011">土木工程学院</option>
@@ -78,8 +78,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label row_label">性别</label>
             <div class="layui-input-block row_div">
-                <input type="radio" name="man" value="0" title="男">
-                <input type="radio" name="woman" value="1" title="女">
+                <input type="radio" id="man" name="userSex" value="0" title="男">
+                <input type="radio" id="woman" name="userSex" value="1" title="女">
             </div>
         </div>
     </form>
@@ -114,7 +114,7 @@
             //身份标识框初始化
             selected("userStatus",[[${currentUser.userStatus}]]);
             //所属机构初始化
-            selected("orgName",[[${currentUser.orgStatus}]]);
+            selected("orgStatus",[[${currentUser.orgStatus}]]);
             //性别初始化
             radioed([[${currentUser.userSex}]]);
             form.render();
@@ -124,9 +124,9 @@
     //初始化单选框
     function radioed(status) {
         if (status === 1) {
-            $("input:radio[name='woman']").attr("checked",true);
+            $("input:radio[id='woman']").attr("checked",true);
         }else {
-            $("input:radio[name='man']").attr("checked",true);
+            $("input:radio[id='man']").attr("checked",true);
         }
     }
 

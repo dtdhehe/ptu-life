@@ -33,30 +33,23 @@ public class RegistUserController {
     @PostMapping("/regist")
     public ResultVO regist(UserRegistVO userRegistVO) {
         logger.info("传入的对象为："+userRegistVO);
-        PtuUser ptuUser = new PtuUser();
+        PtuUser resultUser;
         ResultVO resultVO = new ResultVO();
         try {
             logger.info("用户输入密码为:" + userRegistVO.getUserPwd());
             //给用户密码加密
             userRegistVO.setUserPwd( PasswordUtils.getPWD(userRegistVO.getUserPwd()));
             logger.info("用户密码加密后为:" + userRegistVO.getUserPwd());
-
-            BeanUtils.copyProperties(userRegistVO,ptuUser);
-            ptuUser.setUserId(KeyUtils.getUniqueKey());
-            ptuUser.setUserSex(CheckUserUtils.checkSex(userRegistVO.getUserSex()));
-            ptuUser.setUserStatus(CheckUserUtils.checkStatus(userRegistVO.getUserStatus()));
-
-            logger.info("处理后的用户为:" + ptuUser);
-
-            PtuUser resultUser = userService.save(ptuUser);
+            resultUser = userService.save(userRegistVO);
+            logger.info("处理后的用户为:" + resultUser);
             //判断存入是否成功，封装返回对象
             if (resultUser != null) {
                 resultVO.setStatus("0");
+                resultVO.setError_msg("注册成功");
             }
         }catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
             resultVO.setStatus("1");
-            resultVO.setError_code("7294");//手机9键的 注册用户
             resultVO.setError_msg(e.getMessage());
         }
         return resultVO;
