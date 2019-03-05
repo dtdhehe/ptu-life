@@ -23,6 +23,13 @@ public interface UserService {
     //查找某个用户
     PtuUser findOne(HttpServletRequest request);
 
+    /**
+     * 根据userId查找用户
+     * @param userId
+     * @return
+     */
+    PtuUser findByUserId(String userId);
+
     //查找学生用户
     List<PtuUser> findStuAll();
 

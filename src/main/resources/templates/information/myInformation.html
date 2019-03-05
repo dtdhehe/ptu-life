@@ -89,6 +89,12 @@
             width: 150px;
             height: 40px;
         }
+        /*头像预览皮肤*/
+        .headSkin .layui-layer-title{
+            color: #fff;
+            background-color: #5e5e5e;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -102,9 +108,15 @@
     </div>
     <!--用户头像-->
     <div id="head_portrait" class="head_portrait">
-        <img alt="140x140" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+        <img alt="140x140" th:src="${currentUser.headImg}" class="img-circle" />
         <p class="nickName" th:text="${currentUser.nickName}">昵称</p>
         <p class="motto" th:text="${currentUser.motto}">这家伙真懒，什么都没有留下...</p>
+    </div>
+    <div style="position: absolute;top: 170px;left: 760px">
+        <button type="button" class="layui-btn" id="uploadImg">
+            <i class="layui-icon">&#xe67c;</i>更换头像
+        </button>
+        <button id="upload" style="display: none"></button>
     </div>
 </div>
 <div class="col-md-12 column" style="margin-top: 20px;margin-bottom: 40px">
@@ -126,7 +138,7 @@
             <li class="itemed"><a></a></li>
         </ul>
         <!--具体信息页面-->
-        <iframe id="iframeInfo" name="iframeInfo" style="width: 100%;min-height: 280px" scrolling="no" frameborder="0"></iframe>
+        <iframe id="iframeInfo" name="iframeInfo" style="z-index: 1;position: relative;width: 100%;min-height: 280px" scrolling="no" frameborder="0"></iframe>
         <div id="save" class="my_info">
             <button id="saveInfo" onclick="save()" class="btn btn-info">保存</button>
         </div>
@@ -165,8 +177,72 @@
         }else {
             $("#logoutBtn").css("display","");
         }
+
+        //上传头像
+        uploadImg();
     });
 
+    function uploadImg(){
+        layui.use('upload',function () {
+            var upload = layui.upload;
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#uploadImg', //绑定元素
+                url: '/upload/uploadController/uploadHeadImg', //上传接口
+                data:{
+                    //上传参数
+                    userId:[[${currentUser.userId}]]
+                },
+                accept:'images',//上传校验文件类型
+                acceptMime:'image/*',//打开文件选择器显示类型
+                auto:false,//选择完文件后是否自动上传
+                bindAction:'#upload',//指定一个按钮触发上传,配合auto为false使用
+                choose:function(obj){
+                    //选择完文件后的回调函数
+                    obj.preview(function (index, file, result) {
+                        console.log(index); //得到文件索引
+                        console.log(file); //得到文件对象
+                        console.log(result); //得到文件base64编码，比如图片
+                        layer.open({
+                            type:1,
+                            id:'preview',
+                            area : [ '450px', '430px' ],
+                            fix : false, //不固定
+                            title : '头像预览，取消上传请刷新页面',
+                            skin:'headSkin',
+                            maxmin : false,
+                            content:'<div style="text-align: center;"><img src="'+result+'" style="margin-top: 20px;width: 300px;height: auto;" /><br/>' +
+                                    '<button onclick="uploadBtn()" style="margin-top: 10px" class="btn btn-info">确认上传</button>'+
+                                    '</div>'
+
+                        });
+                    })
+                },
+                done: function(res){
+                    //上传完毕回调
+                    if (res.code === 0) {
+                        layer.open({
+                            title:'提示',
+                            content:'头像上传成功',
+                            time:3000,
+                            end:function () {
+                                window.location.href= '/myInformationController/getMyInformation';
+                            }
+                        });
+                    }
+                },
+                error: function(){
+                    //请求异常回调
+                }
+            });
+        });
+    }
+
+    //确认上传按钮
+    function uploadBtn() {
+        $("#upload").click();
+    }
+    
     //让iframe自适应子页面大小
     function iFrameHeight() {
         $("#iframeInfo").load(function () {

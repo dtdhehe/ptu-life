@@ -20,6 +20,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //配置虚拟上传路径，使SpringBoot可以读取本地磁盘文件
         registry.addResourceHandler("/uploads/**").addResourceLocations("file:D:/ptu/uploads/");
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/META-INF/resources/")

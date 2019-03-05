@@ -42,6 +42,8 @@ public class PtuUser {
 
     private String motto;
 
+    private String headImg;
+
     @Override
     public String toString() {
         return "PtuUser{" +
@@ -59,6 +61,14 @@ public class PtuUser {
                 ", nickName='" + nickName + '\'' +
                 ", motto='" + motto + '\'' +
                 '}';
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
     }
 
     public String getOrgStatus() {

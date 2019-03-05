@@ -44,4 +44,18 @@ public class CheckUserUtils {
         return 0;
     }
 
+    /**
+     * 根据用户身份标识返回身份
+     * @return
+     */
+    public static String checkUserStatus(Integer userStatus){
+        if (userStatus == 1){
+            return UserStatusEnum.Tea.getMessage();
+        }else if (userStatus == 2){
+            return UserStatusEnum.Wor.getMessage();
+        }else {
+            return UserStatusEnum.Stu.getMessage();
+        }
+    }
+
 }

@@ -5,6 +5,7 @@ import com.dtdhehe.ptulife.entity.PtuAnswer;
 import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.service.AnswerService;
 import com.dtdhehe.ptulife.service.UserService;
+import com.dtdhehe.ptulife.util.CheckUserUtils;
 import com.dtdhehe.ptulife.util.DateUtils;
 import com.dtdhehe.ptulife.util.KeyUtils;
 import com.dtdhehe.ptulife.vo.ResultVO;
@@ -46,8 +47,10 @@ public class AnswerController {
     public String getEditAnswer(HttpServletRequest request, Model model){
         //查出当前登录用户
         PtuUser ptuUser = userService.findOne(request);
+        String userStatusStr = CheckUserUtils.checkUserStatus(ptuUser.getUserStatus());
         model.addAttribute("date",DateUtils.getCurrentDate());
         model.addAttribute("currentUser",ptuUser);
+        model.addAttribute("userStatusStr",userStatusStr);
         return "/answer/editAnswer";
     }
 

@@ -34,6 +34,8 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(motto)){
             ptuUser.setMotto("这个人很懒,什么都没有留下～");
         }
+        //设置默认头像
+        ptuUser.setHeadImg("/uploads/2019030515463646staff.jpg");
         return ptuUserRepository.save(ptuUser);
     }
 
@@ -41,6 +43,11 @@ public class UserServiceImpl implements UserService {
     public PtuUser findOne(HttpServletRequest request) {
         PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
         return ptuUserRepository.findById(ptuUser.getUserId()).get();
+    }
+
+    @Override
+    public PtuUser findByUserId(String userId) {
+        return ptuUserRepository.findById(userId).get();
     }
 
     @Override
