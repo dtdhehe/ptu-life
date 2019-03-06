@@ -55,7 +55,7 @@ public class AnswerController {
     }
 
     /**
-     * 新闻详情页面
+     * 问答详情页面
      * @return
      */
     @RequestMapping("/getAnswerPage")
@@ -66,6 +66,11 @@ public class AnswerController {
         logger.info("查询的问答id为:"+answerId);
         PtuAnswer ptuAnswer = answerService.queryAnswerById(answerId);
         ptuAnswer.setAnswerDate(DateUtils.date2ViewType(ptuAnswer.getAnswerDate()));
+        //查出当前登录用户
+        PtuUser ptuUser = userService.findByUserId(ptuAnswer.getUserId());
+        String userStatusStr = CheckUserUtils.checkUserStatus(ptuUser.getUserStatus());
+        model.addAttribute("currentUser",ptuUser);
+        model.addAttribute("userStatusStr",userStatusStr);
         model.addAttribute("ptuAnswer",ptuAnswer);
         return "/answer/answerInfo";
     }

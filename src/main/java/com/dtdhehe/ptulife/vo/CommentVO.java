@@ -20,6 +20,8 @@ public class CommentVO {
 
     private String userName;
 
+    private String userHeadImg;
+
     private String postId;
 
     private String pid;
@@ -27,6 +29,14 @@ public class CommentVO {
     private String replyUserId;
 
     private List<Map<String,Object>> commentList;
+
+    public String getUserHeadImg() {
+        return userHeadImg;
+    }
+
+    public void setUserHeadImg(String userHeadImg) {
+        this.userHeadImg = userHeadImg;
+    }
 
     public String getUserName() {
         return userName;

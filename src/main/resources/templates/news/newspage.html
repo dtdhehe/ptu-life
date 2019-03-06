@@ -31,8 +31,9 @@
                         <!--这是该新闻的标题-->
                     </h1>
                     <input id="newsId" type="hidden" th:value="${ptuNews.newsId}" />
+                    <input id="headImg" type="hidden" th:value="${currentUser.headImg}" />
                     <p style="margin-top: 15px">
-                        <img alt="140x140" style="width: 30px; height: 30px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+                        <img alt="140x140" style="width: 30px; height: 30px;" th:src="${currentUser.headImg}" class="img-circle" />
                         <span style="margin-left: 5px;font-size: medium" th:text="${ptuNews.newsAuthor}"></span>
                         <img alt="140x140" style="width: 22px; height: 22px;margin-left: 100px" th:src="@{/img/data/data.png}" class="img-default" />
                         <span style="margin-left: 5px;font-size: medium" th:text="${ptuNews.newsDate}"></span>
@@ -46,7 +47,7 @@
                         <p id="newsDesc" style="font-size: x-large;min-height: 500px;">
                         </p>
                         <hr/>
-                        <p style="margin-top: 10px"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />dtdhehe</p>
+                        <p style="margin-top: 10px" th:text="${ptuNews.newsAuthor}"></p>
                     </div>
                 </div>
                 <hr/>
@@ -54,7 +55,7 @@
                     <!--评论框-->
                     <div id="comment" style="padding: 10px">
                         <a href="#" class="pull-left" style="margin-top: 15px">
-                            <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+                            <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" th:src="${currentUser.headImg}" class="img-circle" />
                         </a>
                         <textarea id="contentParent" placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 75%;font-size: large"></textarea>
                         <button onclick="comment(this,0)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>
@@ -62,74 +63,12 @@
                     <div class="layui-tab layui-tab-card">
                         <ul class="layui-tab-title">
                             <li class="layui-this">全部评论</li>
-                            <!--<li>用户管理</li>-->
-                            <!--<li>权限分配</li>-->
                         </ul>
                         <div class="layui-tab-content" style="min-height: 120px;">
                             <!--用户的评论内容-->
                             <div id="commentList" style="height: auto">
-                                <div class="col-md-2 column">
-                                    <a href="#" class="pull-left" style="margin-top: 15px">
-                                        <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
-                                    </a>
-                                </div>
-                                <div class="col-md-10 column" style="padding: 5px">
-                                    <span style="color: #337ab7">dtdhehe</span>
-                                    <div style="min-height: 60px;font-size: large;margin: 5px 0 5px 0">
-                                        评论内容<br/>
-                                        评论内容<br/>
-                                        评论内容<br/>
-                                        评论内容<br/>
-                                    </div>
-                                    <div style="font-size: 5px;font-family: '微软雅黑 Light'">
-                                        <label style="margin-right: 40px">3分钟前</label>
-                                        <a href="javascript:void(0);" onclick="reply(this,1)">回复</a>
-                                    </div>
-                                    <!--填充评论框-->
-                                    <!--填充评论内容-->
-                                        <div class="col-md-2 column">
-                                            <a href="#" class="pull-left" style="margin-top: 15px">
-                                                <img alt="140x140" style="width: 50px; height: 50px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
-                                            </a>
-                                        </div>
-                                        <div class="col-md-10 column" style="padding: 5px">
-                                            <div style="min-height: 60px;margin: 10px 0 5px 0">
-                                                <span style="color: #337ab7">dtdhehe</span>:
-                                                评论内容<br/>
-                                            </div>
-                                            <div style="font-size: 5px;font-family: '微软雅黑 Light'">
-                                                <label style="margin-right: 40px">3分钟前</label>
-                                                <a href="javascript:void(0);" onclick="reply(this,2)">回复</a>
-                                            </div>
-                                        </div>
-                                </div>
-                                <hr/>
-                                <div class="col-md-2 column">
-                                    <a href="#" class="pull-left" style="margin-top: 15px">
-                                        <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
-                                    </a>
-                                </div>
-                                <div class="col-md-10 column" style="padding: 5px">
-                                    <span style="color: #337ab7">dtdhehe</span>
-                                    <div style="min-height: 60px;font-size: large;margin: 5px 0 5px 0">
-                                        评论内容<br/>
-                                        评论内容<br/>
-                                        评论内容<br/>
-                                        评论内容<br/>
-                                    </div>
-                                    <div style="font-size: 5px;font-family: '微软雅黑 Light'">
-                                        <label style="margin-right: 40px">3分钟前</label>
-                                        <a href="#">回复</a>
-                                    </div>
-                                </div>
-                                <div style="clear:both;"></div>
+                                <!--填充评论内容-->
                             </div>
-                            <!--<div class="layui-tab-item layui-show">1</div>-->
-                            <!--<div class="layui-tab-item">2</div>-->
-                            <!--<div class="layui-tab-item">3</div>-->
-                            <!--<div class="layui-tab-item">4</div>-->
-                            <!--<div class="layui-tab-item">5</div>-->
-                            <!--<div class="layui-tab-item">6</div>-->
                         </div>
                     </div>
                 </div>
@@ -137,34 +76,7 @@
             <!--作者信息-->
             <div class="col-md-4 column">
                 <!--作者信息-->
-                <div>
-                    <img alt="140x140" style="width: 120px; height: 120px;margin-left: 100px;margin-top: 20px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
-                    <p style="margin-top: 20px;margin-left: 135px">dtdhehe</p>
-                    <!--手风琴按钮-->
-                    <div class="panel-group" id="hand-panel">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <a class="panel-title" style="color: #337ab7" data-toggle="collapse" data-parent="#hand-panel" href="#panel-element-1">联系方式</a>
-                            </div>
-                            <div id="panel-element-1" class="panel-collapse in">
-                                <div class="panel-body">
-                                    WeChat: xd474786105
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <a class="panel-title collapsed" style="color: #337ab7" data-toggle="collapse" data-parent="#hand-panel" href="#panel-element-2">个人信息</a>
-                            </div>
-                            <div id="panel-element-2" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <p>所属机构：信息工程学院</p>
-                                    <p>身份：学生</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div th:replace="tpl/authorInfo"></div>
 
                 <!--热门标签-->
                 <!--引入标签html代码-->
@@ -228,7 +140,7 @@
                 $("#logoutBtn").css("display","");
             }
             //评论框初始化
-            initComment();
+            initComment("commentList","newsId");
         });
 
         //初始化热门标签列表
@@ -236,151 +148,6 @@
             var urls = [[@{/label/labelController/queryHotLabel}]];
             //1.请求url   2.标签页div的id
             initHotLabel(urls,"label_ul");
-        }
-
-        //初始化评论框
-        function initComment() {
-            //清空评论区的内容
-            $("#commentList").empty();
-            var postId = $("#newsId").val();
-            var urls = [[@{/comment/commentController/query}]]+'?postId='+postId;
-            $.ajax({
-                url: urls,
-                async: true,
-                type: 'POST',
-                success:function (data) {
-                    if (data.status === "0"){
-                        var commentList = data.object;
-                        for (var index in commentList){
-                            var childList = commentList[index].commentList;
-                            var htmls = '';
-                            if (childList.length === 0){
-                                htmls = htmls +
-                                    '<div class="col-md-2 column">' +
-                                    '         <a href="#" class="pull-left" style="margin-top: 15px">' +
-                                    '           <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
-                                    '         </a>' +
-                                    '</div>' +
-                                    '<div class="col-md-10 column" style="padding: 5px">' +
-                                    '  <span style="color: #337ab7">'+commentList[index].userName+'</span>' +
-                                    '    <div style="min-height: 60px;font-size: large;margin: 5px 0 5px 0">' +
-                                    '             '+commentList[index].content+'<br/>' +
-                                    '    </div>' +
-                                    '    <input id="commentId" type="hidden" value="'+commentList[index].id+'" />' +
-                                    '    <input id="commentUserId" type="hidden" value="'+commentList[index].userId+'" />' +
-                                    '  <div style="font-size: 5px;font-family: \'微软雅黑 Light\'">' +
-                                    '    <label style="margin-right: 40px">'+commentList[index].createTime+'</label>' +
-                                    '    <a id="reply" href="javascript:void(0);" onclick="reply(this,1)">回复</a>' +
-                                    '    <a id="cancel" href="javascript:void(0);" onclick="cancel(this,1)" style="display: none;margin-left: 10px">取消</a>' +
-                                    '  </div>' +
-                                    '</div>' +
-                                    '<hr/>';
-                            }else{
-                                htmls = htmls +
-                                    '<div class="col-md-2 column">' +
-                                    '         <a href="#" class="pull-left" style="margin-top: 15px">' +
-                                    '           <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
-                                    '         </a>' +
-                                    '</div>' +
-                                    '<div class="col-md-10 column" style="padding: 5px">' +
-                                    '  <span style="color: #337ab7">'+commentList[index].userName+'</span>' +
-                                    '    <div style="min-height: 60px;font-size: large;margin: 5px 0 5px 0">' +
-                                    '             '+commentList[index].content+'<br/>' +
-                                    '    </div>' +
-                                    '    <input id="commentId" type="hidden" value="'+commentList[index].id+'" />' +
-                                    '    <input id="commentUserId" type="hidden" value="'+commentList[index].userId+'" />' +
-                                    '  <div style="font-size: 5px;font-family: \'微软雅黑 Light\'">' +
-                                    '    <label style="margin-right: 40px">'+commentList[index].createTime+'</label>' +
-                                    '    <a id="reply" href="javascript:void(0);" onclick="reply(this,1)">回复</a>' +
-                                    '    <a id="cancel" href="javascript:void(0);" onclick="cancel(this,1)" style="display: none;margin-left: 10px">取消</a>' +
-                                    '  </div>';
-                                    for (var i in childList){
-                                        htmls = htmls +
-                                            '  <div class="col-md-2 column">' +
-                                            '    <a href="#" class="pull-left" style="margin-top: 15px">' +
-                                            '       <img alt="140x140" style="width: 50px; height: 50px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
-                                            '    </a>' +
-                                            '  </div>' +
-                                            '  <div class="col-md-10 column" style="padding: 5px">' +
-                                            '    <div style="min-height: 60px;margin: 10px 0 5px 0">';
-                                        if(childList[i].replyUserName === ""){
-                                            htmls = htmls+
-                                                '<span style="color: #337ab7">'+childList[i].commentUserName+'</span>:';
-                                        }else {
-                                            htmls = htmls+
-                                                '<span style="color: #337ab7">'+childList[i].commentUserName+'</span>' +
-                                                '<span style="font-size: 5px;font-weight: bold">&nbsp;&nbsp;回复&nbsp;&nbsp;</span>' +
-                                                '<span style="color: #337ab7">'+childList[i].replyUserName+'</span>:';
-                                        }
-                                        htmls = htmls+
-                                            '             '+childList[i].content+'<br/>' +
-                                            '    </div>' +
-                                            '    <input id="commentId" type="hidden" value="'+childList[i].id+'" />' +
-                                            '    <input id="commentUserId" type="hidden" value="'+childList[i].userId+'" />' +
-                                            '    <div style="font-size: 5px;font-family: \'微软雅黑 Light\'">' +
-                                            '       <label style="margin-right: 40px">'+childList[i].createTime+'</label>' +
-                                            '       <a id="reply" href="javascript:void(0);" onclick="reply(this,2)">回复</a>' +
-                                            '       <a id="cancel" href="javascript:void(0);" onclick="cancel(this,2)" style="display: none;margin-left: 10px">取消</a>' +
-                                            '    </div>' +
-                                            '  </div>' +
-                                            '<hr/>' ;
-                                    }
-                                    htmls = htmls +
-                                    '</div>' +
-                                    '<hr/>';
-                            }
-                            $("#commentList").prepend(htmls);
-                        }
-
-                    }
-                }
-            });
-        }
-
-
-        //回复按钮点击弹出回复框
-        //obj:当前元素   status:1(一级回复) 2(二级回复)
-        function reply(obj,status) {
-            $(obj).parent().find("#cancel").css("display","");
-            if (status === 1){
-                var htmls = '' +
-                    '<div id="comment2" style="padding: 10px">' +
-                    '   <a href="#" class="pull-left" style="margin-top: 15px">' +
-                    '     <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
-                    '   </a>' +
-                    '   <textarea placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 72%;font-size: large"></textarea>' +
-                    '   <button onclick="comment(this,1)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>' +
-                    '</div>';
-                $(obj).parent().after(htmls);
-                $(obj).removeAttr("onclick");
-            }else if(status === 2){
-                var htmls = '' +
-                    '<div id="comment2" style="padding: 10px">' +
-                    '   <a href="#" class="pull-left" style="margin-top: 15px">' +
-                    '     <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
-                    '   </a>' +
-                    '   <textarea placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 72%;font-size: large"></textarea>' +
-                    '   <button onclick="comment(this,2)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>' +
-                    '</div>';
-                $(obj).parent().parent().after(htmls);
-                $(obj).removeAttr("onclick");
-            }
-        }
-
-        //取消回复
-        //obj:当前元素      status:1(一级回复) 2(二级回复)
-        function cancel(obj, status) {
-            $(obj).parent().find("#reply").attr("onclick","reply(this,"+status+")");
-            if (status === 1){
-                // $(obj).parent().parent().find("#comment2").remove();
-                $(obj).parent().next().remove();
-                $(obj).css("display","none");
-            }else if(status === 2){
-                // $(obj).parent().parent().parent().find("#comment2").remove();
-                $(obj).parent().parent().next().remove();
-                $(obj).css("display","none");
-
-            }
         }
 
         //评论
@@ -411,29 +178,8 @@
                 replyUserId:replyUserId,
                 userId:userId
             };
-            var urls = [[@{/comment/commentController/add}]];
-            $.ajax({
-                url:urls,
-                async:true,
-                type:'POST',
-                data:{
-                    comment: JSON.stringify(comment)
-                },
-                success:function (data) {
-                    if (data.status === "0"){
-                        layer.alert("评论成功!",{
-                            title:"提示",
-                            icon:1,
-                            btn:[ '确认' ],
-                            yes : function() {
-                                $("#contentParent").val("");
-                                layer.closeAll();
-                                initComment();
-                            }
-                        });
-                    }
-                }
-            });
+            //参数:1.评论内容 2.评论框div 3.业务主键div
+            doComment(comment,"commentList","newsId");
         }
 
         //]]>

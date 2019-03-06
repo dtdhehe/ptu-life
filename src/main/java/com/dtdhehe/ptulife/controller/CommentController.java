@@ -117,12 +117,14 @@ public class CommentController {
                     if (!StringUtils.isEmpty(commentChild.getReplyUserId())){
                         map.put("replyUserName",userService.getUserNameByUserId(commentChild.getReplyUserId()));
                     }
+                    map.put("userHeadImg",userService.findByUserId(commentChild.getUserId()).getHeadImg());
                     childCommentListMap.add(map);
                 }
             }
             CommentVO commentVO = new CommentVO();
             BeanUtils.copyProperties(comment,commentVO);
             commentVO.setUserName(userService.getUserNameByUserId(commentVO.getUserId()));
+            commentVO.setUserHeadImg(userService.findByUserId(commentVO.getUserId()).getHeadImg());
             commentVO.setCommentList(childCommentListMap);
             resultList.add(commentVO);
         }

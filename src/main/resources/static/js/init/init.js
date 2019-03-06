@@ -46,7 +46,7 @@ function initComment(commentDiv, postIdDiv) {
                         htmls = htmls +
                             '<div class="col-md-2 column">' +
                             '         <a href="#" class="pull-left" style="margin-top: 15px">' +
-                            '           <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
+                            '           <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="'+commentList[index].userHeadImg+'" class="img-circle" />' +
                             '         </a>' +
                             '</div>' +
                             '<div class="col-md-10 column" style="padding: 5px">' +
@@ -67,7 +67,7 @@ function initComment(commentDiv, postIdDiv) {
                         htmls = htmls +
                             '<div class="col-md-2 column">' +
                             '         <a href="#" class="pull-left" style="margin-top: 15px">' +
-                            '           <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
+                            '           <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="'+commentList[index].userHeadImg+'" class="img-circle" />' +
                             '         </a>' +
                             '</div>' +
                             '<div class="col-md-10 column" style="padding: 5px">' +
@@ -86,7 +86,7 @@ function initComment(commentDiv, postIdDiv) {
                             htmls = htmls +
                                 '  <div class="col-md-2 column">' +
                                 '    <a href="#" class="pull-left" style="margin-top: 15px">' +
-                                '       <img alt="140x140" style="width: 50px; height: 50px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
+                                '       <img alt="140x140" style="width: 50px; height: 50px;margin-right: 8px;" src="'+childList[i].userHeadImg+'" class="img-circle" />' +
                                 '    </a>' +
                                 '  </div>' +
                                 '  <div class="col-md-10 column" style="padding: 5px">' +
@@ -130,12 +130,13 @@ function initComment(commentDiv, postIdDiv) {
 //回复按钮点击弹出回复框
 //obj:当前元素   status:1(一级回复) 2(二级回复)
 function reply(obj,status) {
+    var headImgSrc = $("#headImg").val();
     $(obj).parent().find("#cancel").css("display","");
     if (status === 1){
         var htmls = '' +
             '<div id="comment2" style="padding: 10px">' +
             '   <a href="#" class="pull-left" style="margin-top: 15px">' +
-            '     <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
+            '     <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="'+headImgSrc+'" class="img-circle" />' +
             '   </a>' +
             '   <textarea placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 72%;font-size: large"></textarea>' +
             '   <button onclick="comment(this,1)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>' +
@@ -146,7 +147,7 @@ function reply(obj,status) {
         var htmls = '' +
             '<div id="comment2" style="padding: 10px">' +
             '   <a href="#" class="pull-left" style="margin-top: 15px">' +
-            '     <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />' +
+            '     <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" src="'+headImgSrc+'" class="img-circle" />' +
             '   </a>' +
             '   <textarea placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 72%;font-size: large"></textarea>' +
             '   <button onclick="comment(this,2)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>' +

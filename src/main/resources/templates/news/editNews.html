@@ -40,7 +40,7 @@
                     新闻标题：<input id="newsTitle" class="editTitle" type="text" placeholder="请在此处输入标题"/>
                 </h1>
                 <p style="margin-top: 15px">
-                    <img alt="140x140" style="width: 30px; height: 30px;" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
+                    <img alt="140x140" style="width: 30px; height: 30px;" th:src="${currentUser.headImg}" class="img-circle" />
                     <span id="newsAuthor" style="margin-left: 5px;font-size: medium">dtdhehe</span>
                     <img alt="140x140" style="width: 22px; height: 22px;margin-left: 100px" th:src="@{/img/data/data.png}" class="img-default" />
                     <span id="newsDate" style="margin-left: 5px;font-size: medium" th:text="${date}"></span>
@@ -54,40 +54,13 @@
                 <div>
                     <textarea id="demo" style="display: none;height: 700px"></textarea>
                     <hr/>
-                    <p style="margin-top: 10px"><img alt="140x140" style="width: 30px; height: 30px;margin-right: 10px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />dtdhehe</p>
+                    <p style="margin-top: 10px" th:text="${currentUser.nickName}"></p>
                 </div>
             </div>
         </div>
         <div class="col-md-4 column">
             <!--作者信息-->
-            <div>
-                <img alt="140x140" style="width: 120px; height: 120px;margin-left: 100px;margin-top: 20px" src="http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg" class="img-circle" />
-                <p style="margin-top: 20px;margin-left: 135px">dtdhehe</p>
-                <!--手风琴按钮-->
-                <div class="panel-group" id="hand-panel">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <a class="panel-title" style="color: #337ab7" data-toggle="collapse" data-parent="#hand-panel" href="#panel-element-1">联系方式</a>
-                        </div>
-                        <div id="panel-element-1" class="panel-collapse in">
-                            <div class="panel-body">
-                                WeChat: xd474786105
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <a class="panel-title collapsed" style="color: #337ab7" data-toggle="collapse" data-parent="#hand-panel" href="#panel-element-2">个人信息</a>
-                        </div>
-                        <div id="panel-element-2" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <p>所属机构：信息工程学院</p>
-                                <p>身份：学生</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div th:replace="tpl/authorInfo"></div>
 
             <!--热门标签-->
             <!--引入标签html代码-->

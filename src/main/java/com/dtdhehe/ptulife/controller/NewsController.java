@@ -2,7 +2,10 @@ package com.dtdhehe.ptulife.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dtdhehe.ptulife.entity.PtuNews;
+import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.service.NewsService;
+import com.dtdhehe.ptulife.service.UserService;
+import com.dtdhehe.ptulife.util.CheckUserUtils;
 import com.dtdhehe.ptulife.util.DateUtils;
 import com.dtdhehe.ptulife.util.KeyUtils;
 import com.dtdhehe.ptulife.vo.ResultVO;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -37,13 +41,21 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 新闻编辑页面
      * @return
      */
     @RequestMapping("/editNews")
-    public String editNews(Model model){
+    public String editNews(HttpServletRequest request, Model model){
+        //查出当前登录用户
+        PtuUser ptuUser = userService.findOne(request);
+        String userStatusStr = CheckUserUtils.checkUserStatus(ptuUser.getUserStatus());
         model.addAttribute("date",DateUtils.getCurrentDate());
+        model.addAttribute("currentUser",ptuUser);
+        model.addAttribute("userStatusStr",userStatusStr);
         return "news/editNews";
     }
 
@@ -59,7 +71,12 @@ public class NewsController {
         logger.info("查询的新闻id为:"+newsId);
         PtuNews ptuNews = newsService.queryNewsById(newsId);
         ptuNews.setNewsDate(DateUtils.date2ViewType(ptuNews.getNewsDate()));
+        //查出当前登录用户
+        PtuUser ptuUser = userService.findByUserId(ptuNews.getUserId());
+        String userStatusStr = CheckUserUtils.checkUserStatus(ptuUser.getUserStatus());
         model.addAttribute("ptuNews",ptuNews);
+        model.addAttribute("currentUser",ptuUser);
+        model.addAttribute("userStatusStr",userStatusStr);
         return "news/newspage";
     }
 
