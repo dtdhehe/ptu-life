@@ -16,20 +16,15 @@
     <!-- layui -->
     <link rel="stylesheet"
           th:href="@{/js/layui/css/layui.css}" />
-    <style type="text/css">
-        .editTitle{
-            text-align: center;
-            width: 550px;
-            border: none;
-            border-radius: 1px;
-            border-bottom: #8D8D8D 1px solid;
-        }
-    </style>
+    <!--公共css-->
+    <link rel="stylesheet" th:href="@{/css/public.css}" />
+    <!--新闻编辑页面css-->
+    <link rel="stylesheet" th:href="@{/css/news/editNews.css}" />
 </head>
 <body>
 <!--引入导航栏-->
 <div th:replace="navbar.html"></div>
-<div style="margin: 10px"></div>
+<div class="margin-to-nav"></div>
 <!--主体页面   新闻和标签-->
 <div class="container">
     <div class="row clearfix">
@@ -39,22 +34,22 @@
                 <h1 class="text-left">
                     新闻标题：<input id="newsTitle" class="editTitle" type="text" placeholder="请在此处输入标题"/>
                 </h1>
-                <p style="margin-top: 15px">
-                    <img alt="头像" style="width: 30px; height: 30px;" th:src="${currentUser.headImg}" class="img-circle" />
-                    <span id="newsAuthor" style="margin-left: 5px;font-size: medium" th:text="${currentUser.nickName}"></span>
-                    <img alt="140x140" style="width: 22px; height: 22px;margin-left: 100px" th:src="@{/img/data/data.png}" class="img-default" />
-                    <span id="newsDate" style="margin-left: 5px;font-size: medium" th:text="${date}"></span>
-                    <span style="position: absolute;right: 20px"><button id="publishNews" class="btn btn-info">发布</button></span>
+                <p class="authorInfo">
+                    <img alt="头像" th:src="${currentUser.headImg}" class="img-circle" />
+                    <span id="newsAuthor" class="authorName" th:text="${currentUser.nickName}"></span>
+                    <img alt="140x140" th:src="@{/img/data/data.png}" class="img-default date-icon" />
+                    <span id="newsDate" class="date-info" th:text="${date}"></span>
+                    <span class="publish"><button id="publishNews" class="btn btn-info">发布</button></span>
                 </p>
                 <hr/>
             </div>
 
             <!--新闻主体-->
             <div class="media well">
-                <div>
-                    <textarea id="demo" style="display: none;height: 700px"></textarea>
+                <div class="newsBody">
+                    <textarea id="demo" ></textarea>
                     <hr/>
-                    <p style="margin-top: 10px" th:text="${currentUser.nickName}"></p>
+                    <p th:text="${currentUser.nickName}"></p>
                 </div>
             </div>
         </div>

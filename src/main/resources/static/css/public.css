@@ -1,0 +1,31 @@
+.margin-to-nav{
+    margin: 10px;
+}
+.margin-top-10px{
+    margin-top: 10px;
+}
+.comment{
+    padding: 10px
+}
+.comment textarea{
+    display: inline;
+    resize: none;width: 75%;
+    font-size: large
+}
+.comment button{
+    height: 100px;width: 13%
+}
+.comment-head-img{
+    margin-top: 15px
+}
+.comment-head-img img{
+    width: 70px;
+    height: 70px;
+    margin-right: 8px;
+}
+.all-comment{
+    min-height: 120px;
+}
+.all-comment #commentList{
+    height: auto
+}

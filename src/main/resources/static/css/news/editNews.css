@@ -1,0 +1,38 @@
+.editTitle{
+    text-align: center;
+    width: 550px;
+    border: none;
+    border-radius: 1px;
+    border-bottom: #8D8D8D 1px solid;
+}
+.authorInfo{
+    margin-top: 15px;
+}
+.authorInfo img{
+    width: 30px;
+    height: 30px;
+}
+.authorName{
+    margin-left: 5px;
+    font-size: medium
+}
+.date-icon{
+    width: 22px;
+    height: 22px;
+    margin-left: 100px
+}
+.date-info{
+    margin-left: 5px;
+    font-size: medium
+}
+.publish{
+    position: absolute;
+    right: 20px
+}
+.newsBody textarea{
+    display: none;
+    height: 700px
+}
+.newsBody p{
+    margin-top: 10px
+}

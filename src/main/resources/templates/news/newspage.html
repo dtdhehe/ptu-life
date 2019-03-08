@@ -16,11 +16,15 @@
     <!-- layui -->
     <link rel="stylesheet"
           th:href="@{/js/layui/css/layui.css}" />
+    <!--公共css-->
+    <link rel="stylesheet" th:href="@{/css/public.css}" />
+    <!--新闻详情页面css-->
+    <link rel="stylesheet" th:href="@{/css/news/newspage.css}" />
 </head>
 <body>
     <!--引入导航栏-->
     <div th:replace="navbar.html"></div>
-    <div style="margin: 10px"></div>
+    <div class="margin-to-nav"></div>
     <!--主体页面   新闻和标签-->
     <div class="container">
         <div class="row clearfix">
@@ -32,11 +36,11 @@
                     </h1>
                     <input id="newsId" type="hidden" th:value="${ptuNews.newsId}" />
                     <input id="headImg" type="hidden" th:value="${currentUser.headImg}" />
-                    <p style="margin-top: 15px">
-                        <img alt="140x140" style="width: 30px; height: 30px;" th:src="${currentUser.headImg}" class="img-circle" />
-                        <span style="margin-left: 5px;font-size: medium" th:text="${ptuNews.newsAuthor}"></span>
-                        <img alt="140x140" style="width: 22px; height: 22px;margin-left: 100px" th:src="@{/img/data/data.png}" class="img-default" />
-                        <span style="margin-left: 5px;font-size: medium" th:text="${ptuNews.newsDate}"></span>
+                    <p class="authorInfo">
+                        <img alt="140x140" th:src="${currentUser.headImg}" class="img-circle" />
+                        <span class="authorName" th:text="${ptuNews.newsAuthor}"></span>
+                        <img alt="140x140" th:src="@{/img/data/data.png}" class="img-default date-icon" />
+                        <span class="date-info" th:text="${ptuNews.newsDate}"></span>
                     </p>
                     <hr/>
                 </div>
@@ -44,29 +48,29 @@
             <!--新闻主体-->
                 <div class="media well">
                     <div class="media-body">
-                        <p id="newsDesc" style="font-size: x-large;min-height: 500px;">
+                        <p class="newsDesc" id="newsDesc" >
                         </p>
                         <hr/>
-                        <p style="margin-top: 10px" th:text="${ptuNews.newsAuthor}"></p>
+                        <p class="margin-top-10px" th:text="${ptuNews.newsAuthor}"></p>
                     </div>
                 </div>
                 <hr/>
                 <div class="media well">
                     <!--评论框-->
-                    <div id="comment" style="padding: 10px">
-                        <a href="#" class="pull-left" style="margin-top: 15px">
-                            <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" th:src="${currentUser.headImg}" class="img-circle" />
+                    <div id="comment" class="comment">
+                        <a href="#" class="pull-left comment-head-img">
+                            <img alt="140x140" th:src="${currentUser.headImg}" class="img-circle" />
                         </a>
-                        <textarea id="contentParent" placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 75%;font-size: large"></textarea>
-                        <button onclick="comment(this,0)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>
+                        <textarea id="contentParent" placeholder="请输入" class="layui-textarea" ></textarea>
+                        <button onclick="comment(this,0)" class="pull-right btn btn-info">发表<br/>评论</button>
                     </div>
                     <div class="layui-tab layui-tab-card">
                         <ul class="layui-tab-title">
                             <li class="layui-this">全部评论</li>
                         </ul>
-                        <div class="layui-tab-content" style="min-height: 120px;">
+                        <div class="layui-tab-content all-comment">
                             <!--用户的评论内容-->
-                            <div id="commentList" style="height: auto">
+                            <div id="commentList">
                                 <!--填充评论内容-->
                             </div>
                         </div>
