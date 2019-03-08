@@ -40,7 +40,18 @@
                 <button type="button" class="btn btn-info pull-right" style="margin-top: 10px"  th:onclick="|loginStatus('login')|">登录</button>
             </div>
             <div id="logoutBtn" style="display: none;">
-                <button type="button" class="btn btn-success pull-right" style="margin-top: 10px" th:onclick="|loginStatus('logout')|">退出登录</button>
+                <ul class="layui-nav pull-right" style="background-color: #222;padding: 0;">
+                    <li class="layui-nav-item">
+                        <a href=""><img alt="头像" style="width: 35px; height: 35px;margin: 10px" th:src="${session.loginUser.headImg}" class="img-circle" /></a>
+                        <dl class="layui-nav-child">
+                            <dd style="line-height: 36px"><a href="/news/newsController/editNews">发布新闻</a></dd>
+                            <dd style="line-height: 36px"><a href="/answer/answerController/getEditAnswer">发布问答</a></dd>
+                            <dd style="line-height: 36px"><a href="/myInformationController/getMyInformation">查看资料</a></dd>
+                            <dd style="line-height: 36px"><a href="/login/loginController/logout" >退出登录</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+                <!--<button type="button" class="btn btn-success pull-right" style="margin-top: 10px" th:onclick="|loginStatus('logout')|">退出登录</button>-->
             </div>
         </div>
     </nav>

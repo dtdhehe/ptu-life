@@ -48,7 +48,7 @@
             margin-top: 5px;
             text-align: center;
         }
-        .my_nav{
+        .nav-menu{
             background-color: #F5F5F5;width: 300px;padding: 0;border-radius: 2px;
         }
         .level{
@@ -62,23 +62,23 @@
         .level li a{
             height:60px;line-height:60px;
         }
-        .my_nav *{
+        .nav-menu *{
             font-size: medium;
         }
-        .my_nav li{
+        .nav-menu li{
             cursor: pointer;
             padding: 0 20px;
         }
         /*选择行样式*/
-        .my_nav .itemed{
+        .nav-menu .itemed{
             /*background-color: #e7e7e7;*/
             font-weight: bold;
         }
-        .my_nav a{
+        .nav-menu a{
             position: relative;height:100px;line-height:100px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;
             display: block;
         }
-        .my_nav a:hover,li:hover{
+        .nav-menu a:hover,.nav-menu li:hover{
             background-color: #e7e7e7;
         }
         .my_info{
@@ -121,7 +121,7 @@
 </div>
 <div class="col-md-12 column" style="margin-top: 20px;margin-bottom: 40px">
     <div class="col-md-3 column" style="min-height: 473px">
-        <ul id="navMenu" class="my_nav">
+        <ul id="navMenu" class="nav-menu">
             <li class="itemed"><a href="javascript:void(0);" onclick="changeMenu(this,'myInformation')">我的资料</a></li>
             <li class=""><a href="javascript:void(0);" onclick="changeMenu(this,'myNews')">我的文章</a></li>
             <li class=""><a href="javascript:void(0);" onclick="changeMenu(this,'myAnswer')">我的问答</a></li>
@@ -129,12 +129,12 @@
         </ul>
     </div>
     <div class="col-md-9 column">
-        <ul id="infoTitle" class="my_nav level">
+        <ul id="infoTitle" class="nav-menu level">
             <li id="first" class="itemed"><a href="javascript:void(0);" onclick="changeInfos(this,'baseInfo')">基本信息</a></li>
             <li class=""><a href="javascript:void(0);" onclick="changeInfos(this,'otherInfo')">其他信息</a></li>
             <li class=""><a href="javascript:void(0);" onclick="changeInfos(this,'pwdInfo')">修改密码</a></li>
         </ul>
-        <ul id="menuInfoTitle" style="display: none" class="my_nav level">
+        <ul id="menuInfoTitle" style="display: none" class="nav-menu level">
             <li class="itemed"><a></a></li>
         </ul>
         <!--具体信息页面-->

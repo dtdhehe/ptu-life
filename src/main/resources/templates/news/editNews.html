@@ -40,8 +40,8 @@
                     新闻标题：<input id="newsTitle" class="editTitle" type="text" placeholder="请在此处输入标题"/>
                 </h1>
                 <p style="margin-top: 15px">
-                    <img alt="140x140" style="width: 30px; height: 30px;" th:src="${currentUser.headImg}" class="img-circle" />
-                    <span id="newsAuthor" style="margin-left: 5px;font-size: medium">dtdhehe</span>
+                    <img alt="头像" style="width: 30px; height: 30px;" th:src="${currentUser.headImg}" class="img-circle" />
+                    <span id="newsAuthor" style="margin-left: 5px;font-size: medium" th:text="${currentUser.nickName}"></span>
                     <img alt="140x140" style="width: 22px; height: 22px;margin-left: 100px" th:src="@{/img/data/data.png}" class="img-default" />
                     <span id="newsDate" style="margin-left: 5px;font-size: medium" th:text="${date}"></span>
                     <span style="position: absolute;right: 20px"><button id="publishNews" class="btn btn-info">发布</button></span>
