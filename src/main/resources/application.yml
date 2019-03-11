@@ -13,5 +13,11 @@ spring:
 #    jackson实体转json时 为NULL不参加序列化
   jackson:
     default-property-inclusion: non_null
+  mail:
+    host: smtp.sina.com
+    username: dtdhehe@sina.com
+    password: xd474786105
+    default-encoding: utf-8
+
 server:
   port: 9999
