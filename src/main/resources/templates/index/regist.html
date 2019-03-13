@@ -16,7 +16,7 @@
 <body oncontextmenu="return false">
 <div class="page-container">
     <h1>Regist</h1>
-    <form name="registForm" id="registForm" th:action="@{/ptu/registUserController/regist}" method="post">
+    <form name="registForm" id="registForm" method="post">
         <div>
             <span style="color:red">*</span><input type="text" name="userName" placeholder="用户名" autocomplete="off"/>
         </div>
@@ -30,14 +30,14 @@
             <span style="color:red">*</span><input type="text" name="nickName" placeholder="昵称" autocomplete="off"/>
         </div>
         <div>
-            <span style="color:red">*</span><input type="text" name="orgName" placeholder="所属机构" autocomplete="off"/>
+            <span style="color:red">*</span><input type="text" name="email" placeholder="电子邮箱" onblur="checkEmail()" autocomplete="off"/>
         </div>
         <div>
-            <span>男</span><input style="width: 50px;height: 20px" type="radio" name="userSex" value="男" checked/>
+            <span>男</span><input style="width: 50px;height: 20px" type="radio" name="userSex" value="0" checked/>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span>女</span><input style="width: 50px;height: 20px" type="radio" name="userSex" value="女"/>
+            <span>女</span><input style="width: 50px;height: 20px" type="radio" name="userSex" value="1"/>
         </div>
-        <button id="regist" type="submit">Regist now</button>
+        <button id="regist" type="button">Regist now</button>
     </form>
     <div class="connect">
         <p>This is server for Pu Yuan, and we are looking forward to meeting you here..</p>
@@ -57,16 +57,76 @@
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <script th:src="@{/js/particle/supersized.3.2.7.min.js}"></script>
 <script th:src="@{/js/particle/supersized-init.js}"></script>
-<script>
+<!--引入layui的js-->
+<script type="text/javascript" th:src="@{/js/layui/layui.all.js}"></script>
+<!-- js 方法 -->
+<script th:inline="javascript">
+    //<![CDATA[
+
+    $(function () {
+        //注册按钮点击
+        $("#regist").on("click",function () {
+            regist();
+        });
+        //回车按键
+        // $("#sign").on("keydown",function (e) {
+        //     alert("22");
+        //     if(e.which===13){
+        //         alert("ss");
+        //         login();
+        //     }
+        // });
+    });
+
+    //注册
+    function regist(){
+        var info =  $("#registForm").serialize();
+        var urls = '/ptu/registUserController/regist?'+info;
+        debugger;
+        $.ajax({
+            url:urls,
+            async:true,
+            type:'GET',
+            success:function (data) {
+                if (data.status === "0") {
+                    //注册成功，跳转首页
+                    layer.alert("注册成功!请前往邮箱激活账号",{
+                        icon:1,
+                        btn:[ '确认' ],
+                        yes : function() {
+                            $(location).attr("href",[[@{/ptu/homePageController/home}]]);
+                        }
+                    });
+                }else{
+                    $("#ts").html(data.error_msg);
+                    is_show();
+                }
+            }
+        });
+    }
+
+    /*验证邮箱*/
+    function checkEmail(){
+        var email=$("input[name=email]").val();
+        var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        if(reg.test(email)==false){
+            layer.alert("Email格式不正确，例如web@sohu.com");
+            $("input[name=email]").val("");
+            return false;
+        }
+        return true;
+    }
+
     $(".btn").click(function(){
         is_hide();
-    })
+    });
     var u = $("input[name=userName]");
     var p = $("input[name=userPwd]");
     var rp = $("input[name=rpassword]");
-    var o = $("input[name=orgName]");
+    var o = $("input[name=email]");
+    var n = $("input[name=nickName]");
     $("#regist").on('click',function(){
-        if(u.val() == '' || p.val() =='' || rp.val() =='' || o.val() =='')
+        if(u.val() == '' || p.val() =='' || rp.val() =='' || o.val() =='' || n.val() =='')
         {
             $("#ts").html("信息不能为空~");
             is_show();
@@ -84,8 +144,13 @@
         $(".connect p").eq(0).animate({"left":"0%"}, 600);
         $(".connect p").eq(1).animate({"left":"0%"}, 400);
     }
-    function is_hide(){ $(".alert").animate({"top":"-40%"}, 300) }
-    function is_show(){ $(".alert").show().animate({"top":"45%"}, 300) }
+    function is_hide(){
+        $(".alert").animate({"top":"-40%"}, 300)
+    }
+    function is_show(){
+        $(".alert").show().animate({"top":"45%"}, 300)
+    }
+    //]]>
 </script>
 </body>
 </html>

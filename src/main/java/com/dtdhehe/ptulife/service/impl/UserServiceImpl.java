@@ -30,6 +30,8 @@ public class UserServiceImpl implements UserService {
         ptuUser.setUserId(KeyUtils.getUniqueKey());
         ptuUser.setUserSex(CheckUserUtils.checkSex(userRegistVO.getUserSex()));
         ptuUser.setUserStatus(CheckUserUtils.checkStatus(userRegistVO.getUserStatus()));
+        //未激活时设置标识未0
+        ptuUser.setValid("0");
         String motto = ptuUser.getMotto();
         if (StringUtils.isEmpty(motto)){
             ptuUser.setMotto("这个人很懒,什么都没有留下～");

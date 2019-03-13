@@ -7,6 +7,9 @@
  *
  */
 
+.layui-layer-content{
+    color: black;
+}
 
 body {
     background: #f8f8f8;

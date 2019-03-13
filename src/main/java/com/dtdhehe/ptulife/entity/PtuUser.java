@@ -44,6 +44,10 @@ public class PtuUser {
 
     private String headImg;
 
+    private String email;
+
+    private String valid;
+
     @Override
     public String toString() {
         return "PtuUser{" +
@@ -61,6 +65,22 @@ public class PtuUser {
                 ", nickName='" + nickName + '\'' +
                 ", motto='" + motto + '\'' +
                 '}';
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getValid() {
+        return valid;
+    }
+
+    public void setValid(String valid) {
+        this.valid = valid;
     }
 
     public String getHeadImg() {
