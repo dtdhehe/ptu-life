@@ -38,7 +38,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/ptu/homePageController/index","/ptu/homePageController/registPage"
                                     ,"/ptu/homePageController/home","/news/newsController/queryAllNews"
                                     ,"/login/loginController/login","/ptu/registUserController/regist"
-                                    ,"/label/labelController/queryHotLabel")
+                                    ,"/label/labelController/queryHotLabel","/ptu/registUserController/validUser")
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/img/**");

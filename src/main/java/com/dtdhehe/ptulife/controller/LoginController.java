@@ -41,6 +41,11 @@ public class LoginController {
         logger.info("用户加密后的密码:"+userPwd);
         PtuUser ptuUser = userService.findByUserNameAndUserPwd(userName,userPwd);
         if (ptuUser != null){
+            if ("0".equals(ptuUser.getValid())){
+                resultVO.setStatus("1");
+                resultVO.setError_msg("该用户尚未激活");
+                return resultVO;
+            }
             request.getSession().setAttribute("loginUser",ptuUser);
             resultVO.setStatus("0");
             resultVO.setObject(ptuUser);
@@ -54,7 +59,7 @@ public class LoginController {
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request){
-        logger.info("清楚session中登录的用户");
+        logger.info("清除session中登录的用户");
         HttpSession session = request.getSession();
         if (session != null){
             session.removeAttribute("loginUser");
