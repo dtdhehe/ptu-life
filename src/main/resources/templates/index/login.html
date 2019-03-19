@@ -52,14 +52,11 @@
         $("#sign").on("click",function () {
             login();
         });
-        //回车按键
-        // $("#sign").on("keydown",function (e) {
-        //     alert("22");
-        //     if(e.which===13){
-        //         alert("ss");
-        //         login();
-        //     }
-        // });
+        $(document).keydown(function (e) {
+            if (e.keyCode === 13){
+                $('#sign').triggerHandler('click');
+            }
+        });
     });
 
     //登录
