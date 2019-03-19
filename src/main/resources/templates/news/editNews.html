@@ -145,10 +145,12 @@
         var author = $("#newsAuthor").text();
         var title = $("#newsTitle").val();
         var content = layui.layedit.getContent(index);
+        var userId = [[${session.loginUser.userId}]];
         var news = {
             author:author,
             title:title,
-            content:content
+            content:content,
+            userId:userId
         };
         var urls = [[@{/news/newsController/saveNews}]];
         $.ajax({

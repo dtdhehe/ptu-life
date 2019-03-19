@@ -1,8 +1,10 @@
 package com.dtdhehe.ptulife.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dtdhehe.ptulife.entity.HotLabel;
 import com.dtdhehe.ptulife.entity.PtuNews;
 import com.dtdhehe.ptulife.entity.PtuUser;
+import com.dtdhehe.ptulife.service.LabelService;
 import com.dtdhehe.ptulife.service.NewsService;
 import com.dtdhehe.ptulife.service.UserService;
 import com.dtdhehe.ptulife.util.CheckUserUtils;
@@ -43,6 +45,9 @@ public class NewsController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LabelService labelService;
 
     /**
      * 新闻编辑页面
@@ -130,12 +135,16 @@ public class NewsController {
         news.setNewsAuthor((String) jsonObject.get("author"));
         news.setNewsTitle((String) jsonObject.get("title"));
         news.setNewsDesc((String) jsonObject.get("content"));
+        news.setUserId((String) jsonObject.get("userId"));
         news.setNewsDate(DateUtils.getCurrentDateTime());
         try {
             PtuNews newsNew = newsService.save(news);
             if (newsNew !=null) {
+                logger.info("新闻保存成功");
                 resultVO.setStatus("0");
                 resultVO.setObject(newsNew);
+                //新闻保存成功，同时添加记录到hot表
+                labelService.save(newsNew,newsNew.getClass());
             }else {
                 logger.error("新闻保存失败");
                 resultVO.setStatus("1");
@@ -152,4 +161,5 @@ public class NewsController {
         }
         return resultVO;
     }
+
 }

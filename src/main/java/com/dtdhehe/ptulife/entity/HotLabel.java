@@ -13,11 +13,14 @@ public class HotLabel {
     @Id
     private String labelId;
 
-    private String orgId;
+    private String postId;
 
     private String labelTitle;
 
     private Integer labelHot;
+
+    public HotLabel() {
+    }
 
     public String getLabelId() {
         return labelId;
@@ -27,12 +30,12 @@ public class HotLabel {
         this.labelId = labelId;
     }
 
-    public String getOrgId() {
-        return orgId;
+    public String getPostId() {
+        return postId;
     }
 
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
     public String getLabelTitle() {

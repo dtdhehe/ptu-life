@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dtdhehe.ptulife.entity.PtuAnswer;
 import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.service.AnswerService;
+import com.dtdhehe.ptulife.service.LabelService;
 import com.dtdhehe.ptulife.service.UserService;
 import com.dtdhehe.ptulife.util.CheckUserUtils;
 import com.dtdhehe.ptulife.util.DateUtils;
@@ -42,6 +43,9 @@ public class AnswerController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LabelService labelService;
 
     @RequestMapping("/getEditAnswer")
     public String getEditAnswer(HttpServletRequest request, Model model){
@@ -83,7 +87,7 @@ public class AnswerController {
     @ResponseBody
     public ResultVO saveAnswer(@RequestParam(name = "answer",required = false)String answerObject){
         JSONObject jsonObject = JSONObject.parseObject(answerObject);
-        logger.info("开始保存新闻");
+        logger.info("开始保存问答");
         ResultVO resultVO = new ResultVO();
         try {
             PtuAnswer ptuAnswer = new PtuAnswer();
@@ -95,8 +99,11 @@ public class AnswerController {
             ptuAnswer.setUserId((String) jsonObject.get("userId"));
             PtuAnswer answerNew = answerService.save(ptuAnswer);
             if (answerNew != null){
+                logger.info("开始保存问答");
                 resultVO.setStatus("0");
                 resultVO.setObject(answerNew);
+                //问答保存成功，同时添加记录到hot表
+                labelService.save(answerNew,answerNew.getClass());
             }else {
                 logger.error("问答保存失败");
                 resultVO.setStatus("1");
