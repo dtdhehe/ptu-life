@@ -8,6 +8,7 @@
             <ul class="nav navbar-nav">
                 <li><a th:href="@{/ptu/homePageController/home}">首页</a></li>
                 <li><a th:href="@{/ptu/homePageController/life}" >生活</a></li>
+                <li><a th:href="@{/map/mapController/getMap}" >地图</a></li>
             </ul>
         </div>
         <div id="loginBtn" style="display: none;">
@@ -16,8 +17,8 @@
         </div>
         <div id="logoutBtn" style="display: none;">
             <ul class="layui-nav pull-right" style="background-color: #222;padding: 0;">
-                <li class="layui-nav-item">
-                    <a href=""><img alt="头像" style="width: 35px; height: 35px;margin: 10px" th:src="${session.loginUser.headImg}" class="img-circle" /></a>
+                <li class="layui-nav-item" style="line-height: 50px">
+                    <a href=""><img alt="头像" style="width: 35px; height: 35px;margin-right: 10px" th:src="${session.loginUser.headImg}" class="img-circle" /></a>
                     <dl class="layui-nav-child">
                         <dd style="line-height: 36px"><a href="/news/newsController/editNews">发布新闻</a></dd>
                         <dd style="line-height: 36px"><a href="/answer/answerController/getEditAnswer">发布问答</a></dd>

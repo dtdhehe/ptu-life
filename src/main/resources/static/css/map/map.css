@@ -1,0 +1,41 @@
+.map-body{
+    margin-top: 10px;
+    width: 100%;
+    height: 500px;
+}
+.map{
+    width: 95%;
+    height: 500px;
+}
+.nav-menu{
+    background-color: #F5F5F5;width: 300px;padding: 0;border-radius: 2px;
+}
+.nav-menu *{
+    font-size: medium;
+}
+.nav-menu li{
+    cursor: pointer;
+    padding: 0 20px;
+}
+/*选择行样式*/
+.nav-menu .itemed .a-font{
+    /*background-color: #e7e7e7;*/
+    font-weight: bold;
+}
+.nav-menu a{
+    position: relative;height:80px;line-height:80px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;
+    display: block;
+}
+.nav-menu a:hover,.nav-menu li:hover{
+    background-color: #e7e7e7;
+}
+.nav-menu a:hover .panel,.nav-menu li:hover .panel{
+    background-color: #e7e7e7;
+}
+.panel{
+    display: none;
+    background-color: #F5F5F5;
+}
+.panel dd:hover,.panel a:hover{
+    background-color: #F5F5F5;
+}

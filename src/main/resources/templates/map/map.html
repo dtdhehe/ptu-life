@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>校园地图</title>
+    <!-- bootstrap基础 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/js/bootstrap/css/animate.css}" />
+    <!-- bootstrap-table列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap-table.css}" />
+    <!--地图页面css-->
+    <link rel="stylesheet"
+          th:href="@{/css/map/map.css}" />
+    <!-- layui -->
+    <link rel="stylesheet"
+          th:href="@{/js/layui/css/layui.css}" />
+</head>
+<body>
+<!--导航栏-->
+<nav class="navbar-inverse visible-lg visible-md" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.ptu.edu.cn/">莆田学院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/ptu/homePageController/home}">首页</a></li>
+                <li><a th:href="@{/ptu/homePageController/life}" >生活</a></li>
+                <li class="active"><a>地图</a></li>
+            </ul>
+        </div>
+        <div id="logoutBtn" style="display: none;">
+            <ul class="layui-nav pull-right" style="background-color: #222;padding: 0;">
+                <li class="layui-nav-item" style="line-height: 50px">
+                    <a href=""><img id="headImg" alt="头像" style="width: 35px; height: 35px;margin-right: 10px" th:src="${session.loginUser.headImg}" class="img-circle" /></a>
+                    <dl class="layui-nav-child">
+                        <dd style="line-height: 36px"><a href="/news/newsController/editNews">发布新闻</a></dd>
+                        <dd style="line-height: 36px"><a href="/answer/answerController/getEditAnswer">发布问答</a></dd>
+                        <dd style="line-height: 36px"><a href="/myInformationController/getMyInformation">查看资料</a></dd>
+                        <dd style="line-height: 36px"><a href="/login/loginController/logout" >退出登录</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="map-body">
+    <div class="col-md-3 column">
+        <ul id="navMenu" class="nav-menu">
+            <li id="firstLi" class="itemed"><a class="a-font" href="javascript:void(0);" onclick="changeMenu('location')">学校坐标图</a></li>
+            <li class="">
+                <input type="hidden" />
+                <a class="a-font" href="javascript:void(0);" onclick="openSecond(this)">动车站(公交)</a>
+                <dl class="panel">
+                    <dd><a href="javascript:void(0);" onclick="changeMenu('station-median-bus')">动车站-中区(公交)</a></dd>
+                    <dd><a href="javascript:void(0);" onclick="changeMenu('station-north-bus')">动车站-北区(公交)</a></dd>
+                </dl>
+            </li>
+            <li class="">
+                <input type="hidden" />
+                <a class="a-font" href="javascript:void(0);" onclick="openSecond(this)">动车站(驾车)</a>
+                <dl class="panel">
+                    <dd><a href="javascript:void(0);" onclick="changeMenu('station-median-car')">动车站-中区(驾车)</a></dd>
+                    <dd><a href="javascript:void(0);" onclick="changeMenu('station-north-car')">动车站-北区(驾车)</a></dd>
+                </dl>
+            </li>
+            <li class="">
+                <input type="hidden" />
+                <a class="a-font" href="javascript:void(0);" onclick="openSecond(this)">汽车站(公交)</a>
+                <dl class="panel">
+                    <dd><a href="javascript:void(0);" onclick="changeMenu('busStation-median-bus')">汽车站-中区(公交)</a></dd>
+                    <dd><a href="javascript:void(0);" onclick="changeMenu('busStation-north-bus')">汽车站-北区(公交)</a></dd>
+                </dl>
+            </li>
+            <li class="">
+                <input type="hidden" />
+                <a class="a-font" href="javascript:void(0);" onclick="openSecond(this)">汽车站(驾车)</a>
+                <dl class="panel">
+                    <dd><a href="javascript:void(0);" onclick="changeMenu('busStation-median-car')">汽车站-中区(驾车)</a></dd>
+                    <dd><a href="javascript:void(0);" onclick="changeMenu('busStation-north-car')">汽车站-北区(驾车)</a></dd>
+                </dl>
+            </li>
+            <!--<li class=""><a href="javascript:void(0);" onclick="changeMenu('station-median-bus')">动车站-中区(公交)</a></li>-->
+            <!--<li class=""><a href="javascript:void(0);" onclick="changeMenu('station-median-car')">动车站-中区(驾车)</a></li>-->
+            <!--<li class=""><a href="javascript:void(0);" onclick="changeMenu('station-north-bus')">动车站-北区(公交)</a></li>-->
+            <!--<li class=""><a href="javascript:void(0);" onclick="changeMenu('station-north-car')">动车站-北区(驾车)</a></li>-->
+            <!--<li class=""><a href="javascript:void(0);" onclick="changeMenu('busStation-median-bus')">汽车站-中区(公交)</a></li>-->
+            <!--<li class=""><a href="javascript:void(0);" onclick="changeMenu('busStation-median-car')">汽车站-中区(驾车)</a></li>-->
+            <!--<li class=""><a href="javascript:void(0);" onclick="changeMenu('busStation-north-bus')">汽车站-北区(公交)</a></li>-->
+            <!--<li class=""><a href="javascript:void(0);" onclick="changeMenu('busStation-north-car')">汽车站-北区(驾车)</a></li>-->
+        </ul>
+    </div>
+    <!--地图-->
+    <div class="col-md-9 column">
+        <div id="baidu_map" class="map" ></div>
+        <div id="result"></div>
+    </div>
+</div>
+<!--引入页脚-->
+<div th:replace="footer"></div>
+<!-- 全局js -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+<!-- bootstrap-table列表-->
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table-zh-CN.js}"></script>
+<!--引入layui的js-->
+<script type="text/javascript"
+        th:src="@{/js/layui/layui.all.js}"></script>
+<!--引入标签js-->
+<script type="text/javascript"
+        th:src="@{/js/init/init.js}"></script>
+<!--百度地图-->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=5XcA3GbDiuvN6QPkaSC7x3qumKn8Ln0o"></script>
+<!-- js 方法 -->
+<script th:inline="javascript">
+    //<![CDATA[
+
+    //定义坐标点
+    var medianPoint = new BMap.Point(119.016978, 25.449067);//中区坐标
+    var northPoint = new BMap.Point(119.022309, 25.458862);//北区坐标
+    var stationPoint = new BMap.Point(119.071361, 25.356112);//动车站坐标
+    var busStationPoint = new BMap.Point(119.037167, 25.432406);//汽车站、公交东站坐标
+    $(function () {
+        //打印当前登录用户
+        console.log([[${session.loginUser}]]);
+        var loginUser = [[${session.loginUser}]];
+        if (loginUser === null) {
+            $("#loginBtn").css("display","");
+        }else {
+            $("#logoutBtn").css("display","");
+        }
+        getLocation(northPoint);
+    });
+
+    function changeMenu(point) {
+        if (point === 'location'){
+            //清除所有的选中样式
+            $("#navMenu li").removeClass("itemed");
+            //给当前选中栏添加样式
+            $("#firstLi").addClass("itemed");
+            getLocation(medianPoint);
+        }else if(point === 'station-median-bus'){
+            stationToMedianByBus();
+        }else if(point === 'station-median-car'){
+            stationToMedianByCar();
+        }else if(point === 'station-north-bus'){
+            stationToNorthByBus();
+        }else if(point === 'station-north-car'){
+            stationToNorthByCar();
+        }else if(point === 'busStation-median-bus'){
+            busStationToMedianByBus();
+        }else if(point === 'busStation-median-car'){
+            busStationToMedianByCar();
+        }else if(point === 'busStation-north-bus'){
+            busStationToNorthByBus();
+        }else if(point === 'busStation-north-car'){
+            busStationToNorthByCar();
+        }
+    }
+    
+    function openSecond(obj) {
+        //清除所有的选中样式
+        $("#navMenu li").removeClass("itemed");
+        //给当前选中栏添加样式
+        $(obj).parent().addClass("itemed");
+        var value = $(obj).prev().val();
+        if (value === ''){
+            $(obj).prev().val("1");
+            $(obj).next().slideDown("slow");
+        }else {
+            $(obj).prev().val("");
+            $(obj).next().hide(500);
+        }
+    }
+    
+    //坐标图
+    function getLocation(point) {
+        //定义百度地图map
+        var map = new BMap.Map("baidu_map");
+        map.centerAndZoom(point, 14);  // 初始化地图,设置中心点坐标和地图级别
+        map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+        var stCtrl = new BMap.PanoramaControl();
+        stCtrl.setOffset(new BMap.Size(20, 20));
+        map.addControl(stCtrl);
+    }
+
+    //动车站到学院中区-公交
+    function stationToMedianByBus() {
+        //定义百度地图map
+        var map = new BMap.Map("baidu_map");
+        var transit = new BMap.TransitRoute(map,{
+            renderOptions: {
+                map: map,
+                autoViewport: true,
+                panel:"result"
+            },
+            // 配置跨城公交的换成策略为优先出发早
+            intercityPolicy: BMAP_INTERCITY_POLICY_EARLY_START,
+            // 配置跨城公交的交通方式策略为飞机优先
+            transitTypePolicy: BMAP_TRANSIT_TYPE_POLICY_AIRPLANE
+        });
+        transit.search(stationPoint, medianPoint);
+    }
+    //动车站到学院中区-驾车
+    function stationToMedianByCar() {
+        $("#result").html('');
+        //定义百度地图map
+        var map = new BMap.Map("baidu_map");
+        var driving = new BMap.DrivingRoute(map,{
+            renderOptions: {
+                map: map,
+                autoViewport: true
+            },
+            // 配置跨城公交的换成策略为优先出发早
+            intercityPolicy: BMAP_INTERCITY_POLICY_EARLY_START,
+            // 配置跨城公交的交通方式策略为飞机优先
+            transitTypePolicy: BMAP_TRANSIT_TYPE_POLICY_AIRPLANE
+        });
+        driving.search(stationPoint, medianPoint);
+    }
+    //动车站到学院北区-公交
+    function stationToNorthByBus() {
+        //定义百度地图map
+        var map = new BMap.Map("baidu_map");
+        var transit = new BMap.TransitRoute(map,{
+            renderOptions: {
+                map: map,
+                autoViewport: true,
+                panel:"result"
+            },
+            // 配置跨城公交的换成策略为优先出发早
+            intercityPolicy: BMAP_INTERCITY_POLICY_EARLY_START,
+            // 配置跨城公交的交通方式策略为飞机优先
+            transitTypePolicy: BMAP_TRANSIT_TYPE_POLICY_AIRPLANE
+        });
+        transit.search(stationPoint, northPoint);
+    }
+    //动车站到学院北区-驾车
+    function stationToNorthByCar() {
+        $("#result").html('');
+        //定义百度地图map
+        var map = new BMap.Map("baidu_map");
+        var driving = new BMap.DrivingRoute(map,{
+            renderOptions: {
+                map: map,
+                autoViewport: true
+            },
+            // 配置跨城公交的换成策略为优先出发早
+            intercityPolicy: BMAP_INTERCITY_POLICY_EARLY_START,
+            // 配置跨城公交的交通方式策略为飞机优先
+            transitTypePolicy: BMAP_TRANSIT_TYPE_POLICY_AIRPLANE
+        });
+        driving.search(stationPoint, northPoint);
+    }
+
+    //汽车站到学院中区-公交
+    function busStationToMedianByBus() {
+        //定义百度地图map
+        var map = new BMap.Map("baidu_map");
+        var transit = new BMap.TransitRoute(map,{
+            renderOptions: {
+                map: map,
+                autoViewport: true,
+                panel:"result"
+            },
+            // 配置跨城公交的换成策略为优先出发早
+            intercityPolicy: BMAP_INTERCITY_POLICY_EARLY_START,
+            // 配置跨城公交的交通方式策略为飞机优先
+            transitTypePolicy: BMAP_TRANSIT_TYPE_POLICY_AIRPLANE
+        });
+        transit.search(busStationPoint, medianPoint);
+    }
+    //汽车站到学院中区-驾车
+    function busStationToMedianByCar() {
+        $("#result").html('');
+        //定义百度地图map
+        var map = new BMap.Map("baidu_map");
+        var driving = new BMap.DrivingRoute(map,{
+            renderOptions: {
+                map: map,
+                autoViewport: true
+            },
+            // 配置跨城公交的换成策略为优先出发早
+            intercityPolicy: BMAP_INTERCITY_POLICY_EARLY_START,
+            // 配置跨城公交的交通方式策略为飞机优先
+            transitTypePolicy: BMAP_TRANSIT_TYPE_POLICY_AIRPLANE
+        });
+        driving.search(busStationPoint, medianPoint);
+    }
+    //汽车站到学院北区-公交
+    function busStationToNorthByBus() {
+        //定义百度地图map
+        var map = new BMap.Map("baidu_map");
+        var transit = new BMap.TransitRoute(map,{
+            renderOptions: {
+                map: map,
+                autoViewport: true,
+                panel:"result"
+            },
+            // 配置跨城公交的换成策略为优先出发早
+            intercityPolicy: BMAP_INTERCITY_POLICY_EARLY_START,
+            // 配置跨城公交的交通方式策略为飞机优先
+            transitTypePolicy: BMAP_TRANSIT_TYPE_POLICY_AIRPLANE
+        });
+        transit.search(stationPoint, northPoint);
+    }
+    //汽车站到学院北区-驾车
+    function busStationToNorthByCar() {
+        $("#result").html('');
+        //定义百度地图map
+        var map = new BMap.Map("baidu_map");
+        var driving = new BMap.DrivingRoute(map,{
+            renderOptions: {
+                map: map,
+                autoViewport: true
+            },
+            // 配置跨城公交的换成策略为优先出发早
+            intercityPolicy: BMAP_INTERCITY_POLICY_EARLY_START,
+            // 配置跨城公交的交通方式策略为飞机优先
+            transitTypePolicy: BMAP_TRANSIT_TYPE_POLICY_AIRPLANE
+        });
+        driving.search(stationPoint, northPoint);
+    }
+    //]]>
+</script>
+</body>
+</html>
