@@ -251,6 +251,10 @@
         });
     }
 
+    function setIframeHeight(height) {
+        $("#iframeInfo").attr("height",height);
+    }
+
     function loginStatus(status) {
         if (status === "regist"){
             window.location.href = [[@{/ptu/homePageController/registPage}]];

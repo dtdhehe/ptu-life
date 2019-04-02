@@ -58,6 +58,7 @@
             </div>
         </div>
     </nav>
+    <div id="baidu_map" style="width: 800px ; height: 500px"></div>
     <!--引入头文件-->
     <div th:replace="head.html"></div>
     <!--主体页面   新闻和标签-->
@@ -125,10 +126,19 @@
     <!--引入标签js-->
     <script type="text/javascript"
             th:src="@{/js/init/init.js}"></script>
+    <!--百度地图-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=5XcA3GbDiuvN6QPkaSC7x3qumKn8Ln0o"></script>
     <!-- js 方法 -->
     <script th:inline="javascript">
         //<![CDATA[
         $(function () {
+
+            var map = new BMap.Map("baidu_map");
+            var point = new BMap.Point(119.005, 25.448);//创建一个坐标点
+            map.centerAndZoom(point, 11);  // 初始化地图,设置中心点坐标和地图级别
+
+            map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+
             //初始化函数
             //初始查询新闻第一页数据
             var page = $("#newsPage").val();

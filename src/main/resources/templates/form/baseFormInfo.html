@@ -53,18 +53,18 @@
         <div class="layui-form-item">
             <label class="layui-form-label row_label" for="userStatus">身份标识</label>
             <div class="layui-input-block row_div">
-                <select id="userStatus" name="userStatus" lay-verify="required">
+                <select id="userStatus" name="userStatus" lay-filter="userStatus" lay-verify="required">
                     <option value="">请选择身份标识</option>
                     <option value="0">学生</option>
                     <option value="1">教师</option>
-                    <option value="1">职工</option>
+                    <option value="2">职工</option>
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label row_label">所属机构</label>
             <div class="layui-input-block row_div">
-                <select id="orgStatus" name="orgStatus" lay-verify="required">
+                <select id="orgStatus" name="orgStatus" lay-filter="orgStatus" lay-verify="required">
                     <option value="">请选择所属机构</option>
                     <option value="010">信息工程学院</option>
                     <option value="011">土木工程学院</option>
@@ -107,12 +107,39 @@
 <!-- js 方法 -->
 <script th:inline="javascript">
     //<![CDATA[
+    var thisHeight = $("body").height();
     $(function () {
         //初始化函数
         initForm();
-
+        monitor("userStatus");
+        monitor("orgStatus");
     });
 
+    function monitor(dom) {
+        // // $("#"+dom).next().find("div").find("input").blur(function (t) {
+        // //
+        // //
+        // // });
+        // $("#"+dom).next().find("div").find("input").focus(function (t) {
+        //     // var myDom = $("select[name='"+dom+"']");
+        //     // var myHeight = thisHeight + myDom.next().find("dl").height()+12-50;
+        //     // $(window.parent.setIframeHeight(myHeight));
+        //     $(window.parent.setIframeHeight(thisHeight));
+        // });
+        $("#"+dom).next().find("div").find("input").on("click", function () {
+        debugger;
+            var myDom = $("select[name='"+dom+"']");
+            if(!myDom.next().hasClass("layui-form-selected")){
+                debugger;
+                var myHeight = thisHeight + myDom.next().find("dl").height()+12-50;
+                $(window.parent.setIframeHeight(myHeight));
+            }else {
+                debugger;
+                $(window.parent.setIframeHeight(thisHeight));
+            }
+        });
+    }
+    
     function initForm() {
         layui.use('form', function(){
             var form = layui.form;
@@ -123,6 +150,15 @@
             //性别初始化
             radioed([[${currentUser.userSex}]]);
             form.render();
+            form.on('select(userStatus)', function(data){
+                $(window.parent.setIframeHeight(thisHeight));
+                // console.log(data.elem); //得到select原始DOM对象
+                // console.log(data.value); //得到被选中的值
+                // console.log(data.othis); //得到美化后的DOM对象
+            });
+            form.on('select(orgStatus)', function(data){
+                $(window.parent.setIframeHeight(thisHeight));
+            });
         });
     }
 
