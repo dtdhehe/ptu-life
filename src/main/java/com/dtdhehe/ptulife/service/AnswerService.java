@@ -4,6 +4,8 @@ import com.dtdhehe.ptulife.entity.PtuAnswer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * Create By Xie_东
  * on 2019/2/25 15:23
@@ -23,6 +25,12 @@ public interface AnswerService {
      * @return
      */
     Page<PtuAnswer> queryAllAnswer(Pageable pageable);
+
+    /**
+     * 查询全部问答
+     * @return
+     */
+    List<PtuAnswer> queryAllAnswer();
 
     /**
      * 根据id查询问答

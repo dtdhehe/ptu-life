@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Create By Xie_东
  * on 2019/2/25 15:28
@@ -26,6 +28,11 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public Page<PtuAnswer> queryAllAnswer(Pageable pageable) {
         return ptuAnswerRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<PtuAnswer> queryAllAnswer() {
+        return ptuAnswerRepository.findAll();
     }
 
     @Override

@@ -28,4 +28,12 @@ public interface CommentRepository extends JpaRepository<Comment,String> {
      * @return
      */
     List<Comment> queryByPidAndPidIsNotNull(String id, Sort sort);
+
+    /**
+     * 根据业务id查询全部评论
+     * @param pid
+     * @return
+     */
+    List<Comment> queryByPostId(String pid);
+
 }

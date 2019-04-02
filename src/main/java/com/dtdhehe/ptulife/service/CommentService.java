@@ -38,4 +38,11 @@ public interface CommentService {
      */
     List<Comment> queryByPidAndPidIsNotNull(String id, Sort sort);
 
+    /**
+     * 根据业务id全部评论计算热度
+     * @param pid
+     * @return
+     */
+    Integer getHotByComment(String pid);
+
 }

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Create By Xie_东
  * on 2018/12/18 15:56
@@ -45,6 +47,16 @@ public class LabelServiceImpl implements LabelService {
         }
         hotLabel.setLabelHot(60);
         return hotLableRepository.save(hotLabel);
+    }
+
+    @Override
+    public HotLabel save(HotLabel hotLabel) {
+        return hotLableRepository.save(hotLabel);
+    }
+
+    @Override
+    public List<HotLabel> findAllLabel() {
+        return hotLableRepository.findAll();
     }
 
 }

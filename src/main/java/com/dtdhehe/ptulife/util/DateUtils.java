@@ -40,6 +40,23 @@ public class DateUtils {
         return currentTime.replace(":","");
     }
 
+    /**
+     * 获取当前年月日,时分秒毫秒
+     * 格式 2018101015000000   16位
+     * @return
+     */
+    public static String getCurrentDateTime2(){
+        Date now = new Date();
+        //获取当前年月日
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss:mm");
+        return dateFormat.format(now);
+    }
+
+    /**
+     * 将数据库时间转成页面时间
+     * @param dateTime
+     * @return
+     */
     public static String date2ViewType(String dateTime){
         String formateDate;
         if (StringUtils.isEmpty(dateTime)){

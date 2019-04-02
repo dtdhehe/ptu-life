@@ -46,4 +46,22 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> queryByPidAndPidIsNotNull(String id, Sort sort) {
         return commentRepository.queryByPidAndPidIsNotNull(id,sort);
     }
+
+    @Override
+    public Integer getHotByComment(String pid) {
+        Integer count = 60;
+        List<Comment> commentList = commentRepository.queryByPostId(pid);
+        int size = commentList.size();
+        if (size <= 2){
+            int currentCount = 3 * size;
+            count = count + currentCount;
+        }else if (size <= 5){
+            int currentCount = 4 * size;
+            count = count + currentCount;
+        }else {
+            int currentCount = 5 * size;
+            count = count + currentCount;
+        }
+        return count;
+    }
 }
