@@ -1,0 +1,30 @@
+.approval-body{
+    margin-top: 10px;
+    width: 100%;
+}
+.row-label{
+    width: 100px !important;
+    text-align: center !important;
+}
+.row-label-media{
+    width: 130px !important;
+    text-align: center !important;
+}
+.row-select-type{
+    width: 20%;
+}
+.content-body{
+    width: 70%;
+}
+.content-body h2{
+    margin: 10px 10px;
+    text-align: center
+}
+.my_info{
+    text-align: center;
+    margin-bottom: 10px;
+}
+.my_info button{
+    width: 150px;
+    height: 40px;
+}

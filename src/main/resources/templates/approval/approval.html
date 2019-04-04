@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>审批</title>
+    <!-- bootstrap基础 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/js/bootstrap/css/animate.css}" />
+    <!-- bootstrap-table列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap-table.css}" />
+    <!-- bootstrap-select列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap-select/dist/css/bootstrap-select.min.css}" />
+    <!--审批页面css-->
+    <link rel="stylesheet"
+          th:href="@{/css/approval/approval.css}" />
+    <!-- layui -->
+    <link rel="stylesheet"
+          th:href="@{/js/layui/css/layui.css}" />
+</head>
+<body>
+<!--导航栏-->
+<nav class="navbar-inverse visible-lg visible-md" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.ptu.edu.cn/">莆田学院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/ptu/homePageController/home}">首页</a></li>
+                <li><a th:href="@{/ptu/homePageController/life}" >生活</a></li>
+                <li><a th:href="@{/map/mapController/getMap}" >地图</a></li>
+                <li class="active"><a>审批</a></li>
+            </ul>
+        </div>
+        <div id="logoutBtn" style="display: none;">
+            <ul class="layui-nav pull-right" style="background-color: #222;padding: 0;">
+                <li class="layui-nav-item" style="line-height: 50px">
+                    <a href=""><img id="headImg" alt="头像" style="width: 35px; height: 35px;margin-right: 10px" th:src="${session.loginUser.headImg}" class="img-circle" /></a>
+                    <dl class="layui-nav-child">
+                        <dd style="line-height: 36px"><a href="/news/newsController/editNews">发布新闻</a></dd>
+                        <dd style="line-height: 36px"><a href="/answer/answerController/getEditAnswer">发布问答</a></dd>
+                        <dd style="line-height: 36px"><a href="/myInformationController/getMyInformation">查看资料</a></dd>
+                        <dd style="line-height: 36px"><a href="/login/loginController/logout" >退出登录</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--<div>-->
+    <!--<select id="type" name="type" class="selectpicker show-tick">-->
+        <!--<option value="0">请假</option>-->
+        <!--<option value="1">教室</option>-->
+        <!--<option value="2">实验室</option>-->
+    <!--</select>-->
+<!--</div>-->
+<div class="approval-body">
+    <div class="col-md-3 column">
+
+    </div>
+    <div class="col-md-9 column">
+        <div class="layui-form">
+            <label class="row-label layui-form-label">申请类别</label>
+            <div class="layui-input-block row-select-type">
+                <select id="type" name="type" lay-filter="type" lay-verify="">
+                    <option value="0">请假</option>
+                    <option value="1">教室</option>
+                    <option value="2">实验室</option>
+                </select>
+            </div>
+        </div>
+        <div class="content-body">
+            <h2>审批内容</h2>
+            <hr/>
+            <div id="iframeContent">
+                <!--请假-->
+                <form id="leaveForm" class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">申请人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="approvalName"  placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">申请时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="date" name="approvalTime" placeholder="请选择日期" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">联系电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="phone" placeholder="请输入联系电话" onblur="checkPhone(this)" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label row-label">请假事由</label>
+                        <div class="layui-input-block">
+                            <textarea name="approvalReason" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">请假天数</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="approvalDays" placeholder="请输入天数" oninput="value=value.replace(/[^\d]/g,'')" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </form>
+                <!--教室-->
+                <form id="roomForm" class="layui-form" style="display: none">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">申请人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="approvalName"  placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">申请时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="date2" name="approvalTime" placeholder="请选择日期" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">联系电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="phone" placeholder="请输入联系电话" onblur="checkPhone(this)" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">教室名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="approvalRoom" placeholder="请输入教室名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label row-label">申请事由</label>
+                        <div class="layui-input-block">
+                            <textarea name="approvalReason" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label-media">是否包含多媒体</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="media" value="1" title="是" checked>
+                            <input type="radio" name="media" value="0" title="否">
+                        </div>
+                    </div>
+                </form>
+                <!--实验室-->
+                <form id="labForm" class="layui-form" style="display: none">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">申请人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="approvalName"  placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">申请时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="date3" name="approvalTime" placeholder="请选择日期" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">联系电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="phone" placeholder="请输入联系电话" onblur="checkPhone(this)" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">实验室名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="approvalRoom"  placeholder="请输入实验室名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label row-label">申请事由</label>
+                        <div class="layui-input-block">
+                            <textarea name="approvalReason" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label row-label">申请天数</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="approvalDays" placeholder="请输入天数" oninput="value=value.replace(/[^\d]/g,'')" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr/>
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label row-label">审核人</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="verifyName"  placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label row-label">邮箱</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="email" name="email"  placeholder="请输入邮箱" onblur="checkEmail()" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div id="save" class="my_info">
+                <button id="saveInfo" onclick="save()" class="btn btn-info">申请</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--引入页脚-->
+<div th:replace="footer"></div>
+<!-- 全局js -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+<!-- bootstrap-table列表-->
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table-zh-CN.js}"></script>
+<!-- bootstrap-select下拉列表-->
+<script type="text/javascript"
+        th:src="@{/js/bootstrap-select/dist/js/bootstrap-select.min.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap-select/dist/js/i18n/defaults-zh_CN.js}"></script>
+<!--引入layui的js-->
+<script type="text/javascript"
+        th:src="@{/js/layui/layui.all.js}"></script>
+<!--引入标签js-->
+<script type="text/javascript"
+        th:src="@{/js/init/init.js}"></script>
+<!-- js 方法 -->
+<script th:inline="javascript">
+    //<![CDATA[
+    $(function () {
+        changeType();
+        //打印当前登录用户
+        console.log([[${session.loginUser}]]);
+        var loginUser = [[${session.loginUser}]];
+        if (loginUser === null) {
+            $("#loginBtn").css("display","");
+        }else {
+            $("#logoutBtn").css("display","");
+        }
+        initDate();
+    });
+
+    function changeType() {
+        layui.use('form', function(){
+            var form = layui.form;
+            form.on('select(type)', function (data) {
+                console.log(data.value);
+                var type = $("#type").val();
+                if (type === "1"){
+                    $("#leaveForm").hide();
+                    $("#roomForm").show();
+                    $("#labForm").hide();
+                }else if (type === "2"){
+                    $("#leaveForm").hide();
+                    $("#roomForm").hide();
+                    $("#labForm").show();
+                }else {
+                    $("#leaveForm").show();
+                    $("#roomForm").hide();
+                    $("#labForm").hide();
+                }
+            });
+        });
+    }
+    
+    function save() {
+        var approval = {};
+        var type = $("#type").val();
+        var form = [];
+        if (type === "1"){
+            //教室form表单
+            form = $("#roomForm").serializeArray();
+        }else if (type === "2"){
+            //实验室form表单
+            form = $("#labForm").serializeArray();
+        }else {
+            //请假form表单
+            form = $("#leaveForm").serializeArray();
+        }
+        for (var i in form){
+            var val = form[i].value;
+            if (val === '') {
+                layer.alert("申请信息不能为空");
+                return false;
+            }else {
+                approval[form[i].name] = form[i].value;
+            }
+        }
+        var verifyName = $("#verifyName").val();
+        var email = $("#email").val();
+        if (verifyName === '' || email === ''){
+            layer.alert("审核人信息不能为空");
+            return false;
+        }
+        approval['userId'] = [[${session.loginUser.userId}]];
+        approval['approvalType'] = type;
+        approval['verifyName'] = verifyName;
+        approval['verifyEmail'] = email;
+        console.log(approval);
+        var urls = '/approval/approvalController/saveApproval';
+        $.ajax({
+            url:urls,
+            async:true,
+            type:'POST',
+            data:approval,
+            success:function (data) {
+                if (data.status === "0") {
+                    //注册成功，跳转首页
+                    layer.alert("申请成功!请等待审核",{
+                        icon:1,
+                        btn:[ '确认' ],
+                        yes : function() {
+                            $(location).attr('href','/approval/approvalController/getApproval');
+                        }
+                    });
+                }else {
+                    layer.alert("申请失败!");
+                }
+            }
+        });
+    }
+
+    function initDate(){
+        layui.use('laydate', function() {// 日期控件
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#date', //指定元素
+                type: 'date'
+            });
+            laydate.render({
+                elem: '#date2', //指定元素
+                type: 'datetime'
+            });
+            laydate.render({
+                elem: '#date3', //指定元素
+                type: 'date'
+            });
+        });
+    }
+
+    function checkPhone(obj) {
+        var phone = $(obj).val();
+        var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!reg.test(phone)){
+            layer.alert("手机号码格式不正确");
+            $("input[name=phone]").val('');
+            return false;
+        }
+        return true;
+    }
+
+    /*验证邮箱*/
+    function checkEmail(){
+        var email=$("input[name=email]").val();
+        var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        if(reg.test(email)==false){
+            layer.alert("Email格式不正确，例如web@sohu.com");
+            $("input[name=email]").val("");
+            return false;
+        }
+        return true;
+    }
+    
+    //]]>
+</script>
+</body>
+</html>

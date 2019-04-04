@@ -34,6 +34,7 @@
                     <li class="active"><a>首页</a></li>
                     <li><a th:href="@{/ptu/homePageController/life}" >生活</a></li>
                     <li><a th:href="@{/map/mapController/getMap}" >地图</a></li>
+                    <li><a th:href="@{/approval/approvalController/getApproval}" >审批</a></li>
                 </ul>
             </div>
             <!--<div id="loginBtn" style="display: none;">-->
@@ -73,34 +74,6 @@
                 <!--热门标签-->
                 <!--引入标签html代码-->
                 <div th:replace="hotLabel.html"></div>
-                <!--热门问答-->
-                <div>
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                热门问答
-                                <span style="float:right;margin-right: 10px">热度</span>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <div>
-                                <a href="#">食堂鱼为什么不刮鱼鳞</a>
-                                <span style="float:right;margin-right: 20px">80</span>
-
-                            </div>
-                            <hr/>
-                            <div>
-                                <a href="#"> 金荣楼为什么没有空调</a>
-                                <span style="float:right;margin-right: 20px">160</span>
-
-                            </div>
-                        </div>
-                        <div class="panel-footer">
-                            <a href="#"> 查看更多</a>
-                            <span style="float:right;margin-right: 20px">more</span>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -141,7 +114,7 @@
                 $("#logoutBtn").css("display","");
             }
         });
-
+        
         function loginStatus(status) {
             if (status === "regist"){
                 window.location.href = [[@{/ptu/homePageController/registPage}]];
@@ -184,7 +157,7 @@
                         for (var i=0;i<newsList.length;i++){
                             var htmls =
                                 "<div class='media well'>" +
-                                "   <a href='#' class='pull-left'><img src='http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/64/64/default.jpg' width='100px' height='100px' class='media-object' alt='' /></a>" +
+                                "   <a  class='pull-left'><img src='http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/64/64/default.jpg' width='100px' height='100px' class='media-object' alt='' /></a>" +
                                 "      <div class='media-body'>" +
                                 "          <h4 class='media-heading'>" +
                                 "              <a href='/news/newsController/newsPage?newsId="+newsList[i].newsId+"'><b> "+newsList[i].newsTitle+"</b></a>" +
