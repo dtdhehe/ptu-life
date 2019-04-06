@@ -1,7 +1,10 @@
 package com.dtdhehe.ptulife.repository;
 
 import com.dtdhehe.ptulife.entity.Approval;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * Create By Xie_东
@@ -9,4 +12,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author admin
  */
 public interface ApprovalRepository extends JpaRepository<Approval,String> {
+
+    /**
+     * 根据用户id查询全部申请记录
+     * @param userId
+     * @param approvalType
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select t from Approval t where t.userId=?1 and t.approvalType like %?2%")
+    Page<Approval> findByUserId(String userId, String approvalType, Pageable pageable);
+
 }

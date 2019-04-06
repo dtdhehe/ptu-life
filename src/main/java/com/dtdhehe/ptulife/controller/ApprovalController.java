@@ -1,20 +1,34 @@
 package com.dtdhehe.ptulife.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dtdhehe.ptulife.entity.Approval;
+import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.enums.ApprovalTypeEnum;
 import com.dtdhehe.ptulife.service.ApprovalService;
 import com.dtdhehe.ptulife.service.MailService;
+import com.dtdhehe.ptulife.util.DateUtils;
 import com.dtdhehe.ptulife.util.MailUtils;
 import com.dtdhehe.ptulife.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Create By Xie_东
@@ -65,6 +79,67 @@ public class ApprovalController {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
         return resultVO;
+    }
+
+    @RequestMapping("/getApprovalTable")
+    @ResponseBody
+    public JSONObject getApprovalTable(HttpServletRequest request, Integer rows, Integer page, String approvalType){
+        //查出当前登录用户
+        PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
+        logger.info("当前用户是:"+ptuUser);
+        //对查询条件判断是否为空
+        if (StringUtils.isEmpty(approvalType)){
+            approvalType = "";
+        }
+        try {
+            Pageable pageable = PageRequest.of(page,rows,Sort.Direction.DESC,"createTime");
+            Page<Approval> approvalPage = approvalService.queryApprovalByUserId(ptuUser.getUserId(),approvalType,pageable);
+            List<Approval> newsList = approvalPage.getContent();
+            Iterator<Approval> it = newsList.iterator();
+            while (it.hasNext()){
+                Approval approval = it.next();
+                //将type转成中文含义
+                String typeCode = approval.getApprovalType();
+                String type = "";
+                if (typeCode.equals(ApprovalTypeEnum.LEAVE.getTypeCode())){
+                    type = ApprovalTypeEnum.LEAVE.getTypeText();
+                }
+                if (typeCode.equals(ApprovalTypeEnum.ROOM.getTypeCode())){
+                    type = ApprovalTypeEnum.ROOM.getTypeText();
+                }
+                if (typeCode.equals(ApprovalTypeEnum.LAB.getTypeCode())){
+                    type = ApprovalTypeEnum.LAB.getTypeText();
+                }
+                approval.setApprovalType(type);
+                //将数据库日期转成页面日期
+                approval.setApprovalTime(DateUtils.date2ViewType(approval.getApprovalTime(),"date"));
+                //将多媒体状态转成中文含义
+                if (approval.getMedia() != null){
+                    approval.setMedia(approval.getMedia().equals("1")?"是":"否");
+                }
+                //将审核状态转码
+                switch (approval.getStatus()) {
+                    case "2":
+                        approval.setStatus("未通过");
+                        break;
+                    case "1":
+                        approval.setStatus("已通过");
+                        break;
+                    default:
+                        approval.setStatus("审核中");
+                        break;
+                }
+            }
+            long total = approvalPage.getTotalElements();
+            Map map = new HashMap();
+            map.put("total",total);
+            map.put("rows",newsList);
+            JSONObject json = new JSONObject(map);
+            return json;
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
+        return null;
     }
 
 }

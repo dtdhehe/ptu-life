@@ -9,6 +9,7 @@ import com.dtdhehe.ptulife.service.AnswerService;
 import com.dtdhehe.ptulife.service.NewsService;
 import com.dtdhehe.ptulife.service.OrgCodeService;
 import com.dtdhehe.ptulife.service.UserService;
+import com.dtdhehe.ptulife.util.DateUtils;
 import com.dtdhehe.ptulife.util.MyBeanUtils;
 import com.dtdhehe.ptulife.util.PasswordUtils;
 import com.dtdhehe.ptulife.vo.ResultVO;
@@ -101,6 +102,9 @@ public class MyInformationController {
             Pageable pageable = PageRequest.of(page,rows,Sort.Direction.DESC,"newsDate");
             Page<PtuNews> newsPage = newsService.queryNewsByUserId(ptuUser.getUserId(),newsTitle,pageable);
             List<PtuNews> newsList = newsPage.getContent();
+            for (PtuNews news : newsList) {
+                news.setNewsDate(DateUtils.date2ViewType(news.getNewsDate(), "datetime"));
+            }
             long total = newsPage.getTotalElements();
             Map map = new HashMap();
             map.put("total",total);
@@ -152,6 +156,9 @@ public class MyInformationController {
             Pageable pageable = PageRequest.of(page,rows,Sort.Direction.DESC,"answerDate");
             Page<PtuAnswer> answerPage = answerService.queryAnswerByUserId(ptuUser.getUserId(), answerTitle, pageable);
             List<PtuAnswer> answerList = answerPage.getContent();
+            for (PtuAnswer answer : answerList){
+                answer.setAnswerDate(DateUtils.date2ViewType(answer.getAnswerDate(),"datetime"));
+            }
             long total = answerPage.getTotalElements();
             Map map = new HashMap();
             map.put("total",total);

@@ -1,6 +1,7 @@
 .approval-body{
     margin-top: 10px;
     width: 100%;
+    min-height: 430px;
 }
 .row-label{
     width: 100px !important;
@@ -27,4 +28,30 @@
 .my_info button{
     width: 150px;
     height: 40px;
+}
+.nav-menu{
+    background-color: #F5F5F5;width: 300px;padding: 0;border-radius: 2px;
+}
+.nav-menu *{
+    font-size: medium;
+}
+.nav-menu li{
+    cursor: pointer;
+    padding: 0 20px;
+}
+/*选择行样式*/
+.nav-menu .itemed{
+    /*background-color: #e7e7e7;*/
+    font-weight: bold;
+}
+.nav-menu a{
+    position: relative;height:100px;line-height:100px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;
+    display: block;
+}
+.nav-menu a:hover,.nav-menu li:hover{
+    background-color: #e7e7e7;
+}
+.row_label{
+    width: 100px !important;
+    text-align: center !important;
 }
