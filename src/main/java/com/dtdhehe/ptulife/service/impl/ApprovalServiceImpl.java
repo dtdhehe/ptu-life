@@ -37,4 +37,23 @@ public class ApprovalServiceImpl implements ApprovalService {
     public Page<Approval> queryApprovalByUserId(String userId, String approvalType, Pageable pageable) {
         return approvalRepository.findByUserId(userId,approvalType,pageable);
     }
+
+    @Override
+    public Page<Approval> queryApprovalByEmail(String email, String approvalType, Pageable pageable) {
+        return approvalRepository.findByEmail(email,approvalType,pageable);
+    }
+
+    @Override
+    public void doPass(String id) {
+        Approval approval = approvalRepository.findById(id).get();
+        approval.setStatus("1");
+        approvalRepository.save(approval);
+    }
+
+    @Override
+    public void doRefuse(String id) {
+        Approval approval = approvalRepository.findById(id).get();
+        approval.setStatus("2");
+        approvalRepository.save(approval);
+    }
 }

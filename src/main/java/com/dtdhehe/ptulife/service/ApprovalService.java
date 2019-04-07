@@ -26,4 +26,25 @@ public interface ApprovalService {
      */
     Page<Approval> queryApprovalByUserId(String userId, String approvalType, Pageable pageable);
 
+    /**
+     * 根据用户邮箱查询全部待审核记录
+     * @param email
+     * @param approvalType
+     * @param pageable
+     * @return
+     */
+    Page<Approval> queryApprovalByEmail(String email, String approvalType, Pageable pageable);
+
+    /**
+     * 根据id通过审核
+     * @param id
+     */
+    void doPass(String id);
+
+    /**
+     * 根据id拒绝审核
+     * @param id
+     */
+    void doRefuse(String id);
+
 }

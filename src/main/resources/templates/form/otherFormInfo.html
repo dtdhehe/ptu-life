@@ -48,7 +48,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label row_label">联系方式</label>
             <div class="layui-input-block row_div">
-                <input type="text" name="mobileNum" th:value="${currentUser.mobileNum}" required  lay-verify="phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
+                <input type="text" name="mobileNum" th:value="${currentUser.mobileNum}" onblur="checkPhone(this)" required  lay-verify="phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -61,6 +61,12 @@
             <label class="layui-form-label row_label">微信</label>
             <div class="layui-input-block row_div">
                 <input type="text" name="wechatNum" th:value="${currentUser.wechatNum}" required  lay-verify="" placeholder="请输入微信号码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label row_label">邮箱</label>
+            <div class="layui-input-block row_div">
+                <input type="text" name="email" th:value="${currentUser.email}" onblur="checkEmail()" required  lay-verify="" placeholder="请输入电子邮箱" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -101,6 +107,29 @@
             //刷新form
             form.render();
         });
+    }
+
+    function checkPhone(obj) {
+        var phone = $(obj).val();
+        var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!reg.test(phone)){
+            layer.alert("手机号码格式不正确");
+            $("input[name=phone]").val('');
+            return false;
+        }
+        return true;
+    }
+
+    /*验证邮箱*/
+    function checkEmail(){
+        var email=$("input[name=email]").val();
+        var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        if(reg.test(email)==false){
+            layer.alert("Email格式不正确，例如web@sohu.com");
+            $("input[name=email]").val("");
+            return false;
+        }
+        return true;
     }
 
     //]]>

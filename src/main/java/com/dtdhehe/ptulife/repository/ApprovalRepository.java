@@ -23,4 +23,14 @@ public interface ApprovalRepository extends JpaRepository<Approval,String> {
     @Query(value = "select t from Approval t where t.userId=?1 and t.approvalType like %?2%")
     Page<Approval> findByUserId(String userId, String approvalType, Pageable pageable);
 
+    /**
+     * 根据用户邮箱查询全部待审核记录
+     * @param email
+     * @param approvalType
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select t from Approval t where t.verifyEmail=?1 and t.approvalType like %?2%")
+    Page<Approval> findByEmail(String email, String approvalType, Pageable pageable);
+
 }

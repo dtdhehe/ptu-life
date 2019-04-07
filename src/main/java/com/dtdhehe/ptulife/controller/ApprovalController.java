@@ -83,7 +83,8 @@ public class ApprovalController {
 
     @RequestMapping("/getApprovalTable")
     @ResponseBody
-    public JSONObject getApprovalTable(HttpServletRequest request, Integer rows, Integer page, String approvalType){
+    public JSONObject getApprovalTable(HttpServletRequest request, Integer rows, Integer page,
+                                       String approvalType,@RequestParam("flag")String flag){
         //查出当前登录用户
         PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
         logger.info("当前用户是:"+ptuUser);
@@ -91,9 +92,16 @@ public class ApprovalController {
         if (StringUtils.isEmpty(approvalType)){
             approvalType = "";
         }
+        Page<Approval> approvalPage;
         try {
             Pageable pageable = PageRequest.of(page,rows,Sort.Direction.DESC,"createTime");
-            Page<Approval> approvalPage = approvalService.queryApprovalByUserId(ptuUser.getUserId(),approvalType,pageable);
+            if (flag.equals("1")){
+                //查看申请记录
+                approvalPage = approvalService.queryApprovalByUserId(ptuUser.getUserId(),approvalType,pageable);
+            }else {
+                //查看待审核记录
+                approvalPage = approvalService.queryApprovalByEmail(ptuUser.getEmail(),approvalType,pageable);
+            }
             List<Approval> newsList = approvalPage.getContent();
             Iterator<Approval> it = newsList.iterator();
             while (it.hasNext()){
@@ -140,6 +148,64 @@ public class ApprovalController {
             logger.error(e.getMessage());
         }
         return null;
+    }
+
+    /**
+     * 通过审核
+     * @param id
+     * @return
+     */
+    @RequestMapping("/doPass")
+    @ResponseBody
+    public ResultVO doPass(String id){
+        ResultVO resultVO = new ResultVO();
+        logger.info("要通过的申请id为:"+id);
+        if (StringUtils.isEmpty(id)){
+            logger.info("传入的申请id为空");
+            resultVO.setError_msg("申请id为null");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        try {
+            approvalService.doPass(id);
+            resultVO.setStatus("0");
+            resultVO.setError_msg("操作成功");
+        }catch (Exception e){
+            logger.error("审核通过失败,id="+id);
+            logger.error(e.getMessage());
+            resultVO.setError_msg("审核通过失败");
+            resultVO.setStatus("1");
+        }
+        return resultVO;
+    }
+
+    /**
+     * 根据id拒绝审核
+     * @param id
+     * @return
+     */
+    @RequestMapping("/doRefuse")
+    @ResponseBody
+    public ResultVO doRefuse(String id){
+        ResultVO resultVO = new ResultVO();
+        logger.info("要拒绝的申请id为:"+id);
+        if (StringUtils.isEmpty(id)){
+            logger.info("传入的申请id为空");
+            resultVO.setError_msg("申请的id为null");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        try {
+            approvalService.doRefuse(id);
+            resultVO.setStatus("0");
+            resultVO.setError_msg("操作成功");
+        }catch (Exception e){
+            logger.error("审核拒绝失败,id="+id);
+            logger.error(e.getMessage());
+            resultVO.setError_msg("审核拒绝失败");
+            resultVO.setStatus("1");
+        }
+        return resultVO;
     }
 
 }
