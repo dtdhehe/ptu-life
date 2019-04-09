@@ -36,6 +36,7 @@
                 <li><a th:href="@{/ptu/homePageController/life}" >生活</a></li>
                 <li><a th:href="@{/map/mapController/getMap}" >地图</a></li>
                 <li class="active"><a>审批</a></li>
+                <li><a th:href="@{/ptu/homePageController/getSchoolView}" >校园风光</a></li>
             </ul>
         </div>
         <div id="logoutBtn" style="display: none;">
@@ -343,7 +344,7 @@
         $("#navMenu li").removeClass("itemed");
         //给当前选中栏添加样式
         $(obj).parent().addClass("itemed");
-        //判断是否显示我的资料
+        //判断是否显示发起申请
         var menu = $(obj).text();
         if (menu === "发起申请"){
             $("#approval_content").show();

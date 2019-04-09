@@ -43,4 +43,9 @@ public class HomePageController {
     public String registPage() {
         return "index/regist";
     }
+
+    @RequestMapping("/getSchoolView")
+    public String getSchoolView() {
+        return "view/schoolView";
+    }
 }

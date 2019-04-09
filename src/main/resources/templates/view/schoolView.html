@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>校园风光</title>
+    <!-- bootstrap基础 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/js/bootstrap/css/animate.css}" />
+    <!-- bootstrap-table列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap/css/bootstrap-table.css}" />
+    <!-- bootstrap-select列表 -->
+    <link rel="stylesheet"
+          th:href="@{/js/bootstrap-select/dist/css/bootstrap-select.min.css}" />
+    <!--审批页面css-->
+    <link rel="stylesheet"
+          th:href="@{/css/view/schoolView.css}" />
+    <!-- layui -->
+    <link rel="stylesheet"
+          th:href="@{/js/layui/css/layui.css}" />
+</head>
+<body>
+<!--导航栏-->
+<nav class="navbar-inverse visible-lg visible-md" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.ptu.edu.cn/">莆田学院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/ptu/homePageController/home}">首页</a></li>
+                <li><a th:href="@{/ptu/homePageController/life}" >生活</a></li>
+                <li><a th:href="@{/map/mapController/getMap}" >地图</a></li>
+                <li><a th:href="@{/approval/approvalController/getApproval}" >审批</a></li>
+                <li class="active"><a>校园风光</a></li>
+            </ul>
+        </div>
+        <div id="logoutBtn" style="display: none;">
+            <ul class="layui-nav pull-right" style="background-color: #222;padding: 0;">
+                <li class="layui-nav-item" style="line-height: 50px">
+                    <a href=""><img id="headImg" alt="头像" style="width: 35px; height: 35px;margin-right: 10px" th:src="${session.loginUser.headImg}" class="img-circle" /></a>
+                    <dl class="layui-nav-child">
+                        <dd style="line-height: 36px"><a href="/news/newsController/editNews">发布新闻</a></dd>
+                        <dd style="line-height: 36px"><a href="/answer/answerController/getEditAnswer">发布问答</a></dd>
+                        <dd style="line-height: 36px"><a href="/myInformationController/getMyInformation">查看资料</a></dd>
+                        <dd style="line-height: 36px"><a href="/login/loginController/logout" >退出登录</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="view-body">
+    <div class="col-md-3 column">
+        <ul id="navMenu" class="nav-menu">
+            <li class="itemed"><a href="javascript:void(0);" onclick="changeMenu(this)">校园风景</a></li>
+            <li id="teachBuild" class=""><a href="javascript:void(0);" onclick="changeMenu(this)">教学楼</a></li>
+            <li id="canteen" class=""><a href="javascript:void(0);" onclick="changeMenu(this)">食堂</a></li>
+            <li id="dorm" class=""><a href="javascript:void(0);" onclick="changeMenu(this)">宿舍</a></li>
+        </ul>
+    </div>
+    <div id="menu_content" class="col-md-9 column">
+        <div id="view_school">
+            <div class="layui-form">
+                <label class="row-label layui-form-label">校园景点</label>
+                <div class="layui-input-block row-select-type">
+                    <select id="view_type" name="view_type" lay-filter="view_type">
+                        <option value="0">中区全景图</option>
+                        <option value="1">图书馆</option>
+                        <option value="2">芳名湖</option>
+                        <option value="3">文荣体育馆</option>
+                    </select>
+                </div>
+            </div>
+            <div id="view_type_content" class="content-body">
+                <h2>校园景点</h2>
+                <hr/>
+                <div id="view_type_0">
+                    <div class="my-center">
+                        <h6>中区全景图</h6>
+                        <img th:src="@{/img/view/img01.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+                            <span>莆</span>田学院（Putian University）是经教育部批准成立的全日制普通本科高校，是教育部、卫生部第一批“卓越医生教育培养计划项目”试点单位。由福建省政府领导和管理，实行省市共建、以市为主的办学体制。
+                        </p>
+                        <p>
+                            &nbsp;&nbsp;学校办学历史可追溯到1898年创办的兴化圣教医院附设护士训练班。学校由原莆田高等专科学校、原福建医科大学莆田分校、原莆田华侨体育师范学校合并组建而成。2013年10月，仙游师范学校并入莆田学院。2018年1月，学校新增为福建省2018-2020年硕士学位授予培育单位立项建设名单。
+                            学校位于海上“和平女神”妈祖故乡、著名侨乡——莆田市区。截至2018年3月，校园占地面积1666.8亩，规划建设中的新校区占地2970亩，校舍建筑面积52.85万平方米；学校下设16个二级学院，48个本科专业；有教职工1236人，全日制在校生15500多人 。
+                            2017年10月17日，宋建晓任莆田学院党委副书记、校长。
+                        </p>
+                    </div>
+                </div>
+                <div id="view_type_1" class="my-hide">
+                    <div class="my-center">
+                        <h6>图书馆</h6>
+                        <img th:src="@{/img/view/img02.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+                            <span>莆</span>田学院中区图书馆截止至2018年底，拥有纸质图书141.1万册，2018年新增图书7.75万册，电子图书近398.9万册，电子博硕士论文713.9万篇（册），中外文电子期刊26933种，订购2019年纸质期刊1269份。引进了中国知网、万方数据、超星数字阅读、Emerald、Wiley、Elsiver Reference Modules等46种中
+                            外文电子图书、期刊数据库，涵盖了学校各个学科，自建5个数据库。文献资源建设体现基础性、专业性、学术性三个特点，逐步形成理、工、文、管、医、教等学科门类文献比较齐全，莆仙地方文献资源初具规模，网上资源具有一定优势的馆藏体系。现有阅览座位近2605个，每周开放时间105小时左右，全部书刊采用全方
+                            位开架借阅，现有工作人员56人，正式职工43人。图书馆设立地方特色文献书库、读者研究讨论室、读者沙龙中心、电子阅览室等场所，开通移动图书馆、微信图书馆，引入电子借阅机、自助文印系统、库客云CD机，读者不受时间空间限制充分利用图书馆资源。
+                        </p>
+                        <p>
+                            &nbsp;&nbsp;每年举办一次“读者服务月”等活动。图书馆、学生处、大学生读者协会联合举办“读者服务月”活动，从“读书之星”评选、读者座谈会、图书馆资源利用专题讲座、技能竞赛等，体现图书馆与读者之间的沟通。不断加强对大学生读者协会的指导，做好收集读者意见、接收捐赠的图书、开展读者问卷调查、征
+                            文比赛等活动，共同维护图书馆良好的读书学习环境。图书馆参考咨询部积极开展馆际互借/文献传递服务工作。按照中国高等教育文献保障系统（CALIS）管理中心对馆际互借/文献传递工作的整体部署，充分利用CALIS馆际互借文献传递服务网，积极开展和推动馆际互借与文献传递服务，实现文献信息资源的共知共享。
+                        </p>
+                    </div>
+                </div>
+                <div id="view_type_2" class="my-hide">
+                    <div class="my-center">
+                        <h6>芳名湖</h6>
+                        <img th:src="@{/img/view/img03.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+                            <span>芳</span>名湖就是莆院里的“大明湖畔”，其间还屹立着寓意深刻的芳名塔。很多学子喜欢在这里晨读，艺术系学子把这里当做写生的宝地。当然，这里独一无二的风景，也使它成为了学校最佳的拍照取景地，芳名湖是位于莆田学院校园内的一座人工湖，也是大学生在学习之余，休闲娱乐的中心。
+                            芳名湖湖位于莆田学院中区，雄馨楼前，一汪湖水，大家可以看到水碧花盛，上面有奇石，还种着竹子，就像“小家碧玉”。每年五六月份初夏的时候，沿岸上的这些杨柳垂在水中，柳絮满空飘飞，在加上片片蛙鸣，水中斑斓的游鱼，构成了一幅美丽的画卷。
+                        </p>
+                        <p>
+                            &nbsp;&nbsp;我们校园处在一片低矮的小丘陵上，藏不住太多的水。当时，学校在规划时，看到这脉水，就决定将这块难得的水保留下来。并规划成这个景点，取名“芳名湖”。为什么叫芳名湖呢？看看上面的一座小塔。这座塔可以说是学校的标志性建筑了，称为“芳名塔”。这座塔建立于1998年，下部是四个形似书册的花
+                            岗岩，上面刻着那些热心为学校捐款的海内外热心人士的名字，正是因为这些芳名，才称这景点为“芳名湖”的。对于这个塔，形似书册的花岗岩上刻上他们的名字，比喻着他们的义举与芳名载入史册；上部是三根错落有致的向上的柱子，表明我们莘莘学子你追我赶，茁壮成长，人才辈出；三根石柱向着中心靠拢表明团结一致，齐心协力；这整座塔又座落在水流之上，表明学校在改革中不断开拓向前。
+                        </p>
+                    </div>
+                </div>
+                <div id="view_type_3" class="my-hide">
+                    <div class="my-center">
+                        <h6>文荣体育馆</h6>
+                        <img th:src="@{/img/view/img04.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+                            <span>芳</span>名湖就是莆院里的“大明湖畔”，其间还屹立着寓意深刻的芳名塔。很多学子喜欢在这里晨读，艺术系学子把这里当做写生的宝地。当然，这里独一无二的风景，也使它成为了学校最佳的拍照取景地，芳名湖是位于莆田学院校园内的一座人工湖，也是大学生在学习之余，休闲娱乐的中心。
+                            芳名湖湖位于莆田学院中区，雄馨楼前，一汪湖水，大家可以看到水碧花盛，上面有奇石，还种着竹子，就像“小家碧玉”。每年五六月份初夏的时候，沿岸上的这些杨柳垂在水中，柳絮满空飘飞，在加上片片蛙鸣，水中斑斓的游鱼，构成了一幅美丽的画卷。
+                        </p>
+                        <p>
+                            &nbsp;&nbsp;我们校园处在一片低矮的小丘陵上，藏不住太多的水。当时，学校在规划时，看到这脉水，就决定将这块难得的水保留下来。并规划成这个景点，取名“芳名湖”。为什么叫芳名湖呢？看看上面的一座小塔。这座塔可以说是学校的标志性建筑了，称为“芳名塔”。这座塔建立于1998年，下部是四个形似书册的花
+                            岗岩，上面刻着那些热心为学校捐款的海内外热心人士的名字，正是因为这些芳名，才称这景点为“芳名湖”的。对于这个塔，形似书册的花岗岩上刻上他们的名字，比喻着他们的义举与芳名载入史册；上部是三根错落有致的向上的柱子，表明我们莘莘学子你追我赶，茁壮成长，人才辈出；三根石柱向着中心靠拢表明团结一致，齐心协力；这整座塔又座落在水流之上，表明学校在改革中不断开拓向前。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="teachBuild_school" class="my-hide">
+            <div class="layui-form">
+                <label class="row-label layui-form-label">教学楼</label>
+                <div class="layui-input-block row-select-type">
+                    <select id="teachBuild_type" name="teachBuild_type" lay-filter="teachBuild_type">
+                        <option value="0">金荣楼</option>
+                        <option value="1">文正楼</option>
+                        <option value="2">逸夫楼</option>
+                        <option value="3">红楼</option>
+                    </select>
+                </div>
+            </div>
+            <div id="teachBuild_type_content" class="content-body">
+                <h2>教学楼</h2>
+                <hr/>
+                <div id="teachBuild_type_0">
+                    <div class="my-center">
+                        <h6>金荣楼</h6>
+                        <img th:src="@{/img/view/img05.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+                <div id="teachBuild_type_1" class="my-hide">
+                    <div class="my-center">
+                        <h6>文正楼</h6>
+                        <img th:src="@{/img/view/img06.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+                <div id="teachBuild_type_2" class="my-hide">
+                    <div class="my-center">
+                        <h6>逸夫楼</h6>
+                        <img th:src="@{/img/view/img06.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+                <div id="teachBuild_type_3" class="my-hide">
+                    <div class="my-center">
+                        <h6>红楼</h6>
+                        <img th:src="@{/img/view/img08.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="canteen_school" class="my-hide">
+            <div class="layui-form">
+                <label class="row-label layui-form-label">食堂</label>
+                <div class="layui-input-block row-select-type">
+                    <select id="canteen_type" name="canteen_type" lay-filter="canteen_type">
+                        <option value="0">第一餐厅</option>
+                        <option value="1">第二餐厅</option>
+                        <option value="2">第三餐厅</option>
+                        <option value="3">第四餐厅</option>
+                    </select>
+                </div>
+            </div>
+            <div id="canteen_type_content" class="content-body">
+                <h2>食堂</h2>
+                <hr/>
+                <div id="canteen_type_0">
+                    <div class="my-center">
+                        <h6>第一餐厅</h6>
+                        <img th:src="@{/img/view/img05.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+                <div id="canteen_type_1" class="my-hide">
+                    <div class="my-center">
+                        <h6>第二餐厅</h6>
+                        <img th:src="@{/img/view/img05.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+                <div id="canteen_type_2" class="my-hide">
+                    <div class="my-center">
+                        <h6>第三餐厅</h6>
+                        <img th:src="@{/img/view/img05.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+                <div id="canteen_type_3" class="my-hide">
+                    <div class="my-center">
+                        <h6>第四餐厅</h6>
+                        <img th:src="@{/img/view/img05.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="dorm_school" class="my-hide">
+            <div class="layui-form">
+                <label class="row-label layui-form-label">宿舍</label>
+                <div class="layui-input-block row-select-type">
+                    <select id="dorm_type" name="dorm_type" lay-filter="dorm_type">
+                        <option value="0">三路楼</option>
+                        <option value="1">学生公寓</option>
+                        <option value="2">凤达公寓</option>
+                    </select>
+                </div>
+            </div>
+            <div id="dorm_type_content" class="content-body">
+                <h2>宿舍</h2>
+                <hr/>
+                <div id="dorm_type_0">
+                    <div class="my-center">
+                        <h6>三路楼</h6>
+                        <img th:src="@{/img/view/img05.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+                <div id="dorm_type_1" class="my-hide">
+                    <div class="my-center">
+                        <h6>学生公寓</h6>
+                        <img th:src="@{/img/view/img14.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+                <div id="dorm_type_2" class="my-hide">
+                    <div class="my-center">
+                        <h6>凤达公寓</h6>
+                        <img th:src="@{/img/view/img15.jpg}"/>
+                    </div>
+                    <div class="content">
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--引入页脚-->
+<div th:replace="footer"></div>
+<!-- 全局js -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+<!-- bootstrap-table列表-->
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap/js/bootstrap-table-zh-CN.js}"></script>
+<!-- bootstrap-select下拉列表-->
+<script type="text/javascript"
+        th:src="@{/js/bootstrap-select/dist/js/bootstrap-select.min.js}"></script>
+<script type="text/javascript"
+        th:src="@{/js/bootstrap-select/dist/js/i18n/defaults-zh_CN.js}"></script>
+<!--引入layui的js-->
+<script type="text/javascript"
+        th:src="@{/js/layui/layui.all.js}"></script>
+<!--引入标签js-->
+<script type="text/javascript"
+        th:src="@{/js/init/init.js}"></script>
+<!-- js 方法 -->
+<script th:inline="javascript">
+    //<![CDATA[
+    $(function () {
+        changeType();
+        //打印当前登录用户
+        console.log([[${session.loginUser}]]);
+        var loginUser = [[${session.loginUser}]];
+        if (loginUser === null) {
+            $("#loginBtn").css("display","");
+        }else {
+            $("#logoutBtn").css("display","");
+        }
+    });
+
+    //下拉列表监听事件
+    function changeType() {
+        layui.use('form', function(){
+            var form = layui.form;
+            //风景下拉事件
+            selectChange(form,"view_type");
+            //教学楼下拉事件
+            selectChange(form,"teachBuild_type");
+            //食堂下拉事件
+            selectChange(form,"canteen_type");
+            //宿舍下拉事件
+            selectChange(form,"dorm_type");
+        });
+    }
+
+    //下拉列表change事件
+    //form: layui的form实例
+    //typeName: 传入的下拉列表监听值
+    function selectChange(form, typeName) {
+        form.on('select('+typeName+')', function (data) {
+            console.log(data.value);
+            var type = $("#"+typeName).val();
+            if (type === "1"){
+                hideOtherDiv(typeName+"_content");
+                $("#"+typeName+"_1").show();
+            }else if (type === "2"){
+                hideOtherDiv(typeName+"_content");
+                $("#"+typeName+"_2").show();
+            }else if (type === "3"){
+                hideOtherDiv(typeName+"_content");
+                $("#"+typeName+"_3").show();
+            }else {
+                hideOtherDiv(typeName+"_content");
+                $("#"+typeName+"_0").show();
+            }
+        });
+    }
+
+    //隐藏其他div
+    //div_id:   隐藏id为该值的所有子元素中的div
+    function hideOtherDiv(div_id) {
+        $("#"+div_id).children('div').each(function () {
+            $(this).hide();
+        });
+    }
+
+    //切换菜单
+    function changeMenu(obj) {
+        //清除所有的选中样式
+        $("#navMenu li").removeClass("itemed");
+        //给当前选中栏添加样式
+        $(obj).parent().addClass("itemed");
+        //判断是否显示发起申请
+        var menu = $(obj).text();
+        if (menu === "校园风景"){
+            hideOtherDiv("menu_content");
+            $("#view_school").show();
+        }else if (menu === "教学楼") {
+            hideOtherDiv("menu_content");
+            $("#teachBuild_school").show();
+        }else if (menu === "食堂") {
+            hideOtherDiv("menu_content");
+            $("#canteen_school").show();
+        }else {
+            hideOtherDiv("menu_content");
+            $("#dorm_school").show();
+        }
+    }
+
+    //]]>
+</script>
+</body>
+</html>

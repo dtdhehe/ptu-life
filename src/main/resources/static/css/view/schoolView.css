@@ -1,0 +1,67 @@
+.view-body{
+    margin-top: 10px;
+    width: 100%;
+    min-height: 430px;
+}
+.nav-menu{
+    background-color: #F5F5F5;width: 300px;padding: 0;border-radius: 2px;
+}
+.nav-menu *{
+    font-size: medium;
+}
+.nav-menu li{
+    cursor: pointer;
+    padding: 0 20px;
+}
+/*选择行样式*/
+.nav-menu .itemed{
+    /*background-color: #e7e7e7;*/
+    font-weight: bold;
+}
+.nav-menu a{
+    position: relative;height:100px;line-height:100px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;
+    display: block;
+}
+.nav-menu a:hover,.nav-menu li:hover{
+    background-color: #e7e7e7;
+}
+.row-label{
+    width: 100px !important;
+    text-align: center !important;
+}
+.row-select-type{
+    width: 20%;
+}
+.content-body{
+    width: 75%;
+}
+.content-body h2{
+    margin: 10px 10px;
+    text-align: center
+}
+.content{
+    margin: 10px 0;
+}
+.content p{
+    font-family: "宋体";
+    font-weight: bold;
+    letter-spacing: 2px;
+    line-height: 40px;
+}
+p span{
+    font-size:60px;				/* 首字大小 */
+    float:left;					/* 首字下沉 */
+    padding-right:5px;			/* 与右边的间隔 */
+    font-weight:bold;			/* 粗体字 */
+    font-family:黑体;			/* 黑体字 */
+    color:#000000;
+}
+.my-center{
+    text-align: center;
+}
+.my-center h6{
+    margin-bottom: 5px;
+}
+.my-hide{
+    display: none;
+}
