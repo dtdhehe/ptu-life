@@ -2,6 +2,7 @@ package com.dtdhehe.ptulife.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * 用户实体类
@@ -9,7 +10,7 @@ import javax.persistence.Id;
  * date:2018-10-29
  */
 @Entity
-public class PtuUser {
+public class PtuUser implements Serializable {
 
     //用户主键      必须      int
     @Id

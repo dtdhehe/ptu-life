@@ -6,6 +6,7 @@ import com.dtdhehe.ptulife.repository.PtuUserRepository;
 import com.dtdhehe.ptulife.service.UserService;
 import com.dtdhehe.ptulife.util.CheckUserUtils;
 import com.dtdhehe.ptulife.util.KeyUtils;
+import com.dtdhehe.ptulife.util.RedisUtils;
 import com.dtdhehe.ptulife.vo.UserRegistVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -22,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PtuUserRepository ptuUserRepository;
+
+    @Resource
+    private RedisUtils redisUtils;
 
     @Override
     public PtuUser save(UserRegistVO userRegistVO) {
@@ -44,12 +49,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public PtuUser findOne(HttpServletRequest request) {
         PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
-        return ptuUserRepository.findById(ptuUser.getUserId()).get();
+        PtuUser ptuRedis = (PtuUser) redisUtils.get(ptuUser.getUserId());
+        System.out.println("redis中的用户为:"+ptuRedis);
+        return ptuRedis != null ? ptuRedis:ptuUserRepository.findById(ptuUser.getUserId()).get();
     }
 
     @Override
     public PtuUser findByUserId(String userId) {
-        return ptuUserRepository.findById(userId).get();
+        PtuUser ptuRedis = (PtuUser) redisUtils.get(userId);
+        return ptuRedis != null ? ptuRedis:ptuUserRepository.findById(userId).get();
     }
 
     @Override
@@ -79,8 +87,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getUserNameByUserId(String userId) {
-        PtuUser ptuUser = ptuUserRepository.findById(userId).get();
-        return ptuUser.getNickName();
+        PtuUser ptuRedis = (PtuUser) redisUtils.get(userId);
+        return ptuRedis != null ? ptuRedis.getNickName():ptuUserRepository.findById(userId).get().getNickName();
     }
 
     @Override

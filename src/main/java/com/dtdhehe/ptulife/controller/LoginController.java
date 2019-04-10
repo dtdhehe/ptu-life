@@ -3,6 +3,7 @@ package com.dtdhehe.ptulife.controller;
 import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.service.UserService;
 import com.dtdhehe.ptulife.util.PasswordUtils;
+import com.dtdhehe.ptulife.util.RedisUtils;
 import com.dtdhehe.ptulife.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -27,6 +29,9 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+
+    @Resource
+    private RedisUtils redisUtils;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -47,8 +52,11 @@ public class LoginController {
                 return resultVO;
             }
             request.getSession().setAttribute("loginUser",ptuUser);
-            resultVO.setStatus("0");
-            resultVO.setObject(ptuUser);
+            boolean redisFlag = redisUtils.set(ptuUser.getUserId(),ptuUser);
+            if (redisFlag){
+                resultVO.setStatus("0");
+                resultVO.setObject(ptuUser);
+            }
         }else {
             logger.error("用户名或密码错误");
             resultVO.setStatus("1");
@@ -62,7 +70,10 @@ public class LoginController {
         logger.info("清除session中登录的用户");
         HttpSession session = request.getSession();
         if (session != null){
+            PtuUser ptuUser = (PtuUser) request.getSession().getAttribute("loginUser");
             session.removeAttribute("loginUser");
+            //清空redis中的用户
+            redisUtils.del(ptuUser.getUserId());
         }
         return "login";
     }
