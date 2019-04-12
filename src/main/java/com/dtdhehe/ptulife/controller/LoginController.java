@@ -56,6 +56,9 @@ public class LoginController {
             if (redisFlag){
                 resultVO.setStatus("0");
                 resultVO.setObject(ptuUser);
+            }else {
+                resultVO.setStatus("1");
+                resultVO.setError_msg("Redis服务异常");
             }
         }else {
             logger.error("用户名或密码错误");

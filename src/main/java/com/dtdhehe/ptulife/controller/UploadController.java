@@ -119,4 +119,43 @@ public class UploadController {
         return resultJson;
     }
 
+    /**
+     * 上传商品图片
+     * @param file
+     * @return
+     */
+    @RequestMapping("/uploadGoodsImg")
+    public String uploadGoodsImg(MultipartFile file){
+        File f = new File("D:/ptu/uploads");
+        Map<String,Object> resultMap = new HashMap<>();
+        if (!f.exists()){
+            f.mkdirs();
+        }
+        try {
+            String fileName = file.getOriginalFilename();
+            logger.info("原文件名:"+fileName);
+            String fileNewName = DateUtils.getCurrentDateTime()+fileName;
+            logger.info("新文件名:"+fileNewName);
+            //新文件路径
+            String resultUrl = "D:/ptu/uploads/"+ fileNewName;
+            File upFile = new File(resultUrl);
+            file.transferTo(upFile);
+            Map<String,Object> data = new HashMap<>();
+            //因为浏览器原因，设置虚拟路径为   /uploads/
+            data.put("src","/uploads/"+fileNewName);
+            logger.info("图片路径为:"+"/uploads/"+fileNewName);
+            //成功上传
+            resultMap.put("code",0);
+            resultMap.put("msg","上传成功");
+            resultMap.put("data",data);
+        }catch (Exception e){
+            resultMap.put("code",1);
+            resultMap.put("msg","上传失败");
+            resultMap.put("data",null);
+            logger.error(e.getMessage());
+        }
+        String resultJson = new JSONObject(resultMap).toString();
+        return resultJson;
+    }
+
 }

@@ -24,11 +24,10 @@ public class LoginInterceptor implements HandlerInterceptor {
         Object obj = request.getSession().getAttribute("loginUser");
         if (null == obj ) {
             // 未登录，重定向到登录页
+            logger.error("用户未登录");
             response.sendRedirect("/ptu/homePageController/index");
             return false;
         }
-        PtuUser ptuUser = (PtuUser) obj;
-        logger.info("登录的用户是:"+ptuUser);
         return true;
     }
 
