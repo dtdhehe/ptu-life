@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>我的文章</title>
+    <title>我的商品</title>
     <!-- bootstrap基础 -->
     <link rel="stylesheet"
           th:href="@{/js/bootstrap/css/bootstrap.min.css}" />
@@ -34,17 +34,17 @@
         }
     </style>
 </head>
-<body style="min-height: 400px">
+<body style="min-height: 500px">
 
 <div id="otherInfo" class="my_info">
-    <h3 class="info_title">我的文章</h3>
+    <h3 class="info_title">我的商品</h3>
     <form id="otherFormInfo" class="layui-form">
         <div class="layui-form-item">
-            <label class="layui-form-label row_label">新闻标题</label>
+            <label class="layui-form-label row_label">商品名称</label>
             <div class="layui-input-block row_div">
-                <input type="text" id="newsTitle" name="newsTitle"  style="width: 80%;display: inline" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                <input type="text" id="goodsName" name="goodsName"  style="width: 80%;display: inline" placeholder="请输入名称" autocomplete="off" class="layui-input">
                 <input type="text" style="display: none"/>
-                <button id="query" type="button" style="margin-left: 30px" onclick="queryNewsTitle()" class="btn btn-info">查询</button>
+                <button id="query" type="button" style="margin-left: 30px" onclick="queryGoodsName()" class="btn btn-info">查询</button>
             </div>
         </div>
     </form>
@@ -55,9 +55,13 @@
             <tr>
                 <th data-width="50" data-field="xl"
                     data-formatter="xlFormatter" data-show-tip="false">序号</th>
-                <th data-align="center" data-field="newsTitle" data-show-tip="false">新闻标题</th>
-                <th data-align="center" data-field="newsAuthor">新闻作者</th>
-                <th data-align="center" data-field="newsDate">新闻日期</th>
+                <th data-width="150" data-align="center" data-field="goodsName" data-show-tip="false">商品名称</th>
+                <!--<th data-align="center" data-field="goodsImg">商品图片</th>-->
+                <!--<th data-align="center" data-field="goodsDesc">商品描述</th>-->
+                <th data-width="100" data-align="center" data-field="goodsPrice">商品价格</th>
+                <th data-width="100" data-align="center" data-field="goodsUser">联系人</th>
+                <th data-align="center" data-field="phone">联系方式</th>
+                <th data-align="center" data-field="createTime">上架时间</th>
                 <th data-align="center" data-width="100" data-field="operation"
                     data-formatter="operation_formatter" data-show-tip="false">删除</th>
             </tr>
@@ -97,7 +101,7 @@
 
     //初始化table
     function initTable(tableId) {
-        var urls = "/myInformationController/getNewsTable";
+        var urls = "/myInformationController/getGoodsTable";
         $("#"+tableId).bootstrapTable({
             url: urls,//请求后台的URL
             method: 'post',//请求方式（*）
@@ -133,21 +137,21 @@
         });
     }
 
-    function queryNewsTitle() {
-        var newsTitle = $("#newsTitle").val();
+    function queryGoodsName() {
+        var goodsName = $("#goodsName").val();
         //刷新table的数据
         var urls = $("#TableList").bootstrapTable("getOptions").url;
         $("#TableList").bootstrapTable("refresh",{
             url:urls,
             query:{
-                newsTitle:newsTitle
+                goodsName:goodsName
             }
         });
     }
     
     //删除
-    function onDeleteRow(newsId) {
-        var urls = "/myInformationController/delMyNews?newsId="+newsId;
+    function onDeleteRow(id) {
+        var urls = "/myInformationController/delMyGoods?id="+id;
         layer.confirm("确定要删除吗?",{
             btn:['确定','取消'],
             title:'提示'
@@ -173,7 +177,7 @@
     //列表操作列处理
     function operation_formatter(value, row, index) {
         var operation =  "<div class='ibox-tools' style='padding:0; float:none'>";
-        operation = operation + "<a class='hred' href='javascript:void(0);' onclick='onDeleteRow(\"" + row.newsId + "\")' style='padding-top:0;padding-bottom:0;margin-right:3px;padding-left:2px;'><i class='fa fa-trash-o'></i></a>";
+        operation = operation + "<a class='hred' href='javascript:void(0);' onclick='onDeleteRow(\"" + row.id + "\")' style='padding-top:0;padding-bottom:0;margin-right:3px;padding-left:2px;'><i class='fa fa-trash-o'></i></a>";
         operation = operation  + "</div>";
         return operation;
     }

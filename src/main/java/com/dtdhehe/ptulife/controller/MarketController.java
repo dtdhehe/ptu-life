@@ -74,20 +74,9 @@ public class MarketController {
         }
         try {
             Pageable pageable = PageRequest.of(page,rows,Sort.Direction.DESC,"createTime");
-            String key = goodsName + "_" + String.valueOf(pageable.getPageNumber());
-            List<Market> marketList;
-            long total;
-            marketList = (List<Market>) redisUtils.get(key);
-            if (marketList == null){
-                System.out.println("缓存中没有查询到数据,进入数据库查询");
-                Page<Market> marketPage = marketService.queryGoodsById(goodsName,pageable);
-                marketList = marketPage.getContent();
-                redisUtils.set(key,marketList);
-                total = marketPage.getTotalElements();
-                redisUtils.set(key+"_total",total);
-            }else {
-                total = (Integer) redisUtils.get(key+"_total");
-            }
+            Page<Market> marketPage = marketService.queryGoodsByGoodsName(goodsName,pageable);
+            List<Market> marketList = marketPage.getContent();
+            long total = marketPage.getTotalElements();
             resultVO.setStatus("0");
             resultVO.setError_msg(String.valueOf(total));
             resultVO.setObject(marketList);

@@ -18,12 +18,12 @@ public interface MarketService {
     Market save(Market market);
 
     /**
-     * 根据id查询所有商品
+     * 根据商品名称查询所有商品
      * @param goodsName
      * @param pageable
      * @return
      */
-    Page<Market> queryGoodsById(String goodsName, Pageable pageable);
+    Page<Market> queryGoodsByGoodsName(String goodsName, Pageable pageable);
 
     /**
      * 根据id查询某个商品
@@ -31,5 +31,20 @@ public interface MarketService {
      * @return
      */
     Market getById(String id);
+
+    /**
+     * 根据id查询所有商品
+     * @param id
+     * @param goodsName
+     * @param pageable
+     * @return
+     */
+    Page<Market> queryGoodsById(String id,String goodsName, Pageable pageable);
+
+    /**
+     * 根据id删除商品
+     * @param id
+     */
+    void delGoodsById(String id);
 
 }

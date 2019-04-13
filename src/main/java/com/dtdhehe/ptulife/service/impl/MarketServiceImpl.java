@@ -38,8 +38,8 @@ public class MarketServiceImpl implements MarketService {
     }
 
     @Override
-    public Page<Market> queryGoodsById(String goodsName, Pageable pageable) {
-        return marketRepository.queryGoodsById(goodsName,pageable);
+    public Page<Market> queryGoodsByGoodsName(String goodsName, Pageable pageable) {
+        return marketRepository.queryGoodsByGoodsName(goodsName,pageable);
     }
 
     @Override
@@ -51,5 +51,15 @@ public class MarketServiceImpl implements MarketService {
             redisUtils.set(market.getId(),market);
         }
         return market;
+    }
+
+    @Override
+    public Page<Market> queryGoodsById(String id, String goodsName, Pageable pageable) {
+        return marketRepository.queryGoodsById(id,goodsName,pageable);
+    }
+
+    @Override
+    public void delGoodsById(String id) {
+        marketRepository.deleteById(id);
     }
 }

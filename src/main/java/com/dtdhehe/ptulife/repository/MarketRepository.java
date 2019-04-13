@@ -13,11 +13,21 @@ import org.springframework.data.jpa.repository.Query;
 public interface MarketRepository extends JpaRepository<Market,String> {
 
     /**
-     * 根据id查询所有商品
+     * 根据名称查询所有商品
      * @param goodsName
      * @param pageable
      * @return
      */
     @Query(value = "select t from Market t where t.goodsName like %?1%")
-    Page<Market> queryGoodsById(String goodsName, Pageable pageable);
+    Page<Market> queryGoodsByGoodsName(String goodsName, Pageable pageable);
+
+    /**
+     * 根据id和商品名查询商品
+     * @param id
+     * @param goodsName
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select t from Market t where t.userId= ?1 and t.goodsName like %?2%")
+    Page<Market> queryGoodsById(String id,String goodsName, Pageable pageable);
 }

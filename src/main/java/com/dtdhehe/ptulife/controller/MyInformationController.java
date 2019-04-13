@@ -2,16 +2,15 @@ package com.dtdhehe.ptulife.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dtdhehe.ptulife.entity.Market;
 import com.dtdhehe.ptulife.entity.PtuAnswer;
 import com.dtdhehe.ptulife.entity.PtuNews;
 import com.dtdhehe.ptulife.entity.PtuUser;
-import com.dtdhehe.ptulife.service.AnswerService;
-import com.dtdhehe.ptulife.service.NewsService;
-import com.dtdhehe.ptulife.service.OrgCodeService;
-import com.dtdhehe.ptulife.service.UserService;
+import com.dtdhehe.ptulife.service.*;
 import com.dtdhehe.ptulife.util.DateUtils;
 import com.dtdhehe.ptulife.util.MyBeanUtils;
 import com.dtdhehe.ptulife.util.PasswordUtils;
+import com.dtdhehe.ptulife.util.RedisUtils;
 import com.dtdhehe.ptulife.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -53,6 +53,12 @@ public class MyInformationController {
 
     @Autowired
     private OrgCodeService orgCodeService;
+
+    @Autowired
+    private MarketService marketService;
+
+    @Resource
+    private RedisUtils redisUtils;
 
     /**
      * 返回我的资料页面
@@ -84,6 +90,8 @@ public class MyInformationController {
             return "table/myNewsTable";
         }else if ("myAnswer".equals(infoName)){
             return "table/myAnswerTable";
+        }else if ("myGoods".equals(infoName)){
+            return "table/myGoodsTable";
         }
         return "";
     }
@@ -190,6 +198,60 @@ public class MyInformationController {
             logger.error("删除问答失败,answerId="+answerId);
             logger.error(e.getMessage());
             resultVO.setError_msg("删除问答失败");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        return resultVO;
+    }
+
+    @RequestMapping("/getGoodsTable")
+    @ResponseBody
+    public JSONObject getGoodsTable(HttpServletRequest request,Integer rows,Integer page,String goodsName){
+        //查出当前登录用户
+        PtuUser ptuUser = userService.findOne(request);
+        logger.info("当前用户是:"+ptuUser);
+        //对查询条件判断是否为空
+        if (StringUtils.isEmpty(goodsName)){
+            goodsName = "";
+        }
+        try {
+            Pageable pageable = PageRequest.of(page,rows,Sort.Direction.DESC,"createTime");
+            Page<Market> marketPage = marketService.queryGoodsById(ptuUser.getUserId(),goodsName,pageable);
+            List<Market> marketList = marketPage.getContent();
+            long total = marketPage.getTotalElements();
+            for (Market market : marketList) {
+                market.setCreateTime(DateUtils.date2ViewType(market.getCreateTime(), "datetime"));
+            }
+            Map map = new HashMap();
+            map.put("total",total);
+            map.put("rows",marketList);
+            JSONObject json = new JSONObject(map);
+            return json;
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @RequestMapping("/delMyGoods")
+    @ResponseBody
+    public ResultVO delMyGoods(String id){
+        ResultVO resultVO = new ResultVO();
+        logger.info("要删除的商品id为:"+id);
+        if (StringUtils.isEmpty(id)){
+            logger.info("传入的商品id为空");
+            resultVO.setError_msg("商品id为null");
+            resultVO.setStatus("1");
+            return resultVO;
+        }
+        try {
+            marketService.delGoodsById(id);
+            resultVO.setStatus("0");
+            resultVO.setError_msg("删除成功");
+        }catch (Exception e){
+            logger.error("删除商品失败,answerId="+id);
+            logger.error(e.getMessage());
+            resultVO.setError_msg("删除商品失败");
             resultVO.setStatus("1");
             return resultVO;
         }
