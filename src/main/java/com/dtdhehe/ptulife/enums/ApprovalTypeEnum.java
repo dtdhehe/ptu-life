@@ -7,7 +7,7 @@ package com.dtdhehe.ptulife.enums;
 public enum ApprovalTypeEnum {
     LEAVE("0","请假"),
     ROOM("1","教室"),
-    LAB("2","实验室")
+    LAB("2","社团")
     ;
     private String typeCode;
     private String typeText;

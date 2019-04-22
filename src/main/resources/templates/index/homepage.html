@@ -159,12 +159,12 @@
                         for (var i=0;i<newsList.length;i++){
                             var htmls =
                                 "<div class='media well'>" +
-                                "   <a  class='pull-left'><img src='http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/64/64/default.jpg' width='100px' height='100px' class='media-object' alt='' /></a>" +
+                                "   <a  class='pull-left'><img  src='"+newsList[i].newsIcon+"' width='100px' height='100px' class='media-object' alt='' /></a>" +
                                 "      <div class='media-body'>" +
                                 "          <h4 class='media-heading'>" +
                                 "              <a href='/news/newsController/newsPage?newsId="+newsList[i].newsId+"'><b> "+newsList[i].newsTitle+"</b></a>" +
                                 "          </h4>  " +
-                                "           <span id='newsDesc' style='max-height: 100px;overflow: hidden;text-overflow: ellipsis;display: inline-block'>"+newsList[i].newsDesc+"</span>" +
+                                "           <span id='newsDesc' style='max-height: 97px;overflow: hidden;text-overflow: ellipsis;display: inline-block'>"+newsList[i].newsDesc+"</span>" +
                                 "          <p style='margin-top: 10px'><img alt='140x140' style='width: 30px; height: 30px;margin-right: 10px' src='http://ibootstrap-file.b0.upaiyun.com/lorempixel.com/140/140/default.jpg' class='img-circle' />"+newsList[i].newsAuthor+"</p>" +
                                 "      </div>" +
                                 "</div>";

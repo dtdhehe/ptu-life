@@ -31,7 +31,7 @@
                         <!--这是该问答的标题-->
                     </h1>
                     <input id="answerId" type="hidden" th:value="${ptuAnswer.answerId}" />
-                    <input id="headImg" type="hidden" th:value="${currentUser.headImg}" />
+                    <input id="headImg" type="hidden" th:value="${user.headImg}" />
                     <p style="margin-top: 15px">
                         <img alt="140x140" style="width: 30px; height: 30px;" th:src="${currentUser.headImg}" class="img-circle" />
                         <span style="margin-left: 5px;font-size: medium" th:text="${ptuAnswer.answerAuthor}"></span>
@@ -55,7 +55,7 @@
                     <!--评论框-->
                     <div id="comment" style="padding: 10px">
                         <a href="#" class="pull-left" style="margin-top: 15px">
-                            <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" th:src="${currentUser.headImg}" class="img-circle" />
+                            <img alt="140x140" style="width: 70px; height: 70px;margin-right: 8px;" th:src="${user.headImg}" class="img-circle" />
                         </a>
                         <textarea id="contentParent" placeholder="请输入" class="layui-textarea" style="display: inline;resize: none;width: 75%;font-size: large"></textarea>
                         <button onclick="comment(this,0)" class="pull-right btn btn-info" style="height: 100px;width: 13%">发表<br/>评论</button>

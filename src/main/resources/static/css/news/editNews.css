@@ -36,3 +36,34 @@
 .newsBody p{
     margin-top: 10px
 }
+/*上传图片*/
+.uploadImg {
+    width: 210px;
+    height: 124px;
+    margin-left: 50px;
+}
+
+.uploadImg a {
+    display: table-cell;
+    margin-left: 0;
+    font-size: 14px;
+    font-weight: bold;
+    height: 124px;
+    text-align: center;
+    vertical-align: middle;
+    width: 210px;
+    border: 2px dashed #c4c4c4;
+    color: #7b7b7b;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.uploadImg a strong {
+    font-size: 38px;
+    line-height: 36px;
+}
+
+.uploadImg a:hover {
+    border: 2px dashed #6ac2f0;
+    color: #4d4d4d;
+}

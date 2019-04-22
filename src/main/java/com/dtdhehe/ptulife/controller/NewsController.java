@@ -69,19 +69,23 @@ public class NewsController {
      * @return
      */
     @RequestMapping("/newsPage")
-    public String newsPage(@RequestParam(value = "newsId",required = false)String newsId,Model model) throws Exception {
+    public String newsPage(@RequestParam(value = "newsId",required = false)String newsId,
+                           Model model,HttpServletRequest request) throws Exception {
         if (StringUtils.isEmpty(newsId)){
             throw new Exception("传入的id为空");
         }
         logger.info("查询的新闻id为:"+newsId);
         PtuNews ptuNews = newsService.queryNewsById(newsId);
         ptuNews.setNewsDate(DateUtils.date2ViewType(ptuNews.getNewsDate()));
-        //查出当前登录用户
+        //查出当前登录的用户
+        PtuUser user = userService.findOne(request);
+        //查出该新闻的作者
         PtuUser ptuUser = userService.findByUserId(ptuNews.getUserId());
         String userStatusStr = CheckUserUtils.checkUserStatus(ptuUser.getUserStatus());
         model.addAttribute("ptuNews",ptuNews);
         model.addAttribute("currentUser",ptuUser);
         model.addAttribute("userStatusStr",userStatusStr);
+        model.addAttribute("user",user);
         return "news/newspage";
     }
 
@@ -127,16 +131,15 @@ public class NewsController {
     @RequestMapping("/saveNews")
     @ResponseBody
     public ResultVO saveNews(@RequestParam(name = "news",required = false)String newsObject){
-        JSONObject jsonObject = JSONObject.parseObject(newsObject);
+        PtuNews news = JSONObject.parseObject(newsObject,PtuNews.class);
         logger.info("开始保存新闻");
         ResultVO resultVO = new ResultVO();
-        PtuNews news = new PtuNews();
         news.setNewsId(KeyUtils.getUniqueKey());
-        news.setNewsAuthor((String) jsonObject.get("author"));
-        news.setNewsTitle((String) jsonObject.get("title"));
-        news.setNewsDesc((String) jsonObject.get("content"));
-        news.setUserId((String) jsonObject.get("userId"));
         news.setNewsDate(DateUtils.getCurrentDateTime());
+        //判断是否有上传封面,若未上传，指定默认封面
+        if (StringUtils.isEmpty(news.getNewsIcon())){
+            news.setNewsIcon("/uploads/2019042217362536default.jpg");
+        }
         try {
             PtuNews newsNew = newsService.save(news);
             if (newsNew !=null) {

@@ -35,7 +35,7 @@ public class MailUtils {
      * @param typeCode
      * @return
      */
-    public static String getApprovalHtml(String typeCode){
+    public static String getApprovalHtml(String typeCode,String reason){
         String type = "";
         if (typeCode.equals(ApprovalTypeEnum.LEAVE.getTypeCode())){
             type = ApprovalTypeEnum.LEAVE.getTypeText();
@@ -50,6 +50,7 @@ public class MailUtils {
                 "<body>\n" +
                 "<h1>来自校园生活通：</h1>" +
                 "<h3 style='margin:20px 0 0 30px'>您有一个新的<b>"+type+"</b>审核等待处理。</h3>" +
+                "<p style='margin:10px 0 0 20px'><b>申请理由：</b>"+reason+"</p>" +
                 "</body>\n</html>";
         return htmls;
     }

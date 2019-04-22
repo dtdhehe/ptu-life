@@ -24,6 +24,16 @@ public class PtuAnswer {
 
     private String userId;
 
+    private String answerIcon;
+
+    public String getAnswerIcon() {
+        return answerIcon;
+    }
+
+    public void setAnswerIcon(String answerIcon) {
+        this.answerIcon = answerIcon;
+    }
+
     public String getAnswerId() {
         return answerId;
     }

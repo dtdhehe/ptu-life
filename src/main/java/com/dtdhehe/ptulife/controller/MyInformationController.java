@@ -309,6 +309,7 @@ public class MyInformationController {
             if (ptuUserNew != null){
                 //修改成功
                 logger.info("密码修改成功");
+                redisUtils.del(ptuUser.getUserId());
                 resultVO.setError_msg("密码修改成功");
                 resultVO.setStatus("0");
                 resultVO.setObject(ptuUserNew);
@@ -371,6 +372,7 @@ public class MyInformationController {
             if (ptuUserNew != null){
                 //修改成功
                 logger.info("基础信息修改成功");
+                redisUtils.del(ptuUser.getUserId());
                 resultVO.setError_msg("基础信息修改成功");
                 resultVO.setStatus("0");
                 resultVO.setObject(ptuUserNew);
@@ -416,6 +418,7 @@ public class MyInformationController {
             if (ptuUserNew != null){
                 //修改成功
                 logger.info("其他信息修改成功");
+                redisUtils.del(ptuUser.getUserId());
                 resultVO.setError_msg("其他信息修改成功");
                 resultVO.setStatus("0");
                 resultVO.setObject(ptuUserNew);

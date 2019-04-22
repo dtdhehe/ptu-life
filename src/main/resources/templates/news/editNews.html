@@ -54,6 +54,15 @@
             </div>
         </div>
         <div class="col-md-4 column">
+
+            <div id="upBtnDiv" class="uploadImg" >
+                <a id="uploadImg"><strong>+</strong><br/>请上传新闻封面</a>
+            </div>
+            <button id="upload" style="display: none"></button>
+            <div id="hiddenDiv" style="text-align: center"></div>
+            <input type="hidden" id="imgSrc"/>
+            <hr/>
+
             <!--作者信息-->
             <div th:replace="tpl/authorInfo"></div>
 
@@ -131,6 +140,8 @@
         }
         //初始化热门标签
         initLabel();
+
+        uploadImg();
     });
 
     //初始化热门标签列表
@@ -140,17 +151,76 @@
         initHotLabel(urls,"label_ul");
     }
 
+    //上传新闻封面
+    function uploadImg() {
+        layui.use('upload',function () {
+            var upload = layui.upload;
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#uploadImg', //绑定元素
+                url: '/upload/uploadController/uploadGoodsImg', //上传接口
+                data:{
+                    //上传参数
+                    userId:[[${session.loginUser.userId}]]
+                },
+                accept:'images',//上传校验文件类型
+                acceptMime:'image/*',//打开文件选择器显示类型
+                auto:true,//选择完文件后是否自动上传
+                // bindAction:'#upload',//指定一个按钮触发上传,配合auto为false使用
+                choose:function(obj){
+                    obj.preview(function (index, file, result) {
+                        $("#upBtnDiv").hide();
+                        $("#hiddenDiv").show();
+                        //选择完文件后的回调函数
+                        console.log(index); //得到文件索引
+                        console.log(file); //得到文件对象
+                        console.log(result); //得到文件base64编码，比如图片
+                        var htmls = '<img src="'+result+'" style="width: 150px;height: 100%;" />';
+                        $("#hiddenDiv").html(htmls);
+                    });
+                },
+                done: function(res){
+                    //上传完毕回调
+                    if (res.code === 0) {
+                        $("#imgSrc").val(res.data.src);
+                    }
+                },
+                error: function(){
+                    //请求异常回调
+                    layer.open({
+                        title:'提示',
+                        content:'新闻封面上传失败',
+                        time:3000,
+                        end:function () {
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
+        });
+    }
+
     //发布新闻按钮事件
     function publishNews(index) {
         var author = $("#newsAuthor").text();
         var title = $("#newsTitle").val();
         var content = layui.layedit.getContent(index);
         var userId = [[${session.loginUser.userId}]];
+        var newsImg = $("#imgSrc").val();
+        if (title === ''){
+            layer.alert("发布标题不能为空");
+            return;
+        }
+        if (content === ''){
+            layer.alert("发布内容不能为空");
+            return;
+        }
         var news = {
-            author:author,
-            title:title,
-            content:content,
-            userId:userId
+            newsAuthor:author,
+            newsTitle:title,
+            newsDesc:content,
+            userId:userId,
+            newsIcon:newsImg
         };
         var urls = [[@{/news/newsController/saveNews}]];
         $.ajax({

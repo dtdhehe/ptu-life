@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.service.UserService;
 import com.dtdhehe.ptulife.util.DateUtils;
+import com.dtdhehe.ptulife.util.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +31,9 @@ public class UploadController {
 
     @Autowired
     private UserService userService;
+
+    @Resource
+    private RedisUtils redisUtils;
 
     /**
      * 上传富文本编辑器图片
@@ -98,6 +103,7 @@ public class UploadController {
             //将文件路径保存到user对象中
             PtuUser ptuUser = userService.findByUserId(userId);
             ptuUser.setHeadImg("/uploads/"+fileNewName);
+            redisUtils.del(ptuUser.getUserId());
             PtuUser updateUser = userService.update(ptuUser);
             if (updateUser == null){
                 resultMap.put("code",1);

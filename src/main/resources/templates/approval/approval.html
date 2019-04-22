@@ -70,8 +70,8 @@
                 <div class="layui-input-block row-select-type">
                     <select id="type" name="type" lay-filter="type" lay-verify="">
                         <option value="0">请假</option>
-                        <option value="1">教室</option>
-                        <option value="2">实验室</option>
+                        <option value="1">多媒体教室</option>
+                        <option value="2">社团</option>
                     </select>
                 </div>
             </div>
@@ -152,7 +152,7 @@
                             </div>
                         </div>
                     </form>
-                    <!--实验室-->
+                    <!--社团-->
                     <form id="labForm" class="layui-form" style="display: none">
                         <div class="layui-form-item">
                             <label class="layui-form-label row-label">申请人</label>
@@ -173,23 +173,23 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label row-label">实验室名称</label>
+                            <label class="layui-form-label row-label">社团名称</label>
                             <div class="layui-input-block">
-                                <input type="text" name="approvalRoom"  placeholder="请输入实验室名称" autocomplete="off" class="layui-input">
+                                <input type="text" name="approvalRoom"  placeholder="请输入社团名称" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item layui-form-text">
-                            <label class="layui-form-label row-label">申请事由</label>
+                            <label class="layui-form-label row-label">申请理由</label>
                             <div class="layui-input-block">
                                 <textarea name="approvalReason" placeholder="请输入内容" class="layui-textarea"></textarea>
                             </div>
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label row-label">申请天数</label>
-                            <div class="layui-input-block">
-                                <input type="text" name="approvalDays" placeholder="请输入天数" oninput="value=value.replace(/[^\d]/g,'')" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
+                        <!--<div class="layui-form-item">-->
+                            <!--<label class="layui-form-label row-label">申请天数</label>-->
+                            <!--<div class="layui-input-block">-->
+                                <!--<input type="text" name="approvalDays" placeholder="请输入天数" oninput="value=value.replace(/[^\d]/g,'')" autocomplete="off" class="layui-input">-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </form>
                 </div>
                 <hr/>
@@ -222,7 +222,7 @@
                             <option value="">请选择类别</option>
                             <option value="0">请假</option>
                             <option value="1">教室</option>
-                            <option value="2">实验室</option>
+                            <option value="2">社团</option>
                         </select>
                     </div>
                     <!--<input type="text" id="approvalType" name="approvalType"  style="width: 80%;display: inline" placeholder="请输入类别" autocomplete="off" class="layui-input">-->
@@ -260,12 +260,12 @@
                         <th data-align="center" data-field="approvalName" data-width="75">申请人</th>
                         <th data-align="center" data-field="approvalTime">申请日期</th>
                         <th data-align="center" data-field="phone">联系电话</th>
-                        <th data-align="center" data-field="approvalRoom">申请教室</th>
+                        <th data-align="center" data-field="approvalRoom">申请教室(社团)</th>
                         <th data-align="center" data-field="media" data-width="70">多媒体</th>
                         <th data-align="center" data-field="approvalDays" data-width="75">申请天数</th>
                         <th data-align="center" data-field="status">审核状态</th>
                         <th data-align="center" data-width="100" data-field="operation"
-                            data-formatter="operation_formatter" data-show-tip="false">删除</th>
+                            data-formatter="operation_formatter" data-show-tip="false">操作</th>
                     </tr>
                     </thead>
                 </table>

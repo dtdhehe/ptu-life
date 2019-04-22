@@ -67,7 +67,7 @@ public class ApprovalController {
             approval = approvalService.save(approval);
             logger.info("审批记录保存成功,approval = "+approval);
             //保存成功后，发送邮件给审核人邮箱
-            String htmls = MailUtils.getApprovalHtml(approval.getApprovalType());
+            String htmls = MailUtils.getApprovalHtml(approval.getApprovalType(),approval.getApprovalReason());
             mailService.sendHtmlMail(approval.getVerifyEmail(),"审核邮件",htmls);
             logger.info("邮件发送成功");
             resultVO.setStatus("0");

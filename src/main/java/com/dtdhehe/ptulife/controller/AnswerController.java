@@ -63,19 +63,23 @@ public class AnswerController {
      * @return
      */
     @RequestMapping("/getAnswerPage")
-    public String getAnswerPage(@RequestParam(value = "answerId",required = false)String answerId,Model model) throws Exception {
+    public String getAnswerPage(@RequestParam(value = "answerId",required = false)String answerId,
+                                Model model,HttpServletRequest request) throws Exception {
         if (StringUtils.isEmpty(answerId)){
             throw new Exception("传入的id为空");
         }
         logger.info("查询的问答id为:"+answerId);
         PtuAnswer ptuAnswer = answerService.queryAnswerById(answerId);
         ptuAnswer.setAnswerDate(DateUtils.date2ViewType(ptuAnswer.getAnswerDate()));
-        //查出当前登录用户
+        //查出当前登录的用户
+        PtuUser user = userService.findOne(request);
+        //查出当前问答作者
         PtuUser ptuUser = userService.findByUserId(ptuAnswer.getUserId());
         String userStatusStr = CheckUserUtils.checkUserStatus(ptuUser.getUserStatus());
         model.addAttribute("currentUser",ptuUser);
         model.addAttribute("userStatusStr",userStatusStr);
         model.addAttribute("ptuAnswer",ptuAnswer);
+        model.addAttribute("user",user);
         return "/answer/answerInfo";
     }
 
@@ -86,17 +90,16 @@ public class AnswerController {
     @RequestMapping("/saveAnswer")
     @ResponseBody
     public ResultVO saveAnswer(@RequestParam(name = "answer",required = false)String answerObject){
-        JSONObject jsonObject = JSONObject.parseObject(answerObject);
+        PtuAnswer ptuAnswer = JSONObject.parseObject(answerObject,PtuAnswer.class);
         logger.info("开始保存问答");
         ResultVO resultVO = new ResultVO();
         try {
-            PtuAnswer ptuAnswer = new PtuAnswer();
             ptuAnswer.setAnswerId(KeyUtils.getUniqueKey());
-            ptuAnswer.setAnswerAuthor((String) jsonObject.get("author"));
-            ptuAnswer.setAnswerTitle((String) jsonObject.get("title"));
-            ptuAnswer.setAnswerDesc((String) jsonObject.get("content"));
             ptuAnswer.setAnswerDate(DateUtils.getCurrentDateTime());
-            ptuAnswer.setUserId((String) jsonObject.get("userId"));
+            //判断是否有上传封面,若未上传，指定默认封面
+            if (StringUtils.isEmpty(ptuAnswer.getAnswerIcon())){
+                ptuAnswer.setAnswerIcon("/uploads/2019042217362536default.jpg");
+            }
             PtuAnswer answerNew = answerService.save(ptuAnswer);
             if (answerNew != null){
                 logger.info("开始保存问答");
