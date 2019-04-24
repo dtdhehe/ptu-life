@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,7 +26,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (null == obj ) {
             // 未登录，重定向到登录页
             logger.error("用户未登录");
-            response.sendRedirect("/ptu/homePageController/index");
+            response.sendRedirect("/index");
             return false;
         }
         return true;

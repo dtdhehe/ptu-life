@@ -35,10 +35,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         // excludePathPatterns("...") 表示除了登陆,注册与首页之外，因为不需要登陆也可以访问
         //排除资源请求
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
-                .excludePathPatterns("/ptu/homePageController/index","/ptu/homePageController/registPage"
-                                    ,"/ptu/homePageController/home","/news/newsController/queryAllNews"
-                                    ,"/login/loginController/login","/ptu/registUserController/regist"
-                                    ,"/label/labelController/queryHotLabel","/ptu/registUserController/validUser")
+                .excludePathPatterns("/ptu/homePageController/registPage","/index","/login/loginController/login"
+                                    ,"/ptu/registUserController/regist","/ptu/registUserController/validUser")
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/img/**");

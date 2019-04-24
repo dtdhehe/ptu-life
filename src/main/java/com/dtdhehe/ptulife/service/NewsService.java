@@ -3,9 +3,9 @@ package com.dtdhehe.ptulife.service;
 import com.dtdhehe.ptulife.entity.PtuNews;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 新闻service
@@ -25,7 +25,7 @@ public interface NewsService {
      * 查询所有新闻
      * @return
      */
-    Page<PtuNews> queryAllNews(Pageable pageable);
+    Page<Map<String,Object>> findAllWithHead(Pageable pageable);
 
     /**
      * 根据主键查找单个新闻

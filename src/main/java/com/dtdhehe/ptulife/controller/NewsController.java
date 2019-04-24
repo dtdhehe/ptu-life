@@ -1,7 +1,6 @@
 package com.dtdhehe.ptulife.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dtdhehe.ptulife.entity.HotLabel;
 import com.dtdhehe.ptulife.entity.PtuNews;
 import com.dtdhehe.ptulife.entity.PtuUser;
 import com.dtdhehe.ptulife.service.LabelService;
@@ -24,10 +23,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 新闻加载controller
@@ -100,20 +99,20 @@ public class NewsController {
     public ResultVO queryAllNews(@RequestParam("page")Integer page,@RequestParam("size")Integer size){
         logger.info("查询所有新闻");
         ResultVO resultVO = new ResultVO();
-        List<PtuNews> newsList;
+        List<Map<String,Object>> mapList;
         try {
             Pageable pageable = PageRequest.of(page,size,Sort.Direction.DESC,"newsDate");
             //分页查询新闻列表
-            Page<PtuNews> ptuNews = newsService.queryAllNews(pageable);
+            Page<Map<String,Object>> ptuNews = newsService.findAllWithHead(pageable);
             if (ptuNews.isLast()){
                 resultVO.setError_msg("最后一页啦");
             }else {
                 resultVO.setError_msg("");
             }
             //获得新闻List
-            newsList = ptuNews.getContent();
+            mapList =ptuNews.getContent();
             resultVO.setStatus("0");
-            resultVO.setObject(newsList);
+            resultVO.setObject(mapList);
         }catch (Exception e){
             logger.error(e.getMessage());
             resultVO.setStatus("1");

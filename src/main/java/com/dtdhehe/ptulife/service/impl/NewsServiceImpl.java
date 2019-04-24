@@ -6,10 +6,10 @@ import com.dtdhehe.ptulife.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 新闻service实现类
@@ -26,8 +26,8 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Page<PtuNews> queryAllNews(Pageable pageable) {
-        return ptuNewsRepository.findAll(pageable);
+    public Page<Map<String,Object>> findAllWithHead(Pageable pageable) {
+        return ptuNewsRepository.findAllWithHead(pageable);
     }
 
     @Override

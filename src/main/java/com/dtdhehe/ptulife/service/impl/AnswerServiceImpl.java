@@ -3,6 +3,7 @@ package com.dtdhehe.ptulife.service.impl;
 import com.dtdhehe.ptulife.entity.PtuAnswer;
 import com.dtdhehe.ptulife.repository.PtuAnswerRepository;
 import com.dtdhehe.ptulife.service.AnswerService;
+import com.dtdhehe.ptulife.vo.AnswerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,8 +27,8 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Page<PtuAnswer> queryAllAnswer(Pageable pageable) {
-        return ptuAnswerRepository.findAll(pageable);
+    public Page<AnswerDto> queryAllAnswerWithHead(Pageable pageable) {
+        return ptuAnswerRepository.queryAllAnswerWithHead(pageable);
     }
 
     @Override

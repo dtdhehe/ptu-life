@@ -1,6 +1,7 @@
 package com.dtdhehe.ptulife.service;
 
 import com.dtdhehe.ptulife.entity.PtuAnswer;
+import com.dtdhehe.ptulife.vo.AnswerDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,7 +25,7 @@ public interface AnswerService {
      * @param pageable
      * @return
      */
-    Page<PtuAnswer> queryAllAnswer(Pageable pageable);
+    Page<AnswerDto> queryAllAnswerWithHead(Pageable pageable);
 
     /**
      * 查询全部问答

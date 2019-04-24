@@ -9,6 +9,7 @@ import com.dtdhehe.ptulife.service.UserService;
 import com.dtdhehe.ptulife.util.CheckUserUtils;
 import com.dtdhehe.ptulife.util.DateUtils;
 import com.dtdhehe.ptulife.util.KeyUtils;
+import com.dtdhehe.ptulife.vo.AnswerDto;
 import com.dtdhehe.ptulife.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,11 +132,11 @@ public class AnswerController {
     public ResultVO queryAllAnswer(@RequestParam("page")Integer page,@RequestParam("size")Integer size){
         logger.info("查询所有问答");
         ResultVO resultVO = new ResultVO();
-        List<PtuAnswer> answerList;
+        List<AnswerDto> answerList;
         try {
             Pageable pageable = PageRequest.of(page,size,Sort.Direction.DESC,"answerDate");
             //分页查询问答列表
-            Page<PtuAnswer> ptuAnswers = answerService.queryAllAnswer(pageable);
+            Page<AnswerDto> ptuAnswers = answerService.queryAllAnswerWithHead(pageable);
             if (ptuAnswers.isLast()){
                 resultVO.setError_msg("最后一页啦");
             }else {
