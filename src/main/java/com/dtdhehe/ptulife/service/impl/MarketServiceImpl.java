@@ -48,7 +48,7 @@ public class MarketServiceImpl implements MarketService {
         if (market == null){
             System.out.println("缓存中没有该商品,进入数据库查询");
             market = marketRepository.findById(id).get();
-            redisUtils.set(market.getId(),market);
+            redisUtils.set(market.getId(),market,1800);
         }
         return market;
     }
